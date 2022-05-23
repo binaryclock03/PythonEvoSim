@@ -6,13 +6,13 @@ def convert_coordinates(point):
     return point[0], 800-point[1]
 
 class Joint():
-    def __init__(self, position, radius):
+    def __init__(self, position, radius, elasticity, friction):
         self.radius = radius
         self.body = pymunk.Body()
         self.body.position = position
         self.shape = pymunk.Circle(self.body, radius)
-        self.shape.elasticity = 0
-        self.shape.friction = 10
+        self.shape.elasticity = elasticity
+        self.shape.friction = friction
         self.shape.density = 1
     
     def draw(self, display):
@@ -70,8 +70,8 @@ class Creature():
         self.joints = []
         self.limbs = []
 
-    def addJoint(self, position, radius):
-        self.joints.append(Joint(position, radius))
+    def addJoint(self, position, radius, elasticity, friciton):
+        self.joints.append(Joint(position, radius, elasticity, friciton))
 
     def addLimb(self, jointindex1, jointindex2, lengthChangePercent, dutyCycle, peroid, phase):
         self.limbs.append(Limb(self.joints[jointindex1],self.joints[jointindex2], lengthChangePercent, dutyCycle, peroid, phase))
@@ -131,15 +131,16 @@ class Population():
     def genRandomPop(self, numToGen, points, space):
         for i in range(numToGen):
             creature = Creature()
-            points, links = sk.genSkeleton(5,100,5)
-            lengthChangePercent = 2
-            dutyCycle = 0.1
-            peroid = 500
-            phase = 0
+            skeleton = sk.Skeleton(5, 100, 10)
+            points = skeleton.points
+            links = skeleton.links
+
             for point in points:
-                creature.addJoint((point[0]+200, point[1]+200), 5)
+                a, b = point.pos
+                creature.addJoint((a+200, b+200), 5, point.elasticity, point.friction)
             for link in links:
-                creature.addLimb(link[0],link[1], lengthChangePercent, dutyCycle, peroid, phase)
+                a, b = link.connected
+                creature.addLimb(a, b, link.delta, link.dutyCycle, link.period, link.phase)
             creature.addToSpace(space)
             self.creatures.append(creature)
 
