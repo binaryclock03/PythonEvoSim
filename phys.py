@@ -19,8 +19,9 @@ class Joint():
         self.shape.pair_index = id
     
     def draw(self, display):
+        color = (255*self.shape.friction, 0, 0)
         x, y = convert_coordinates(self.body.position)
-        pygame.draw.circle(display, (255, 0 , 0), (int(x), int(y)), self.radius)
+        pygame.draw.circle(display, color, (int(x), int(y)), self.radius)
 
     def addToSpace(self, space):
         space.add(self.body, self.shape)
