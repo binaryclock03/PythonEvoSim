@@ -17,11 +17,13 @@ class Joint():
         self.shape.density = 1
         self.shape.collision_type = 2
         self.shape.pair_index = id
+        self.rotLimit = pymunk.RotaryLimitJoint(self.body, pymunk.Body(body_type=pymunk.Body.STATIC), 0, 0)
     
     def draw(self, display):
         color = (255*self.shape.friction, 0, 0)
         x, y = convert_coordinates(self.body.position)
         pygame.draw.circle(display, color, (int(x), int(y)), self.radius)
+        
 
     def addToSpace(self, space):
         space.add(self.body, self.shape)
@@ -125,7 +127,7 @@ class Wall():
         self.body = pymunk.Body(body_type=pymunk.Body.STATIC)
         self.shape = pymunk.Segment(self.body, point1, point2, thickness/2)
         self.shape.elasticity = 0
-        self.shape.friction = 10
+        self.shape.friction = 1
     
     def draw(self, display):
         pygame.draw.line(display, (0,255,0), convert_coordinates(self.point1), convert_coordinates(self.point2), self.thickness)
