@@ -1,6 +1,5 @@
 import pymunk
 import pygame
-from sympy import Q
 import skeleton as sk
 import phys
 
@@ -61,6 +60,7 @@ def sim():
 
         #update display, run clock stuff
         pygame.display.update()
+        population.update()
         clock.tick(FPS)
         space.step(1/FPS)
 
