@@ -100,7 +100,7 @@ class Population():
     def genRandomPop(self, numToGen, points, space):
         for i in range(numToGen):
             creature = Creature()
-            points, links = sk.genSkeleton(5,100)
+            points, links = sk.genSkeleton(5,100,5)
             for point in points:
                 creature.addJoint((point[0]+200, point[1]+200), 5)
             for link in links:
