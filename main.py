@@ -1,5 +1,6 @@
 import pymunk
 import pygame
+import skeleton as sk
 
 pygame.init()
 
@@ -18,8 +19,8 @@ class Joint():
         self.body = pymunk.Body()
         self.body.position = position
         self.shape = pymunk.Circle(self.body, radius)
-        self.shape.elasticity = 1
-        self.shape.friction = 1
+        self.shape.elasticity = 0.5
+        self.shape.friction = 0
         self.shape.density = 1
     
     def draw(self, display):
@@ -33,7 +34,7 @@ class Limb():
     def __init__(self, joint1, joint2):
         self.joint1 = joint1
         self.joint2 = joint2
-        self.joint = pymunk.PinJoint(self.joint1.body, self.joint2.body, (0,20)) 
+        self.joint = pymunk.PinJoint(self.joint1.body, self.joint2.body) 
 
     def draw(self, display):
         pygame.draw.line(display, (0,0,0), convert_coordinates(self.joint1.body.position + self.joint.anchor_a), convert_coordinates(self.joint2.body.position + self.joint.anchor_b), 2)
@@ -81,31 +82,29 @@ class Wall():
     def addToSpace(self, space):
         space.add(self.body, self.shape)
 
+creatures = []
+
 def game():
-    creature = Creature()
-    creature.addJoint((400,400), 10)
-    creature.addJoint((420,400), 10)
-    creature.addLimb(0,1)
-    creature.addToSpace(space)
+    for i in range(10):
+        creature = Creature()
+        points, links = sk.genSkeleton(5,100)
+        for point in points:
+            creature.addJoint((point[0]+200, point[1]+200), 5)
+        for link in links:
+            creature.addLimb(link[0],link[1])
+        creature.addToSpace(space)
+        creatures.append(creature)
 
-    creature2 = Creature()
-    creature2.addJoint((290,400), 10)
-    creature2.addJoint((320,400), 10)
-    creature2.addJoint((350,410), 10)
-    creature2.addLimb(0,1)
-    creature2.addLimb(1,2)
-    creature2.addToSpace(space)
-
-    floor = Wall((0,10), (800,10), 200)
+    floor = Wall((0,10), (800,10), 100)
     floor.addToSpace(space)
 
-    wallright = Wall((800,0), (800,800), 200)
+    wallright = Wall((800,0), (800,800), 100)
     wallright.addToSpace(space)
 
-    wallleft= Wall((0,0), (0,800), 200)
+    wallleft= Wall((0,0), (0,800), 100)
     wallleft.addToSpace(space)
 
-    roof = Wall((0,800), (800,800), 200)
+    roof = Wall((0,800), (800,800), 100)
     roof.addToSpace(space)
 
     while True:
@@ -113,12 +112,15 @@ def game():
             if event.type == pygame.QUIT:
                 return
         display.fill((255,255,255))
-        creature.draw(display)
-        creature2.draw(display)
+
+        for creature in creatures:
+            creature.draw(display)
+
         floor.draw(display)
         wallright.draw(display)
         wallleft.draw(display)
         roof.draw(display)
+
         pygame.display.update()
         clock.tick(FPS)
         space.step(1/FPS)
