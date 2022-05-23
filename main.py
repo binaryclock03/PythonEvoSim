@@ -15,7 +15,7 @@ creatures = []
 
 def sim():
     #generate pop
-    population = phys.Population()
+    sample = phys.Sample()
 
     #construct stage
     floor = phys.Wall((0,10), (800,10), 100)
@@ -39,18 +39,18 @@ def sim():
             if event.type == pygame.KEYDOWN:
                 pressed = pygame.key.get_pressed()
                 if pressed[pygame.K_1]:
-                    population.killall(space)
-                    population.genRandomPop(1, 5, space)
+                    sample.killall(space)
+                    sample.genRandomSample(1, 5, space)
                 if pressed[pygame.K_5]:
-                    population.killall(space)
-                    population.genRandomPop(5, 5, space)
+                    sample.killall(space)
+                    sample.genRandomSample(5, 5, space)
 
         
         #draw white background
         display.fill((255,255,255))
 
         #draw creatures
-        population.draw(display)
+        sample.draw(display)
 
         #draw stage
         floor.draw(display)
@@ -60,7 +60,7 @@ def sim():
 
         #update display, run clock stuff
         pygame.display.update()
-        population.update()
+        sample.update()
         clock.tick(FPS)
         space.step(1/FPS)
 

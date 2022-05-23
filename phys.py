@@ -115,7 +115,7 @@ class Wall():
     def addToSpace(self, space):
         space.add(self.body, self.shape)
 
-class Population():
+class Sample():
     def __init__(self):
         self.creatures = []
 
@@ -128,7 +128,7 @@ class Population():
             creature.kill(space)
         self.creatures = []
 
-    def genRandomPop(self, numToGen, points, space):
+    def genRandomSample(self, numToGen, points, space):
         for i in range(numToGen):
             creature = Creature()
             skeleton = sk.Skeleton(5, 100, 10)
