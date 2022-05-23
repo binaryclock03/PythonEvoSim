@@ -25,7 +25,7 @@ def sim():
     wallright = phys.Wall((800,0), (800,800), 100)
     wallright.addToSpace(space)
 
-    wallleft= phys.Wall((0,0), (0,800), 100)
+    wallleft = phys.Wall((0,0), (0,800), 100)
     wallleft.addToSpace(space)
 
     roof = phys.Wall((0,800), (800,800), 100)
@@ -61,6 +61,7 @@ def sim():
 
         #update display, run clock stuff
         pygame.display.update()
+        population.update()
         clock.tick(FPS)
         space.step(1/FPS)
 
