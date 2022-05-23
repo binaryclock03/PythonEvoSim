@@ -29,8 +29,17 @@ def genSkeleton(numPoints,scale,radius):
         for y in range(x+1,(numPoints)):
             links.append((x,y))
     
-    #Simplification
+    #Simplification - First pass
     for x in range(numPoints-3):
         links.pop(random.randrange(0,len(links)))
 
+    #Simplification - Second pass
+    linksCounter = [0]*len(points)
+    for x in links:
+        linksCounter[x[0]] += 1
+        linksCounter[x[1]] += 1
+    if max(linksCounter) > 2 and linksCounter.count(max(linksCounter)) > 2:
+        lowPoint = linksCounter.index(max(linksCounter))
+        highPoint = linksCounter.copy().pop(lowPoint).index(max(linksCounter))
+        links.remove((lowPoint,highPoint))
     return points,links
