@@ -1,5 +1,6 @@
 import random as random
 from math import sqrt
+
 class Skeleton():
     def __init__(self,numPoints,scale,radius):
         self.numPoints = numPoints
