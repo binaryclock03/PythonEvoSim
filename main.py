@@ -15,9 +15,8 @@ FPS = 120
 creatures = []
 
 def sim():
-    #generate random creatures
+    #generate pop
     population = phys.Population()
-    population.genRandomPop(5,5,space)
 
     #construct stage
     floor = phys.Wall((0,10), (800,10), 100)
@@ -38,11 +37,16 @@ def sim():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
+            if event.type == pygame.KEYDOWN:
+                pressed = pygame.key.get_pressed()
+                if pressed[pygame.K_1]:
+                    population.killall(space)
+                    population.genRandomPop(1, 5, space)
+                if pressed[pygame.K_5]:
+                    population.killall(space)
+                    population.genRandomPop(5, 5, space)
 
-        pressed = pygame.key.get_pressed()
-        if pressed[pygame.K_1]:
-            population.killall(space)
-            population.genRandomPop(10, 5, space)
+        
         #draw white background
         display.fill((255,255,255))
 
