@@ -13,9 +13,18 @@ FPS = 120
 
 creatures = []
 
+def only_collide_same(arbiter, space, data):
+    a, b = arbiter.shapes
+    return False
+    #return a.pair_index == b.pair_index
+
 def sim():
     #generate pop
     sample = phys.Sample()
+
+    #collision handler
+    handler = space.add_collision_handler(2, 2)
+    handler.begin = only_collide_same
 
     #construct stage
     floor = phys.Wall((0,10), (800,10), 100)
@@ -44,6 +53,8 @@ def sim():
                 if pressed[pygame.K_5]:
                     sample.killall(space)
                     sample.genRandomSample(5, 5, space)
+                if pressed[pygame.K_2]:
+                    print(str(sample.findFitness()))
 
         
         #draw white background

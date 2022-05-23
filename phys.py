@@ -1,3 +1,4 @@
+from re import X
 import pymunk
 import pygame
 import skeleton as sk
@@ -6,7 +7,7 @@ def convert_coordinates(point):
     return point[0], 800-point[1]
 
 class Joint():
-    def __init__(self, position, radius, elasticity, friction):
+    def __init__(self, position, radius, elasticity, friction, id):
         self.radius = radius
         self.body = pymunk.Body()
         self.body.position = position
@@ -14,6 +15,8 @@ class Joint():
         self.shape.elasticity = elasticity
         self.shape.friction = friction
         self.shape.density = 1
+        self.shape.collision_type = 2
+        self.shape.pair_index = id
     
     def draw(self, display):
         x, y = convert_coordinates(self.body.position)
@@ -37,7 +40,7 @@ class Limb():
         self.joint1 = joint1
         self.joint2 = joint2
         self.regularLen = abs(self.joint2.body.position-self.joint1.body.position)
-        self.joint = pymunk.DampedSpring(self.joint1.body, self.joint2.body, (0,0), (0,0), self.regularLen, 1000000, 5000) 
+        self.joint = pymunk.DampedSpring(self.joint1.body, self.joint2.body, (0,0), (0,0), self.regularLen, 100000, 5000) 
 
     def setLength(self, length):
         self.joint.rest_length = length
@@ -66,12 +69,13 @@ class Limb():
         del self
 
 class Creature():
-    def __init__(self):
+    def __init__(self, id):
+        self.id = id
         self.joints = []
         self.limbs = []
 
     def addJoint(self, position, radius, elasticity, friciton):
-        self.joints.append(Joint(position, radius, elasticity, friciton))
+        self.joints.append(Joint(position, radius, elasticity, friciton, self.id))
 
     def addLimb(self, jointindex1, jointindex2, lengthChangePercent, dutyCycle, peroid, phase):
         self.limbs.append(Limb(self.joints[jointindex1],self.joints[jointindex2], lengthChangePercent, dutyCycle, peroid, phase))
@@ -98,6 +102,14 @@ class Creature():
     def update(self):
         for limb in self.limbs:
             limb.update()
+
+    def findFitness(self):
+        x, y = 0,0
+        num = 0
+        for joint in self.joints:
+            x += joint.body.position[0]
+            num += 1
+        return x/num     
     
 class Wall():
     def __init__(self, point1, point2, thickness):
@@ -106,8 +118,8 @@ class Wall():
         self.thickness = thickness
         self.body = pymunk.Body(body_type=pymunk.Body.STATIC)
         self.shape = pymunk.Segment(self.body, point1, point2, thickness/2)
-        self.shape.elasticity = 1
-        self.shape.friction = 1
+        self.shape.elasticity = 0
+        self.shape.friction = 10
     
     def draw(self, display):
         pygame.draw.line(display, (0,255,0), convert_coordinates(self.point1), convert_coordinates(self.point2), self.thickness)
@@ -128,13 +140,12 @@ class Sample():
             creature.kill(space)
         self.creatures = []
 
-    def genRandomSample(self, numToGen, points, space):
+    def genRandomSample(self, numToGen, numPoints, space):
         for i in range(numToGen):
-            creature = Creature()
-            skeleton = sk.Skeleton(5, 100, 10)
+            skeleton = sk.Skeleton(numPoints, 100, 10)
+            creature = Creature(skeleton.id)
             points = skeleton.points
             links = skeleton.links
-
             for point in points:
                 a, b = point.pos
                 creature.addJoint((a+200, b+200), 5, point.elasticity, point.friction)
@@ -147,3 +158,9 @@ class Sample():
     def draw(self, display):
         for creature in self.creatures:
             creature.draw(display)
+    
+    def findFitness(self):
+        list = []
+        for creature in self.creatures:
+            list.append((creature.id, creature.findFitness()))
+        return list

@@ -6,6 +6,7 @@ class Skeleton():
         self.numPoints = numPoints
         self.scale = scale
         self.radius = radius
+        self.id = int(random.random() * 100000000)
 
         self.points = []
         self.links = []
@@ -52,7 +53,7 @@ class Link():
         self.connected = connected
         self.delta = random.uniform(0.5,2)
         self.dutyCycle = random.uniform(0.1,0.9)
-        self.period = random.uniform(30,120)
-        self.phase = random.uniform(30,120)
+        self.period = random.uniform(120,1200)
+        self.phase = random.uniform(120,1200)
 
 
