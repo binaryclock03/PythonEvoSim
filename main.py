@@ -16,15 +16,8 @@ creatures = []
 
 def sim():
     #generate random creatures
-    for i in range(10):
-        creature = phys.Creature()
-        points, links = sk.genSkeleton(5,100)
-        for point in points:
-            creature.addJoint((point[0]+200, point[1]+200), 5)
-        for link in links:
-            creature.addLimb(link[0],link[1])
-        creature.addToSpace(space)
-        creatures.append(creature)
+    population = phys.Population()
+    population.genRandomPop(5,5,space)
 
     #construct stage
     floor = phys.Wall((0,10), (800,10), 100)
@@ -46,12 +39,15 @@ def sim():
             if event.type == pygame.QUIT:
                 return
 
+        pressed = pygame.key.get_pressed()
+        if pressed[pygame.K_1]:
+            population.killall(space)
+            population.genRandomPop(10, 5, space)
         #draw white background
         display.fill((255,255,255))
 
         #draw creatures
-        for creature in creatures:
-            creature.draw(display)
+        population.draw(display)
 
         #draw stage
         floor.draw(display)

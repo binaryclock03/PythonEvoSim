@@ -1,5 +1,6 @@
 import pymunk
 import pygame
+import skeleton as sk
 
 def convert_coordinates(point):
     return point[0], 800-point[1]
@@ -20,6 +21,10 @@ class Joint():
 
     def addToSpace(self, space):
         space.add(self.body, self.shape)
+    
+    def kill(self, space):
+        space.remove(self.body, self.shape)
+        del self
 
 class Limb():
     def __init__(self, joint1, joint2):
@@ -32,7 +37,10 @@ class Limb():
     
     def addToSpace(self, space):
         space.add(self.joint)
-        pass
+
+    def kill(self, space):
+        space.remove(self.joint)
+        del self
 
 class Creature():
     def __init__(self):
@@ -57,6 +65,13 @@ class Creature():
         for joint in self.joints:
             joint.draw(display)
     
+    def kill(self, space):
+        for limb in self.limbs:
+            limb.kill(space)
+        for joint in self.joints:
+            joint.kill(space)
+        del self
+    
 class Wall():
     def __init__(self, point1, point2, thickness):
         self.point1 = point1
@@ -72,3 +87,27 @@ class Wall():
 
     def addToSpace(self, space):
         space.add(self.body, self.shape)
+
+class Population():
+    def __init__(self):
+        self.creatures = []
+    
+    def killall(self, space):
+        for creature in self.creatures:
+            creature.kill(space)
+        self.creatures = []
+
+    def genRandomPop(self, numToGen, points, space):
+        for i in range(numToGen):
+            creature = Creature()
+            points, links = sk.genSkeleton(5,100)
+            for point in points:
+                creature.addJoint((point[0]+200, point[1]+200), 5)
+            for link in links:
+                creature.addLimb(link[0],link[1])
+            creature.addToSpace(space)
+            self.creatures.append(creature)
+
+    def draw(self, display):
+        for creature in self.creatures:
+            creature.draw(display)
