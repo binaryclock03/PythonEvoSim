@@ -28,6 +28,9 @@ class Joint():
     def kill(self, space):
         space.remove(self.body, self.shape)
         del self
+    
+    def update(self):
+        self.body.angle = 0
 
 class Limb():
     def __init__(self, joint1, joint2, lengthChangePercent, dutyCycle, peroid, phase):
@@ -102,6 +105,8 @@ class Creature():
     def update(self):
         for limb in self.limbs:
             limb.update()
+        for joint in self.joints:
+            joint.update()
 
     def findFitness(self):
         x, y = 0,0
