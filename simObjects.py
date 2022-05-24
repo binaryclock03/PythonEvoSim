@@ -1,3 +1,4 @@
+from colorama import Back
 import pymunk
 import pygame
 import populationManager as pm
@@ -154,22 +155,27 @@ class Creature(SimObject):
             x += joint.body.position[0]-200
             num += 1
         return x/num     
-    
-class Wall(PhysicsObject):
-    def __init__(self, point1, point2, thickness):
+
+class BackgroundWall(Drawable):
+    def __init__(self, point1, point2, thickness, color = (0,100,0)):
         super().__init__()
+        self.color = color
         self.point1 = point1
         self.point2 = point2
         self.thickness = thickness
-        self.body = pymunk.Body(body_type=pymunk.Body.STATIC)
-        self.shape = pymunk.Segment(self.body, point1, point2, thickness/2)
-        self.shape.elasticity = 0
-        self.shape.friction = 1
     
     def draw(self, display, offset):
         coord = convert_coordinates(self.point1, offset)
         coord2 = convert_coordinates(self.point2, offset)
-        pygame.draw.line(display, (0,255,0), coord, coord2, self.thickness)
+        pygame.draw.line(display, self.color, coord, coord2, self.thickness)
+
+class Wall(BackgroundWall, PhysicsObject):
+    def __init__(self, point1, point2, thickness, color = (0,255,0)):
+        super().__init__(point1, point2, thickness, color)
+        self.body = pymunk.Body(body_type=pymunk.Body.STATIC)
+        self.shape = pymunk.Segment(self.body, point1, point2, thickness/2)
+        self.shape.elasticity = 0
+        self.shape.friction = 1
 
 class Sample():
     def __init__(self):
@@ -199,8 +205,6 @@ class Sample():
         self.creatures.append(creature)
         if graphicsHandler != None:
             graphicsHandler.addToDraw(creature)
-
-        self.creatures.append(creature)
 
     def genRandomSample(self, numToGen, numPoints, space, graphicsHandler = None):
         for i in range(numToGen):
@@ -267,6 +271,10 @@ def sim(simLength, simPop = None, creatureList = None, graphics = True, FPS = 12
     floor.addToSpace(space)
     if graphics:
         graphicsHandler.addToDraw(floor)
+
+        for i in range(10):
+            post = BackgroundWall((i*100,0), (i*100,50), 5, color= (100,100,100))
+            graphicsHandler.addToDraw(post)
     #main sim loop
     while True:
         #event handler thing
@@ -308,5 +316,5 @@ def sim(simLength, simPop = None, creatureList = None, graphics = True, FPS = 12
         simClock += 1
         if simClock > simLength*FPS and simRunning == True:
             pygame.quit()
-            return str(sample.findFitness())
+            return sample.findFitness()
             simRunning = False
