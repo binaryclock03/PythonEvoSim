@@ -292,8 +292,7 @@ def sim(simLength, simPop = None, creatureList = None, graphics = True, FPS = 12
                     if pressed[pygame.K_RIGHT]:
                         graphicsHandler.panCameraRight()
 
-        #draw white background
-        if graphics:
+            #draw white background
             display.fill((255,255,255))
 
             #run graphics handler draw
@@ -301,11 +300,13 @@ def sim(simLength, simPop = None, creatureList = None, graphics = True, FPS = 12
 
             #update display, run clock stuff
             pygame.display.update()
+            
         sample.update()
-        clock.tick(FPS)
+        if graphics:
+            clock.tick(FPS)
         space.step(1/FPS)
-        simClock += 1/FPS
-        if simClock > simLength and simRunning == True:
+        simClock += 1
+        if simClock > simLength*FPS and simRunning == True:
             pygame.quit()
             return str(sample.findFitness())
             simRunning = False
