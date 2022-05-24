@@ -7,5 +7,5 @@ testPop.savePop()
 testPop = pm.loadPop("fastTest",0)
 
 for x in range(1000):
-    testPop.nextGenertation(so.fastsimthing(10,creatureList=testPop.creatures))
+    testPop.nextGenertation(so.fastsim(10, creatureList=testPop.creatures, TPS = 60))
     testPop.savePop()
