@@ -108,8 +108,9 @@ class Limb(PhysicsObject):
         coord2 = convert_coordinates(self.joint2.body.position, offset)
         pygame.draw.line(display, color, coord, coord2, thickness)
 
-class Creature():
+class Creature(SimObject):
     def __init__(self, id):
+        super().__init__()
         self.id = id
         self.joints = []
         self.limbs = []
@@ -177,7 +178,8 @@ class Sample():
         for creature in self.creatures:
             creature.update()
     
-    def killall(self, space):
+    def killall(self, space, graphicsHandler):
+        graphicsHandler.removeCreatures()
         for creature in self.creatures:
             creature.kill(space)
         self.creatures = []

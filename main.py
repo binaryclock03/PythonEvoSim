@@ -1,6 +1,6 @@
 import pymunk
 import pygame
-import skeleton as sk
+import populationManager as sk
 import simObjects as phys
 import camera
 
@@ -42,10 +42,10 @@ def sim():
             if event.type == pygame.KEYDOWN:
                 pressed = pygame.key.get_pressed()
                 if pressed[pygame.K_1]:
-                    sample.killall(space)
+                    sample.killall(space, graphicsHandler)
                     sample.genRandomSample(1, 6, space, graphicsHandler)
                 if pressed[pygame.K_5]:
-                    sample.killall(space)
+                    sample.killall(space, graphicsHandler)
                     sample.genRandomSample(5, 6, space, graphicsHandler)
                 if pressed[pygame.K_2]:
                     print(str(sample.findFitness()))

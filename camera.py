@@ -1,6 +1,7 @@
 from matplotlib.pyplot import draw
 import pygame
 import pymunk
+import simObjects
 
 class GraphicsHandler():
     def __init__(self, space, display, fps):
@@ -21,10 +22,14 @@ class GraphicsHandler():
     def addToDraw(self, drawable):
         self.thingsToDraw.append(drawable)
 
-    def removeCreatures():
-        pass
+    def removeCreatures(self):
+        thingsToDelete = []
+        for index, drawable in enumerate(self.thingsToDraw):
+            if isinstance(drawable, simObjects.Creature):
+                thingsToDelete.append(index)
+        for index in sorted(thingsToDelete, reverse=True):
+            del self.thingsToDraw[index]
 
     def drawAll(self):
-        print(str(len(self.thingsToDraw)))
         for drawable in self.thingsToDraw:
             drawable.draw(self.display, self.offset)
