@@ -1,0 +1,3668 @@
+{
+  "py/object": "__main__.Population",
+  "popName": "test",
+  "genNum": 0,
+  "creatures": [
+    {
+      "py/object": "__main__.Creature",
+      "numPoints": 9,
+      "scale": 100,
+      "radius": 10,
+      "id": 259112245870.42337,
+      "points": [
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              6.5079898576893775,
+              33.506584696363475
+            ]
+          },
+          "friction": 0.43857567274453946,
+          "elasticity": 0.8757642949470752
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              4.376342476081829,
+              95.73960624176901
+            ]
+          },
+          "friction": 0.5613010611773658,
+          "elasticity": 0.4367473365435618
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              84.78566398450546,
+              74.54534082763604
+            ]
+          },
+          "friction": 0.35650512907112664,
+          "elasticity": 0.0986344380832288
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              38.959775966374444,
+              52.68628006296652
+            ]
+          },
+          "friction": 0.18337952182211115,
+          "elasticity": 0.12155123537053081
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              12.935823840339056,
+              23.339680379136453
+            ]
+          },
+          "friction": 0.36486155755378724,
+          "elasticity": 0.5091297651038087
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              11.843466509262479,
+              69.32218138047446
+            ]
+          },
+          "friction": 0.5097915097290786,
+          "elasticity": 0.7594890941551045
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              95.32533534472473,
+              64.50718483081148
+            ]
+          },
+          "friction": 0.4707567884052787,
+          "elasticity": 0.7445634145834967
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              10.45568468256316,
+              0.9629617527232459
+            ]
+          },
+          "friction": 0.38074213549600344,
+          "elasticity": 0.5767342938714888
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              90.08622672176053,
+              5.023641981452142
+            ]
+          },
+          "friction": 0.05009958353060906,
+          "elasticity": 0.23287277946550955
+        }
+      ],
+      "links": [
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              1
+            ]
+          },
+          "delta": 1.3469724330138564,
+          "dutyCycle": 0.6270193929105903,
+          "period": 744.6937475460481,
+          "phase": 216.74621659545184,
+          "strength": 5.542020364542841
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              2
+            ]
+          },
+          "delta": 0.6863037610293965,
+          "dutyCycle": 0.8186928849491556,
+          "period": 747.6867929080883,
+          "phase": 193.97608934859466,
+          "strength": 7.148174017650376
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              3
+            ]
+          },
+          "delta": 1.709031049505882,
+          "dutyCycle": 0.13773382046288987,
+          "period": 196.35491298055118,
+          "phase": 320.80863174894944,
+          "strength": 5.689289857756589
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              4
+            ]
+          },
+          "delta": 1.4787998363741335,
+          "dutyCycle": 0.3549074240440724,
+          "period": 418.5654386784998,
+          "phase": 400.8908093862141,
+          "strength": 1.0700996836216201
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              5
+            ]
+          },
+          "delta": 1.8175361056174149,
+          "dutyCycle": 0.8132890354115013,
+          "period": 576.743208094023,
+          "phase": 802.6206423170395,
+          "strength": 1.8754799315537722
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              6
+            ]
+          },
+          "delta": 1.3092702445192792,
+          "dutyCycle": 0.6923255883965418,
+          "period": 744.0382539858731,
+          "phase": 368.6691454846122,
+          "strength": 4.531037959036846
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              7
+            ]
+          },
+          "delta": 0.9513309332114676,
+          "dutyCycle": 0.48492306862800116,
+          "period": 972.8110907562229,
+          "phase": 923.4793596081371,
+          "strength": 6.149980460246174
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              8
+            ]
+          },
+          "delta": 1.4648973154323706,
+          "dutyCycle": 0.6203554329789768,
+          "period": 905.8306070824905,
+          "phase": 254.67955634530233,
+          "strength": 3.7036082943053095
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              2
+            ]
+          },
+          "delta": 1.6434715728820892,
+          "dutyCycle": 0.6799019754734638,
+          "period": 542.8917813817689,
+          "phase": 772.2916604493993,
+          "strength": 5.846259099059223
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              3
+            ]
+          },
+          "delta": 1.57307317884849,
+          "dutyCycle": 0.30049622074026416,
+          "period": 603.2988761659647,
+          "phase": 520.4690635153754,
+          "strength": 8.44412375503455
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              4
+            ]
+          },
+          "delta": 1.564056160845801,
+          "dutyCycle": 0.7620321396434477,
+          "period": 764.1489729432899,
+          "phase": 189.0198381934955,
+          "strength": 6.155076993910457
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              5
+            ]
+          },
+          "delta": 1.3167352338246725,
+          "dutyCycle": 0.7404076993001032,
+          "period": 652.0097906259098,
+          "phase": 1032.553250858311,
+          "strength": 4.4883365970071365
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              6
+            ]
+          },
+          "delta": 1.4811948518783877,
+          "dutyCycle": 0.8809539518231082,
+          "period": 243.71872667331513,
+          "phase": 710.6407195062175,
+          "strength": 9.990827675060586
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              7
+            ]
+          },
+          "delta": 1.323087809054949,
+          "dutyCycle": 0.15716372472131557,
+          "period": 480.2790433396388,
+          "phase": 1057.4770391829898,
+          "strength": 3.420392128824112
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              8
+            ]
+          },
+          "delta": 0.5627015126129363,
+          "dutyCycle": 0.6848089594713758,
+          "period": 713.470787351261,
+          "phase": 628.3111280248656,
+          "strength": 6.950886561521315
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              2,
+              3
+            ]
+          },
+          "delta": 1.1546055839556166,
+          "dutyCycle": 0.35389757027682467,
+          "period": 281.3767573080148,
+          "phase": 243.86297948966742,
+          "strength": 3.389174564927111
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              2,
+              4
+            ]
+          },
+          "delta": 1.840094514325732,
+          "dutyCycle": 0.7357763531050378,
+          "period": 171.1103811726346,
+          "phase": 524.8122230432919,
+          "strength": 9.936121535015923
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              2,
+              5
+            ]
+          },
+          "delta": 1.6781260444136241,
+          "dutyCycle": 0.8569909822190594,
+          "period": 580.1381996156351,
+          "phase": 793.3311382952547,
+          "strength": 7.735221782629835
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              2,
+              6
+            ]
+          },
+          "delta": 0.7627641628329568,
+          "dutyCycle": 0.49381018648748354,
+          "period": 164.06467862003547,
+          "phase": 868.3873812082034,
+          "strength": 2.9853598279709748
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              3,
+              4
+            ]
+          },
+          "delta": 1.4163713382621328,
+          "dutyCycle": 0.1840023920965823,
+          "period": 1016.6933488609225,
+          "phase": 492.857776411151,
+          "strength": 1.1139825000074652
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              3,
+              5
+            ]
+          },
+          "delta": 1.8806722732388441,
+          "dutyCycle": 0.7319188031852948,
+          "period": 756.5153290252034,
+          "phase": 726.9926457181459,
+          "strength": 8.78593141286443
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              3,
+              6
+            ]
+          },
+          "delta": 1.2141217773721424,
+          "dutyCycle": 0.5926148941216053,
+          "period": 556.1000089370642,
+          "phase": 197.82307637634494,
+          "strength": 9.915551756981632
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              3,
+              7
+            ]
+          },
+          "delta": 1.2010353803743552,
+          "dutyCycle": 0.5350232003215336,
+          "period": 746.7025083496785,
+          "phase": 822.9338250491994,
+          "strength": 8.274599446063593
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              3,
+              8
+            ]
+          },
+          "delta": 0.8882564306865062,
+          "dutyCycle": 0.34150089096020586,
+          "period": 905.5564174468243,
+          "phase": 212.3172778005453,
+          "strength": 3.7966271518915238
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              4,
+              7
+            ]
+          },
+          "delta": 0.5173475365746201,
+          "dutyCycle": 0.8913486064239114,
+          "period": 1056.8326976279404,
+          "phase": 902.5768867512936,
+          "strength": 4.2917014918260685
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              4,
+              8
+            ]
+          },
+          "delta": 1.2221776991235518,
+          "dutyCycle": 0.8480545636102027,
+          "period": 683.983937595895,
+          "phase": 1137.7543161295503,
+          "strength": 2.8785223559099604
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              5,
+              6
+            ]
+          },
+          "delta": 0.7351349027544571,
+          "dutyCycle": 0.22711638169411463,
+          "period": 671.3066598205264,
+          "phase": 334.36779154346846,
+          "strength": 2.1110469962200438
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              5,
+              7
+            ]
+          },
+          "delta": 1.8777396831962463,
+          "dutyCycle": 0.5907515377397002,
+          "period": 294.49338381916914,
+          "phase": 429.08107065645993,
+          "strength": 5.141126505978104
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              5,
+              8
+            ]
+          },
+          "delta": 0.5075774812574771,
+          "dutyCycle": 0.7115593079344319,
+          "period": 145.1713355793345,
+          "phase": 155.9536995830175,
+          "strength": 2.3574893166814768
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              7,
+              8
+            ]
+          },
+          "delta": 1.580486088107791,
+          "dutyCycle": 0.4512156417119877,
+          "period": 379.5927405063053,
+          "phase": 340.8405498558757,
+          "strength": 1.1512593112871898
+        }
+      ]
+    },
+    {
+      "py/object": "__main__.Creature",
+      "numPoints": 8,
+      "scale": 100,
+      "radius": 10,
+      "id": 1,
+      "points": [
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              72.962530329337,
+              40.51760654631869
+            ]
+          },
+          "friction": 0.1474465048282826,
+          "elasticity": 0.3635891952367657
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              35.34673900595136,
+              54.79631188349017
+            ]
+          },
+          "friction": 0.9902931961193042,
+          "elasticity": 0.32736428394676675
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              27.883278552438806,
+              91.98322134521163
+            ]
+          },
+          "friction": 0.03334706968149326,
+          "elasticity": 0.49384525348739383
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              57.91000609431808,
+              40.859567624065484
+            ]
+          },
+          "friction": 0.5076204193872569,
+          "elasticity": 0.4879344708802096
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              26.805785156739105,
+              20.65999573830217
+            ]
+          },
+          "friction": 0.4505525480499504,
+          "elasticity": 0.2535354902249267
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              38.96326026929016,
+              53.16582487957574
+            ]
+          },
+          "friction": 0.7638996560934171,
+          "elasticity": 0.6454958229241532
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              74.76706272815777,
+              93.35285135437192
+            ]
+          },
+          "friction": 0.8970659718179643,
+          "elasticity": 0.3055406689586768
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              65.97266293622593,
+              69.45830105803967
+            ]
+          },
+          "friction": 0.9631184292865247,
+          "elasticity": 0.24372470792527212
+        }
+      ],
+      "links": [
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              1
+            ]
+          },
+          "delta": 1.230371122483745,
+          "dutyCycle": 0.40060574958652595,
+          "period": 424.54268133651135,
+          "phase": 899.7241094845799,
+          "strength": 5.491856165069069
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              2
+            ]
+          },
+          "delta": 1.8103422520598689,
+          "dutyCycle": 0.3954572836978224,
+          "period": 954.516141004328,
+          "phase": 1141.0408332697925,
+          "strength": 8.21222169485171
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              3
+            ]
+          },
+          "delta": 0.9284220033398021,
+          "dutyCycle": 0.8805594882323592,
+          "period": 799.8248547172687,
+          "phase": 425.0927400056288,
+          "strength": 1.2843003248752487
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              4
+            ]
+          },
+          "delta": 1.1043642702089083,
+          "dutyCycle": 0.7759770726521676,
+          "period": 588.7452026091205,
+          "phase": 784.8415185446804,
+          "strength": 3.310256062715029
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              5
+            ]
+          },
+          "delta": 1.6214192772134044,
+          "dutyCycle": 0.8485636396384317,
+          "period": 698.6392504456547,
+          "phase": 802.4211089105637,
+          "strength": 6.1044073145208655
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              6
+            ]
+          },
+          "delta": 0.8772234514414443,
+          "dutyCycle": 0.12199348608142327,
+          "period": 836.2927562070246,
+          "phase": 237.8478945181734,
+          "strength": 7.274356371681406
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              7
+            ]
+          },
+          "delta": 1.137398490117924,
+          "dutyCycle": 0.8501707226295204,
+          "period": 639.3832154558119,
+          "phase": 273.5241571928334,
+          "strength": 5.234723691305242
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              2
+            ]
+          },
+          "delta": 0.686792421975865,
+          "dutyCycle": 0.20654994918404165,
+          "period": 1124.3873175331316,
+          "phase": 894.3459687253345,
+          "strength": 6.915716273348284
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              3
+            ]
+          },
+          "delta": 1.8828772699576939,
+          "dutyCycle": 0.46359746883928954,
+          "period": 1146.6617681988193,
+          "phase": 227.5466715902316,
+          "strength": 4.855239059821365
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              4
+            ]
+          },
+          "delta": 1.494384566293018,
+          "dutyCycle": 0.7307411819484647,
+          "period": 1018.6584161917066,
+          "phase": 179.83475283650367,
+          "strength": 6.322109196432798
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              5
+            ]
+          },
+          "delta": 1.0235766267651516,
+          "dutyCycle": 0.6104746383566263,
+          "period": 423.4279392333998,
+          "phase": 825.0252455827989,
+          "strength": 2.8806332514160036
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              6
+            ]
+          },
+          "delta": 1.1796169563225902,
+          "dutyCycle": 0.6512011650140325,
+          "period": 911.3732947648723,
+          "phase": 815.7313251558029,
+          "strength": 8.756437619142158
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              7
+            ]
+          },
+          "delta": 1.7244812300669812,
+          "dutyCycle": 0.10137084341545943,
+          "period": 390.6535441142957,
+          "phase": 1017.0162562127141,
+          "strength": 3.543791295939199
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              2,
+              4
+            ]
+          },
+          "delta": 0.8437467620847932,
+          "dutyCycle": 0.8603317545811109,
+          "period": 582.0211812185928,
+          "phase": 133.9280354070473,
+          "strength": 1.36842874272946
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              2,
+              6
+            ]
+          },
+          "delta": 1.009536893800131,
+          "dutyCycle": 0.5749343406465862,
+          "period": 138.6901314045152,
+          "phase": 814.9128570881179,
+          "strength": 7.037133587547101
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              3,
+              5
+            ]
+          },
+          "delta": 1.5427860940356728,
+          "dutyCycle": 0.6684242122492053,
+          "period": 245.67542032870043,
+          "phase": 505.1191816154185,
+          "strength": 2.210012245416813
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              3,
+              6
+            ]
+          },
+          "delta": 1.3477796107849267,
+          "dutyCycle": 0.7828760963579049,
+          "period": 131.45569945365366,
+          "phase": 1038.830869923594,
+          "strength": 6.860791657202487
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              3,
+              7
+            ]
+          },
+          "delta": 0.7015253634977403,
+          "dutyCycle": 0.4315603746475052,
+          "period": 946.5350584079328,
+          "phase": 1190.445071004335,
+          "strength": 8.658744653216505
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              4,
+              5
+            ]
+          },
+          "delta": 0.5561452635698221,
+          "dutyCycle": 0.1192358121987832,
+          "period": 704.8533476450339,
+          "phase": 654.8744319217468,
+          "strength": 9.144540402541951
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              4,
+              6
+            ]
+          },
+          "delta": 1.4587800013223493,
+          "dutyCycle": 0.5831329899127446,
+          "period": 390.7813135909246,
+          "phase": 1044.174283580695,
+          "strength": 5.35508655307414
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              4,
+              7
+            ]
+          },
+          "delta": 0.9455585573335736,
+          "dutyCycle": 0.5139137909763047,
+          "period": 242.05177436378932,
+          "phase": 900.1055215835723,
+          "strength": 1.0060453320843945
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              5,
+              6
+            ]
+          },
+          "delta": 1.5101268544841746,
+          "dutyCycle": 0.45997507457750675,
+          "period": 575.570966129821,
+          "phase": 129.3133049409204,
+          "strength": 9.602621594225521
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              6,
+              7
+            ]
+          },
+          "delta": 0.7414173145011685,
+          "dutyCycle": 0.44608941922287126,
+          "period": 159.3773277471315,
+          "phase": 419.2550612163623,
+          "strength": 8.131310399175039
+        }
+      ]
+    },
+    {
+      "py/object": "__main__.Creature",
+      "numPoints": 7,
+      "scale": 100,
+      "radius": 10,
+      "id": 2,
+      "points": [
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              10.748367449286212,
+              1.290536360227279
+            ]
+          },
+          "friction": 0.8679417316530953,
+          "elasticity": 0.8740521471217579
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              37.42604473385357,
+              95.07299421120507
+            ]
+          },
+          "friction": 0.1149136986471424,
+          "elasticity": 0.6810325583637477
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              42.95919943019402,
+              4.165206359476259
+            ]
+          },
+          "friction": 0.8451929843289863,
+          "elasticity": 0.6755904426614361
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              60.564339719360035,
+              1.6824405657562158
+            ]
+          },
+          "friction": 0.9413464463375478,
+          "elasticity": 0.386700263506662
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              82.45966533648718,
+              16.42440618949772
+            ]
+          },
+          "friction": 0.29580866010751006,
+          "elasticity": 0.6999485784149387
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              95.54439552276102,
+              18.487214485839075
+            ]
+          },
+          "friction": 0.9677273809009906,
+          "elasticity": 0.10730974161515794
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              35.46036821385946,
+              14.420012969854989
+            ]
+          },
+          "friction": 0.4053256341668219,
+          "elasticity": 0.3644878006536576
+        }
+      ],
+      "links": [
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              1
+            ]
+          },
+          "delta": 1.8778285491312865,
+          "dutyCycle": 0.8895250811539709,
+          "period": 447.77579207441835,
+          "phase": 598.4359451414107,
+          "strength": 3.0866421181898342
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              3
+            ]
+          },
+          "delta": 1.2177887657073683,
+          "dutyCycle": 0.17892944178142037,
+          "period": 550.3023733825369,
+          "phase": 1136.2879303344714,
+          "strength": 3.4903567974439085
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              4
+            ]
+          },
+          "delta": 1.0051453511127484,
+          "dutyCycle": 0.30910772479420945,
+          "period": 999.0669097240068,
+          "phase": 472.4498045743162,
+          "strength": 6.666223006243857
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              6
+            ]
+          },
+          "delta": 1.1245695801562525,
+          "dutyCycle": 0.2149646127171505,
+          "period": 1161.790204656863,
+          "phase": 123.17247191159292,
+          "strength": 1.2480748352364786
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              3
+            ]
+          },
+          "delta": 1.3230607980900342,
+          "dutyCycle": 0.14295051912546503,
+          "period": 954.7391887005041,
+          "phase": 172.57075534254406,
+          "strength": 1.6072958460116205
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              4
+            ]
+          },
+          "delta": 1.0475793758441454,
+          "dutyCycle": 0.6642040803064126,
+          "period": 472.63599969744723,
+          "phase": 1102.2224136666423,
+          "strength": 2.4043479814963193
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              5
+            ]
+          },
+          "delta": 1.236178630098428,
+          "dutyCycle": 0.35516794943137253,
+          "period": 1006.4925945262502,
+          "phase": 1189.4548512448464,
+          "strength": 4.6287511607604515
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              6
+            ]
+          },
+          "delta": 0.6900910441138084,
+          "dutyCycle": 0.19215798702463038,
+          "period": 622.5072668882534,
+          "phase": 494.36514203003384,
+          "strength": 1.9998256930324747
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              2,
+              3
+            ]
+          },
+          "delta": 0.7536618289845798,
+          "dutyCycle": 0.19757711855727617,
+          "period": 981.7854567100098,
+          "phase": 473.7303191593572,
+          "strength": 2.281355712855262
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              2,
+              4
+            ]
+          },
+          "delta": 0.9677500683226874,
+          "dutyCycle": 0.7782034822164362,
+          "period": 612.0171080076568,
+          "phase": 888.7033916541288,
+          "strength": 1.8682457550684513
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              2,
+              5
+            ]
+          },
+          "delta": 1.4101116977161932,
+          "dutyCycle": 0.3300973988546401,
+          "period": 580.4374406893917,
+          "phase": 816.7133423539361,
+          "strength": 1.8935478964180898
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              2,
+              6
+            ]
+          },
+          "delta": 1.9326559758602238,
+          "dutyCycle": 0.6469588336473646,
+          "period": 389.71634419236403,
+          "phase": 225.1940829525092,
+          "strength": 7.247133446290128
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              3,
+              4
+            ]
+          },
+          "delta": 1.400036989667382,
+          "dutyCycle": 0.25863119906089793,
+          "period": 467.37400042705934,
+          "phase": 362.5410169028867,
+          "strength": 7.304654411862279
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              3,
+              5
+            ]
+          },
+          "delta": 1.304340136529394,
+          "dutyCycle": 0.7930066874831097,
+          "period": 317.07973314927455,
+          "phase": 732.3264986705868,
+          "strength": 8.915983367246572
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              4,
+              5
+            ]
+          },
+          "delta": 0.8209799879188036,
+          "dutyCycle": 0.8516194959245013,
+          "period": 344.78613009196044,
+          "phase": 531.6783135277792,
+          "strength": 6.178304287308451
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              4,
+              6
+            ]
+          },
+          "delta": 1.225403737833335,
+          "dutyCycle": 0.157830202029231,
+          "period": 293.95423002553105,
+          "phase": 364.86426174452686,
+          "strength": 2.7578112701015707
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              5,
+              6
+            ]
+          },
+          "delta": 0.8356280397702897,
+          "dutyCycle": 0.34982008568789225,
+          "period": 1185.5638636993763,
+          "phase": 1054.3612328912618,
+          "strength": 1.1413480361186312
+        }
+      ]
+    },
+    {
+      "py/object": "__main__.Creature",
+      "numPoints": 8,
+      "scale": 100,
+      "radius": 10,
+      "id": 3,
+      "points": [
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              90.27662941017654,
+              26.707062387277137
+            ]
+          },
+          "friction": 0.07793727444708709,
+          "elasticity": 0.620503003085232
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              82.20487430774293,
+              39.46138117675222
+            ]
+          },
+          "friction": 0.8355331855626917,
+          "elasticity": 0.7901535481839602
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              18.943569549775663,
+              41.32350270820226
+            ]
+          },
+          "friction": 0.542022741326094,
+          "elasticity": 0.11616928349498057
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              90.32606678312823,
+              46.18942726156665
+            ]
+          },
+          "friction": 0.9506319995565293,
+          "elasticity": 0.3464875620000052
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              90.17258643564354,
+              65.6071510692038
+            ]
+          },
+          "friction": 0.6845499027239564,
+          "elasticity": 0.09297738231108532
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              27.414359614885942,
+              67.23637796702084
+            ]
+          },
+          "friction": 0.645276731457715,
+          "elasticity": 0.5765552391833257
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              47.46318914146202,
+              71.81688674451267
+            ]
+          },
+          "friction": 0.23970350627509474,
+          "elasticity": 0.9080490292170494
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              14.169355541775131,
+              29.647295776785178
+            ]
+          },
+          "friction": 0.4244291815432535,
+          "elasticity": 0.8920140390149426
+        }
+      ],
+      "links": [
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              1
+            ]
+          },
+          "delta": 0.9598471102548511,
+          "dutyCycle": 0.15319402140642221,
+          "period": 346.6381134566053,
+          "phase": 892.2895152809856,
+          "strength": 2.6534732861544965
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              2
+            ]
+          },
+          "delta": 1.1536011181276895,
+          "dutyCycle": 0.5775021886944177,
+          "period": 991.4289535716152,
+          "phase": 718.3133638442322,
+          "strength": 2.7383141607242023
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              3
+            ]
+          },
+          "delta": 1.932198920456087,
+          "dutyCycle": 0.31215704665619387,
+          "period": 1186.6605357928888,
+          "phase": 364.097417849474,
+          "strength": 9.413193088334742
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              4
+            ]
+          },
+          "delta": 1.9985225215093894,
+          "dutyCycle": 0.19087106852856162,
+          "period": 1036.371367225091,
+          "phase": 821.3378181136499,
+          "strength": 8.195778547747173
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              6
+            ]
+          },
+          "delta": 0.5759594744402466,
+          "dutyCycle": 0.7106116762396278,
+          "period": 862.4579914519477,
+          "phase": 1163.1633043122918,
+          "strength": 1.3745099145248665
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              7
+            ]
+          },
+          "delta": 1.1687248085866735,
+          "dutyCycle": 0.3887378334841539,
+          "period": 229.82280184385354,
+          "phase": 1067.456663671631,
+          "strength": 1.214607414858551
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              2
+            ]
+          },
+          "delta": 1.5956588200602033,
+          "dutyCycle": 0.3571647384302269,
+          "period": 925.999538770208,
+          "phase": 958.1992810507213,
+          "strength": 4.268501114947363
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              3
+            ]
+          },
+          "delta": 1.4195756606974443,
+          "dutyCycle": 0.3766030386712258,
+          "period": 1028.5421889731983,
+          "phase": 261.8553235889616,
+          "strength": 7.793419383569606
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              4
+            ]
+          },
+          "delta": 0.9423268806745191,
+          "dutyCycle": 0.639048096978611,
+          "period": 1043.0497642966359,
+          "phase": 305.3282643502427,
+          "strength": 5.412779136031467
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              5
+            ]
+          },
+          "delta": 1.0850667703602517,
+          "dutyCycle": 0.31871336876433953,
+          "period": 744.9187219856165,
+          "phase": 392.83440170651727,
+          "strength": 7.452948718837737
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              7
+            ]
+          },
+          "delta": 1.4013178892112417,
+          "dutyCycle": 0.6167163948256988,
+          "period": 742.771368796841,
+          "phase": 407.5029153418031,
+          "strength": 2.62717023454004
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              2,
+              3
+            ]
+          },
+          "delta": 0.6197618310060387,
+          "dutyCycle": 0.34674862444854737,
+          "period": 427.27663536225543,
+          "phase": 924.4987755964283,
+          "strength": 3.770007855309417
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              2,
+              4
+            ]
+          },
+          "delta": 1.3948201255856048,
+          "dutyCycle": 0.2369929951928474,
+          "period": 281.8125433375519,
+          "phase": 933.9441951660066,
+          "strength": 9.174100653860172
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              2,
+              6
+            ]
+          },
+          "delta": 1.332397568941087,
+          "dutyCycle": 0.42468760119022175,
+          "period": 886.5271897445627,
+          "phase": 328.1775257588541,
+          "strength": 7.0908944066023265
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              2,
+              7
+            ]
+          },
+          "delta": 1.0831384804355446,
+          "dutyCycle": 0.6683559969547086,
+          "period": 787.017161671984,
+          "phase": 599.5286215148193,
+          "strength": 5.5346385642022895
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              3,
+              4
+            ]
+          },
+          "delta": 0.707961013682561,
+          "dutyCycle": 0.7935297278972033,
+          "period": 1046.7630812111356,
+          "phase": 249.62679625949482,
+          "strength": 3.0052974318783106
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              3,
+              5
+            ]
+          },
+          "delta": 1.3733816045912781,
+          "dutyCycle": 0.8476249709376676,
+          "period": 866.6366520966392,
+          "phase": 853.9890552583312,
+          "strength": 3.1736342521521905
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              3,
+              6
+            ]
+          },
+          "delta": 1.5640895081899386,
+          "dutyCycle": 0.2981384581805203,
+          "period": 503.7052505681223,
+          "phase": 854.309677496576,
+          "strength": 7.146167641390854
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              3,
+              7
+            ]
+          },
+          "delta": 0.8231437319581589,
+          "dutyCycle": 0.7515497540817492,
+          "period": 744.0329569173726,
+          "phase": 245.71328376076588,
+          "strength": 9.39397241483272
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              4,
+              5
+            ]
+          },
+          "delta": 0.6442400077731494,
+          "dutyCycle": 0.2846016304940723,
+          "period": 590.6221941996416,
+          "phase": 859.2623355334862,
+          "strength": 1.6132334696319444
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              4,
+              7
+            ]
+          },
+          "delta": 1.0546701087969423,
+          "dutyCycle": 0.6885839336628647,
+          "period": 234.52423256916435,
+          "phase": 1101.3465732855939,
+          "strength": 1.5479028687048828
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              5,
+              6
+            ]
+          },
+          "delta": 1.1545035445278486,
+          "dutyCycle": 0.36013341060804405,
+          "period": 1168.1061830378667,
+          "phase": 546.6865258476416,
+          "strength": 6.925243781856445
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              6,
+              7
+            ]
+          },
+          "delta": 1.801760238684373,
+          "dutyCycle": 0.20524817146320623,
+          "period": 675.406354523161,
+          "phase": 602.1250941977523,
+          "strength": 3.2354288037648744
+        }
+      ]
+    },
+    {
+      "py/object": "__main__.Creature",
+      "numPoints": 9,
+      "scale": 100,
+      "radius": 10,
+      "id": 4,
+      "points": [
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              1.8128215153695337,
+              78.04505479806122
+            ]
+          },
+          "friction": 0.33422130153023566,
+          "elasticity": 0.5745624166931587
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              92.80753177620402,
+              96.56008904298426
+            ]
+          },
+          "friction": 0.4197979660922253,
+          "elasticity": 0.14014077451397944
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              12.569038456671466,
+              36.44041464262094
+            ]
+          },
+          "friction": 0.2637075259616596,
+          "elasticity": 0.06610292536247542
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              3.1155265596661375,
+              52.771508515072995
+            ]
+          },
+          "friction": 0.5779315493159921,
+          "elasticity": 0.18918810433786137
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              32.04556683015165,
+              48.359383878813134
+            ]
+          },
+          "friction": 0.3299980889003109,
+          "elasticity": 0.7558397685120019
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              78.10110805953974,
+              13.62503318831042
+            ]
+          },
+          "friction": 0.5853907574111946,
+          "elasticity": 0.0827099876733125
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              16.487633688316127,
+              54.22788692306318
+            ]
+          },
+          "friction": 0.4265214068596518,
+          "elasticity": 0.6685989533857812
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              94.93577385693325,
+              70.5552875832352
+            ]
+          },
+          "friction": 0.29460949521567315,
+          "elasticity": 0.48565265504881294
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              26.35216360157443,
+              46.58433259811671
+            ]
+          },
+          "friction": 0.3184622969190356,
+          "elasticity": 0.6639351388172554
+        }
+      ],
+      "links": [
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              1
+            ]
+          },
+          "delta": 0.5741418305393711,
+          "dutyCycle": 0.6915100646057538,
+          "period": 1184.508402041222,
+          "phase": 883.5338090275814,
+          "strength": 3.4805225631578565
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              2
+            ]
+          },
+          "delta": 1.9617454122348703,
+          "dutyCycle": 0.21784703261232308,
+          "period": 540.4496773992175,
+          "phase": 826.2530333129669,
+          "strength": 8.04196896539607
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              3
+            ]
+          },
+          "delta": 1.8165322113033837,
+          "dutyCycle": 0.2600381825984942,
+          "period": 879.7456037648618,
+          "phase": 1030.2084504309773,
+          "strength": 4.443787719717622
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              4
+            ]
+          },
+          "delta": 0.6601115101624142,
+          "dutyCycle": 0.37467417974864914,
+          "period": 874.4910224308416,
+          "phase": 817.3628739038317,
+          "strength": 3.4784202819053998
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              5
+            ]
+          },
+          "delta": 0.8520628231451235,
+          "dutyCycle": 0.4007005130711636,
+          "period": 1122.6819407274152,
+          "phase": 1004.5846148148739,
+          "strength": 1.890074453418321
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              7
+            ]
+          },
+          "delta": 1.4470393743781962,
+          "dutyCycle": 0.372453405494225,
+          "period": 1152.0672396671,
+          "phase": 889.4005122622897,
+          "strength": 4.873597011684292
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              8
+            ]
+          },
+          "delta": 1.762179560698236,
+          "dutyCycle": 0.8287639479106438,
+          "period": 329.107547940412,
+          "phase": 433.5255695787867,
+          "strength": 3.9400690662680056
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              2
+            ]
+          },
+          "delta": 0.9286757371800392,
+          "dutyCycle": 0.6480258717157046,
+          "period": 378.1511673947536,
+          "phase": 1092.1696189042163,
+          "strength": 7.157243277916765
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              3
+            ]
+          },
+          "delta": 0.6531654434130778,
+          "dutyCycle": 0.19582291082325806,
+          "period": 263.64714391013604,
+          "phase": 1124.026773812137,
+          "strength": 8.661602053715487
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              5
+            ]
+          },
+          "delta": 1.775678368571294,
+          "dutyCycle": 0.3387733533370355,
+          "period": 320.6614554091218,
+          "phase": 882.5611658542371,
+          "strength": 8.982034544722463
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              6
+            ]
+          },
+          "delta": 1.5472031980383818,
+          "dutyCycle": 0.41288481388169884,
+          "period": 734.1274433163389,
+          "phase": 182.53178121453917,
+          "strength": 7.956146538938497
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              7
+            ]
+          },
+          "delta": 0.6686481994611311,
+          "dutyCycle": 0.13847012835518077,
+          "period": 966.348688470835,
+          "phase": 610.1962417840127,
+          "strength": 3.5055143981892742
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              8
+            ]
+          },
+          "delta": 1.1487759114872251,
+          "dutyCycle": 0.8587235258176665,
+          "period": 260.58801260325754,
+          "phase": 782.5467133853113,
+          "strength": 8.989308477355518
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              2,
+              3
+            ]
+          },
+          "delta": 0.681430618077912,
+          "dutyCycle": 0.6028200045405783,
+          "period": 441.69365176178957,
+          "phase": 974.441795118505,
+          "strength": 1.1443377827177885
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              2,
+              4
+            ]
+          },
+          "delta": 1.4288851460917897,
+          "dutyCycle": 0.6487208648540876,
+          "period": 462.62789153587136,
+          "phase": 135.3491822641088,
+          "strength": 3.6402512530010287
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              2,
+              6
+            ]
+          },
+          "delta": 1.033809646667874,
+          "dutyCycle": 0.5582128903838569,
+          "period": 190.65904796320774,
+          "phase": 935.5093202475593,
+          "strength": 9.448482793199233
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              2,
+              7
+            ]
+          },
+          "delta": 1.137128247743165,
+          "dutyCycle": 0.4478809865226927,
+          "period": 178.6809517896289,
+          "phase": 517.6383515215857,
+          "strength": 4.432357036973273
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              2,
+              8
+            ]
+          },
+          "delta": 1.904937037164429,
+          "dutyCycle": 0.39320881989495604,
+          "period": 670.2052661211186,
+          "phase": 1056.9742050389216,
+          "strength": 8.770408765944387
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              3,
+              5
+            ]
+          },
+          "delta": 0.6849095335842883,
+          "dutyCycle": 0.8135216014530597,
+          "period": 865.3372568345873,
+          "phase": 877.5832917280783,
+          "strength": 9.899640965013624
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              3,
+              6
+            ]
+          },
+          "delta": 1.1427285645564285,
+          "dutyCycle": 0.4552132215613174,
+          "period": 902.9416910368329,
+          "phase": 411.35813036059506,
+          "strength": 5.6001831678688365
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              3,
+              8
+            ]
+          },
+          "delta": 1.1894734156634823,
+          "dutyCycle": 0.5366561452519623,
+          "period": 555.9544516025355,
+          "phase": 268.9925540130299,
+          "strength": 8.490312875812412
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              4,
+              6
+            ]
+          },
+          "delta": 1.6935021630640743,
+          "dutyCycle": 0.7813934546729795,
+          "period": 780.6995999975121,
+          "phase": 276.0631277111338,
+          "strength": 8.469639810454916
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              4,
+              7
+            ]
+          },
+          "delta": 1.0430144284735456,
+          "dutyCycle": 0.8733215757541344,
+          "period": 564.2576777546888,
+          "phase": 812.069838180555,
+          "strength": 8.21665206813272
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              4,
+              8
+            ]
+          },
+          "delta": 1.612105365624539,
+          "dutyCycle": 0.4383162246787161,
+          "period": 286.5285772904051,
+          "phase": 278.7831399915074,
+          "strength": 7.933711861172248
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              5,
+              6
+            ]
+          },
+          "delta": 1.1454420584516336,
+          "dutyCycle": 0.5270561177273391,
+          "period": 392.36279487795065,
+          "phase": 944.1166380150405,
+          "strength": 8.383702754491685
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              5,
+              7
+            ]
+          },
+          "delta": 1.0000461085005328,
+          "dutyCycle": 0.20509699706575432,
+          "period": 738.933786077753,
+          "phase": 166.34428883378337,
+          "strength": 1.2698295416541039
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              5,
+              8
+            ]
+          },
+          "delta": 0.5418984383542267,
+          "dutyCycle": 0.5900846498287106,
+          "period": 989.8849104274062,
+          "phase": 636.7865809045167,
+          "strength": 1.2015528446806676
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              6,
+              7
+            ]
+          },
+          "delta": 1.444078134206019,
+          "dutyCycle": 0.14032117658002924,
+          "period": 893.838881205625,
+          "phase": 623.8340551903984,
+          "strength": 2.310007569419729
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              6,
+              8
+            ]
+          },
+          "delta": 1.8239688913022514,
+          "dutyCycle": 0.3700626043424845,
+          "period": 979.4416250744345,
+          "phase": 331.6667021475398,
+          "strength": 8.92335162225114
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              7,
+              8
+            ]
+          },
+          "delta": 0.820152788974746,
+          "dutyCycle": 0.8090385545539148,
+          "period": 1094.9158799925444,
+          "phase": 413.0441427659435,
+          "strength": 9.338927301615191
+        }
+      ]
+    },
+    {
+      "py/object": "__main__.Creature",
+      "numPoints": 5,
+      "scale": 100,
+      "radius": 10,
+      "id": 5,
+      "points": [
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              40.4375704869802,
+              24.95018645842003
+            ]
+          },
+          "friction": 0.8660871877532558,
+          "elasticity": 0.008459227833751859
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              51.371793848231384,
+              47.131860006524605
+            ]
+          },
+          "friction": 0.9671284278116763,
+          "elasticity": 0.5350485452994089
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              0.48128688584292423,
+              61.98185217434201
+            ]
+          },
+          "friction": 0.17999506343458582,
+          "elasticity": 0.5799370360401493
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              71.65600418481863,
+              31.979662629461025
+            ]
+          },
+          "friction": 0.16854244021600562,
+          "elasticity": 0.1483911487602404
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              94.94289100258555,
+              65.97411662752626
+            ]
+          },
+          "friction": 0.9898107809534302,
+          "elasticity": 0.9517435287061079
+        }
+      ],
+      "links": [
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              1
+            ]
+          },
+          "delta": 0.9812264958209306,
+          "dutyCycle": 0.8035291555511909,
+          "period": 1035.3756853296322,
+          "phase": 1079.6306212225957,
+          "strength": 9.779013975391852
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              2
+            ]
+          },
+          "delta": 1.4203546702495458,
+          "dutyCycle": 0.23914828718368258,
+          "period": 524.9641256063563,
+          "phase": 234.83912692082723,
+          "strength": 5.4788934676728935
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              3
+            ]
+          },
+          "delta": 1.033610319660674,
+          "dutyCycle": 0.7655114783376197,
+          "period": 1109.472422598008,
+          "phase": 206.78682524962147,
+          "strength": 2.4977524612219124
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              2
+            ]
+          },
+          "delta": 1.2733743866632394,
+          "dutyCycle": 0.604772739778467,
+          "period": 549.5629958685046,
+          "phase": 731.2806291394493,
+          "strength": 5.689803806013719
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              3
+            ]
+          },
+          "delta": 1.1223614513991915,
+          "dutyCycle": 0.3522539592735575,
+          "period": 364.11323396991344,
+          "phase": 532.8997172313251,
+          "strength": 3.4463767830430125
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              4
+            ]
+          },
+          "delta": 1.113195357986516,
+          "dutyCycle": 0.6330062246119827,
+          "period": 1110.1108516301288,
+          "phase": 943.8430832898496,
+          "strength": 1.1342006471464052
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              2,
+              4
+            ]
+          },
+          "delta": 0.5157611424885953,
+          "dutyCycle": 0.5983725249552808,
+          "period": 446.8353476854488,
+          "phase": 511.01848940661233,
+          "strength": 4.92772497776464
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              3,
+              4
+            ]
+          },
+          "delta": 0.9045339668066824,
+          "dutyCycle": 0.10534720794498727,
+          "period": 328.30541460821007,
+          "phase": 1034.0394434470968,
+          "strength": 4.5356447729671805
+        }
+      ]
+    },
+    {
+      "py/object": "__main__.Creature",
+      "numPoints": 8,
+      "scale": 100,
+      "radius": 10,
+      "id": 6,
+      "points": [
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              73.99860567353647,
+              19.272670685283344
+            ]
+          },
+          "friction": 0.8326873108067626,
+          "elasticity": 0.5192064090805185
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              95.23108598797427,
+              84.0071267089467
+            ]
+          },
+          "friction": 0.002512432275945997,
+          "elasticity": 0.9900228764461063
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              74.39555610430124,
+              71.30776187189952
+            ]
+          },
+          "friction": 0.5282499362545054,
+          "elasticity": 0.21146725072237238
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              7.683734255245234,
+              13.218037706456876
+            ]
+          },
+          "friction": 0.10876406545132045,
+          "elasticity": 0.610983519027193
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              20.90853588058913,
+              13.798278946056964
+            ]
+          },
+          "friction": 0.05552909288754093,
+          "elasticity": 0.19967167890151782
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              77.54119090864936,
+              80.6371490712729
+            ]
+          },
+          "friction": 0.24985053515016398,
+          "elasticity": 0.6771372562501203
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              40.012472708183566,
+              77.97383918352887
+            ]
+          },
+          "friction": 0.3323929576359007,
+          "elasticity": 0.09873412336231502
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              4.569543076174643,
+              84.05669413342169
+            ]
+          },
+          "friction": 0.8091774326930559,
+          "elasticity": 0.46224986979561755
+        }
+      ],
+      "links": [
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              1
+            ]
+          },
+          "delta": 0.825569686042281,
+          "dutyCycle": 0.6807277803262773,
+          "period": 142.52972603226473,
+          "phase": 760.4717880686464,
+          "strength": 1.1545154950608905
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              2
+            ]
+          },
+          "delta": 1.0012902323976793,
+          "dutyCycle": 0.3931291854443847,
+          "period": 348.49471318469534,
+          "phase": 425.91770550241273,
+          "strength": 6.009238363176831
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              4
+            ]
+          },
+          "delta": 1.6591124220583089,
+          "dutyCycle": 0.3259248998920164,
+          "period": 824.941660160834,
+          "phase": 491.383265036151,
+          "strength": 1.8893865062906474
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              5
+            ]
+          },
+          "delta": 0.8851957825541255,
+          "dutyCycle": 0.8515782250435416,
+          "period": 236.50269550439415,
+          "phase": 1103.9104503396081,
+          "strength": 9.663227353349628
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              6
+            ]
+          },
+          "delta": 0.6750150992666646,
+          "dutyCycle": 0.11309525370944461,
+          "period": 762.945782655411,
+          "phase": 718.9750920244279,
+          "strength": 3.1446159403281326
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              7
+            ]
+          },
+          "delta": 1.842206123723994,
+          "dutyCycle": 0.14207741874119206,
+          "period": 505.7199006598987,
+          "phase": 1181.4017135270217,
+          "strength": 5.564856575523182
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              2
+            ]
+          },
+          "delta": 1.762054407955363,
+          "dutyCycle": 0.6591315939170228,
+          "period": 720.3926519216778,
+          "phase": 510.02420312313035,
+          "strength": 7.918108883100904
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              3
+            ]
+          },
+          "delta": 0.5673587836715217,
+          "dutyCycle": 0.7921360643275918,
+          "period": 591.5124214463249,
+          "phase": 455.49658350837603,
+          "strength": 8.595333895535505
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              4
+            ]
+          },
+          "delta": 1.9743801040815838,
+          "dutyCycle": 0.5482388625775431,
+          "period": 906.4775385386208,
+          "phase": 374.49901057479383,
+          "strength": 5.2236782250685785
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              5
+            ]
+          },
+          "delta": 1.2581388250055838,
+          "dutyCycle": 0.3267899677023156,
+          "period": 151.46315057554602,
+          "phase": 227.38825197896574,
+          "strength": 6.689239528174603
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              6
+            ]
+          },
+          "delta": 0.945796787861344,
+          "dutyCycle": 0.20944384507569236,
+          "period": 308.2512704087295,
+          "phase": 1012.2467674170995,
+          "strength": 8.59338159411905
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              7
+            ]
+          },
+          "delta": 1.2703223369909336,
+          "dutyCycle": 0.17865549009332318,
+          "period": 428.24264787519934,
+          "phase": 267.65724286614727,
+          "strength": 2.661171092933974
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              2,
+              3
+            ]
+          },
+          "delta": 1.239921118684634,
+          "dutyCycle": 0.1800541351345979,
+          "period": 302.70577480013753,
+          "phase": 1122.3633752044711,
+          "strength": 6.773071444161863
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              2,
+              4
+            ]
+          },
+          "delta": 0.7597455443998178,
+          "dutyCycle": 0.553914356143045,
+          "period": 182.85337069884304,
+          "phase": 717.0478716191662,
+          "strength": 8.978567254918438
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              2,
+              7
+            ]
+          },
+          "delta": 0.5097646130364428,
+          "dutyCycle": 0.2016047008248809,
+          "period": 447.20073484466946,
+          "phase": 400.5859394205679,
+          "strength": 1.9920712648358825
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              3,
+              4
+            ]
+          },
+          "delta": 1.3743159255282267,
+          "dutyCycle": 0.49417591359016066,
+          "period": 993.960521275517,
+          "phase": 981.8214216630877,
+          "strength": 3.441967258812401
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              3,
+              5
+            ]
+          },
+          "delta": 1.030629998656905,
+          "dutyCycle": 0.6268631147324432,
+          "period": 578.6038430345911,
+          "phase": 390.3687487613285,
+          "strength": 3.3769737833954694
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              3,
+              6
+            ]
+          },
+          "delta": 0.5160192030210531,
+          "dutyCycle": 0.5932878797345585,
+          "period": 1170.1234260578944,
+          "phase": 641.8149686953817,
+          "strength": 5.520953129120831
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              3,
+              7
+            ]
+          },
+          "delta": 0.8821284747404408,
+          "dutyCycle": 0.3887460432370684,
+          "period": 699.5727908687782,
+          "phase": 406.63545479220477,
+          "strength": 3.2788677166106996
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              4,
+              5
+            ]
+          },
+          "delta": 0.6501813877985284,
+          "dutyCycle": 0.2773413913528405,
+          "period": 928.8619313588136,
+          "phase": 695.2032534183252,
+          "strength": 3.3817556832060727
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              4,
+              6
+            ]
+          },
+          "delta": 1.0851950743754082,
+          "dutyCycle": 0.1688401138577909,
+          "period": 984.8706118625366,
+          "phase": 1022.6831678960709,
+          "strength": 5.577238294157833
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              5,
+              6
+            ]
+          },
+          "delta": 0.6307739557889627,
+          "dutyCycle": 0.8330224340404747,
+          "period": 1153.2167123589165,
+          "phase": 834.444953890831,
+          "strength": 5.989535742525221
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              5,
+              7
+            ]
+          },
+          "delta": 1.7654468998818744,
+          "dutyCycle": 0.6175386914151753,
+          "period": 512.2910569277389,
+          "phase": 538.3301241465249,
+          "strength": 5.116715516738942
+        }
+      ]
+    },
+    {
+      "py/object": "__main__.Creature",
+      "numPoints": 4,
+      "scale": 100,
+      "radius": 10,
+      "id": 7,
+      "points": [
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              41.49181090866891,
+              33.12070539081954
+            ]
+          },
+          "friction": 0.329631579978768,
+          "elasticity": 0.5667162256338193
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              99.77340705515523,
+              63.3337478961702
+            ]
+          },
+          "friction": 0.6376516424838894,
+          "elasticity": 0.18719384475214984
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              76.64833391570512,
+              89.25927904028241
+            ]
+          },
+          "friction": 0.3745845582277487,
+          "elasticity": 0.9523299015611114
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              75.63174630518283,
+              20.00321458718741
+            ]
+          },
+          "friction": 0.6062611780950219,
+          "elasticity": 0.4784407914536086
+        }
+      ],
+      "links": [
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              1
+            ]
+          },
+          "delta": 1.186000544056743,
+          "dutyCycle": 0.12062853757876058,
+          "period": 363.37324650344044,
+          "phase": 612.0298960021572,
+          "strength": 8.370496224294598
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              2
+            ]
+          },
+          "delta": 1.229652459759963,
+          "dutyCycle": 0.562276565677987,
+          "period": 847.9921777869198,
+          "phase": 568.6493973252499,
+          "strength": 9.758987669642877
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              3
+            ]
+          },
+          "delta": 1.6056770549213322,
+          "dutyCycle": 0.6310739676353949,
+          "period": 596.7937133578678,
+          "phase": 182.04315622248234,
+          "strength": 3.157968830868888
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              2
+            ]
+          },
+          "delta": 0.6695060632630772,
+          "dutyCycle": 0.8060210688579122,
+          "period": 1073.24184905819,
+          "phase": 1163.7754516352643,
+          "strength": 7.910505703886425
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              2,
+              3
+            ]
+          },
+          "delta": 1.9567261329408692,
+          "dutyCycle": 0.22340364364834608,
+          "period": 862.2684871402538,
+          "phase": 1046.8828280762032,
+          "strength": 1.2196391629839696
+        }
+      ]
+    },
+    {
+      "py/object": "__main__.Creature",
+      "numPoints": 9,
+      "scale": 100,
+      "radius": 10,
+      "id": 8,
+      "points": [
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              67.35707836191186,
+              6.409609178598085
+            ]
+          },
+          "friction": 0.27392234368132795,
+          "elasticity": 0.4205872199620132
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              5.733066821739641,
+              98.42060238212615
+            ]
+          },
+          "friction": 0.07247752701312982,
+          "elasticity": 0.3998257585578675
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              97.88125586887409,
+              3.7686109933718237
+            ]
+          },
+          "friction": 0.15837984876379174,
+          "elasticity": 0.558597542197564
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              45.22542826775378,
+              35.27087293884756
+            ]
+          },
+          "friction": 0.9934445965935191,
+          "elasticity": 0.3593986401929544
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              15.914811540504846,
+              22.366191506233147
+            ]
+          },
+          "friction": 0.631510866325989,
+          "elasticity": 0.5392052298521615
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              36.11616510430925,
+              41.024466891479136
+            ]
+          },
+          "friction": 0.3089665409256598,
+          "elasticity": 0.6030837367765133
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              14.491157646980646,
+              52.02089740956979
+            ]
+          },
+          "friction": 0.5174131978776462,
+          "elasticity": 0.8249379046193095
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              74.15610697192358,
+              82.54589392700326
+            ]
+          },
+          "friction": 0.5771693167578178,
+          "elasticity": 0.16334920301041178
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              47.398357444812156,
+              51.26556737614786
+            ]
+          },
+          "friction": 0.0927206623964486,
+          "elasticity": 0.3816754070702949
+        }
+      ],
+      "links": [
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              1
+            ]
+          },
+          "delta": 0.6873462678624958,
+          "dutyCycle": 0.7531942170435838,
+          "period": 1118.4673432557597,
+          "phase": 476.9607311257598,
+          "strength": 1.5043207755103225
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              2
+            ]
+          },
+          "delta": 0.6837119691061124,
+          "dutyCycle": 0.41095218818785406,
+          "period": 1002.1690734017012,
+          "phase": 957.1421981876304,
+          "strength": 3.2277642197686567
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              3
+            ]
+          },
+          "delta": 1.1932716647738397,
+          "dutyCycle": 0.5333615213879486,
+          "period": 469.849188480867,
+          "phase": 1029.1410026913072,
+          "strength": 7.3749341310713294
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              4
+            ]
+          },
+          "delta": 1.949129590499203,
+          "dutyCycle": 0.219991406749201,
+          "period": 543.1838364887611,
+          "phase": 1105.4074735019067,
+          "strength": 5.929972322728515
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              6
+            ]
+          },
+          "delta": 1.6228044723954587,
+          "dutyCycle": 0.7186198615295865,
+          "period": 299.1460557523161,
+          "phase": 1005.4427482320898,
+          "strength": 3.445629349188363
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              7
+            ]
+          },
+          "delta": 1.9743517247197127,
+          "dutyCycle": 0.7973124183291423,
+          "period": 305.69981728308835,
+          "phase": 927.3422098953685,
+          "strength": 4.24759037312905
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              8
+            ]
+          },
+          "delta": 1.8181172021091028,
+          "dutyCycle": 0.8335052404314417,
+          "period": 1079.5586040128776,
+          "phase": 201.3041578781445,
+          "strength": 2.475848597126686
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              2
+            ]
+          },
+          "delta": 0.6597689913019175,
+          "dutyCycle": 0.43359452032881707,
+          "period": 308.0763817904129,
+          "phase": 700.0021553203959,
+          "strength": 8.011164271072602
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              4
+            ]
+          },
+          "delta": 1.3171326495827305,
+          "dutyCycle": 0.47528191910307427,
+          "period": 242.71580530657957,
+          "phase": 712.7082096998871,
+          "strength": 9.991606798893883
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              5
+            ]
+          },
+          "delta": 1.9448929530890462,
+          "dutyCycle": 0.8920163528080512,
+          "period": 768.4037295856348,
+          "phase": 408.41426384185075,
+          "strength": 4.413603154258288
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              7
+            ]
+          },
+          "delta": 0.9115651254506945,
+          "dutyCycle": 0.8231140147778673,
+          "period": 591.9078963938412,
+          "phase": 998.0120379054387,
+          "strength": 8.513507252796593
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              8
+            ]
+          },
+          "delta": 0.7396865919612925,
+          "dutyCycle": 0.3481233313490688,
+          "period": 360.82816552334054,
+          "phase": 698.3688362451443,
+          "strength": 5.698291679595616
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              2,
+              3
+            ]
+          },
+          "delta": 0.7045866747712267,
+          "dutyCycle": 0.30159780775397965,
+          "period": 184.29346351553966,
+          "phase": 346.9696348112367,
+          "strength": 1.7900049938769955
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              2,
+              4
+            ]
+          },
+          "delta": 0.5575716208349499,
+          "dutyCycle": 0.35062803753737626,
+          "period": 163.75536614503133,
+          "phase": 1194.6980785248165,
+          "strength": 4.778445996189662
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              2,
+              6
+            ]
+          },
+          "delta": 1.0014731048028738,
+          "dutyCycle": 0.1609064206528914,
+          "period": 227.35461595910488,
+          "phase": 947.0919350590187,
+          "strength": 7.76089073882969
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              2,
+              7
+            ]
+          },
+          "delta": 1.711024096883345,
+          "dutyCycle": 0.3222625201956758,
+          "period": 844.5980334048143,
+          "phase": 1120.9253472324385,
+          "strength": 3.555010027348855
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              2,
+              8
+            ]
+          },
+          "delta": 1.4277235268086013,
+          "dutyCycle": 0.2463608265191856,
+          "period": 829.3983092485043,
+          "phase": 1136.0805969027863,
+          "strength": 9.454449692073897
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              3,
+              4
+            ]
+          },
+          "delta": 1.6858685672990525,
+          "dutyCycle": 0.6188237960398474,
+          "period": 550.8881810414448,
+          "phase": 362.34818375998066,
+          "strength": 5.128678352521269
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              3,
+              5
+            ]
+          },
+          "delta": 1.9165699782578753,
+          "dutyCycle": 0.34812673933115656,
+          "period": 1197.983350512771,
+          "phase": 429.20919003873735,
+          "strength": 3.662174966540239
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              3,
+              7
+            ]
+          },
+          "delta": 0.6229466871474216,
+          "dutyCycle": 0.8032821595520949,
+          "period": 292.09065254342227,
+          "phase": 235.95787407373905,
+          "strength": 1.7958883081397343
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              3,
+              8
+            ]
+          },
+          "delta": 1.6635913025517932,
+          "dutyCycle": 0.5130558365868435,
+          "period": 638.2949609560088,
+          "phase": 1088.0593559260292,
+          "strength": 7.354329850924522
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              4,
+              5
+            ]
+          },
+          "delta": 0.6075739443293589,
+          "dutyCycle": 0.8203013722866532,
+          "period": 718.9052251532005,
+          "phase": 820.5367308094281,
+          "strength": 8.53699464615037
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              4,
+              6
+            ]
+          },
+          "delta": 1.5472625705029028,
+          "dutyCycle": 0.5034987030278869,
+          "period": 944.5520856208435,
+          "phase": 138.07073039312354,
+          "strength": 1.2916467161927851
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              4,
+              7
+            ]
+          },
+          "delta": 0.7116037546914018,
+          "dutyCycle": 0.8977348978308441,
+          "period": 923.7012423415231,
+          "phase": 133.88144766021767,
+          "strength": 4.9440791360938885
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              4,
+              8
+            ]
+          },
+          "delta": 0.5806302693596446,
+          "dutyCycle": 0.3983000298685129,
+          "period": 655.1566836683575,
+          "phase": 854.1976788883584,
+          "strength": 8.300107909365348
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              5,
+              6
+            ]
+          },
+          "delta": 0.6333025503652143,
+          "dutyCycle": 0.35080108447364766,
+          "period": 549.527171891021,
+          "phase": 461.7484068386725,
+          "strength": 6.931487825699955
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              5,
+              7
+            ]
+          },
+          "delta": 1.7888174665903065,
+          "dutyCycle": 0.7627511647033035,
+          "period": 483.6940098957498,
+          "phase": 809.2176612768155,
+          "strength": 6.3733761664940065
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              5,
+              8
+            ]
+          },
+          "delta": 1.3194582288308663,
+          "dutyCycle": 0.7651251197426606,
+          "period": 1021.580399640301,
+          "phase": 729.2647425122602,
+          "strength": 8.959439980555427
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              6,
+              7
+            ]
+          },
+          "delta": 1.990935315244279,
+          "dutyCycle": 0.1382023848477034,
+          "period": 635.5228683438417,
+          "phase": 705.9613551548916,
+          "strength": 1.1591917794522062
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              7,
+              8
+            ]
+          },
+          "delta": 1.5725540067802124,
+          "dutyCycle": 0.41634387103316794,
+          "period": 551.0402995429379,
+          "phase": 352.036109156214,
+          "strength": 5.624342359011552
+        }
+      ]
+    },
+    {
+      "py/object": "__main__.Creature",
+      "numPoints": 5,
+      "scale": 100,
+      "radius": 10,
+      "id": 9,
+      "points": [
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              24.023890039727924,
+              19.662533247938907
+            ]
+          },
+          "friction": 0.7953843924790945,
+          "elasticity": 0.5656802789790359
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              76.07065601599604,
+              60.585262224338464
+            ]
+          },
+          "friction": 0.3825924847101382,
+          "elasticity": 0.6056035380773419
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              73.86381908983337,
+              50.19246171957184
+            ]
+          },
+          "friction": 0.4646401175942435,
+          "elasticity": 0.2382509971190363
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              44.0913845404898,
+              51.29948795187988
+            ]
+          },
+          "friction": 0.9647796468488169,
+          "elasticity": 0.5445444469217393
+        },
+        {
+          "py/object": "__main__.Point",
+          "pos": {
+            "py/tuple": [
+              30.197882561452015,
+              66.70522979733947
+            ]
+          },
+          "friction": 0.32350719938661276,
+          "elasticity": 0.8929890837803852
+        }
+      ],
+      "links": [
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              1
+            ]
+          },
+          "delta": 1.5102743682720772,
+          "dutyCycle": 0.7834873779206664,
+          "period": 661.9189708580064,
+          "phase": 1194.7944996954234,
+          "strength": 9.072407421283367
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              2
+            ]
+          },
+          "delta": 1.6452491743556963,
+          "dutyCycle": 0.7775546399590528,
+          "period": 220.58717101304387,
+          "phase": 837.3322786241695,
+          "strength": 9.877328765076294
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              0,
+              4
+            ]
+          },
+          "delta": 1.7178537339681477,
+          "dutyCycle": 0.40936921615818633,
+          "period": 254.85148991601773,
+          "phase": 430.80544531555995,
+          "strength": 8.536250916802322
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              2
+            ]
+          },
+          "delta": 1.6221917669100767,
+          "dutyCycle": 0.3605640249352816,
+          "period": 183.48650703158557,
+          "phase": 848.7173671803087,
+          "strength": 8.840522008582507
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              3
+            ]
+          },
+          "delta": 1.743905416796139,
+          "dutyCycle": 0.6265272009234801,
+          "period": 164.89003129069198,
+          "phase": 919.2164260631554,
+          "strength": 8.99111876970697
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              1,
+              4
+            ]
+          },
+          "delta": 0.503544345356985,
+          "dutyCycle": 0.2593423049467949,
+          "period": 713.2368118400485,
+          "phase": 1037.7652394675224,
+          "strength": 7.515466207618461
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              2,
+              3
+            ]
+          },
+          "delta": 0.6402216012784542,
+          "dutyCycle": 0.19972550498027025,
+          "period": 756.8399962443591,
+          "phase": 812.202038850247,
+          "strength": 3.0343204490817337
+        },
+        {
+          "py/object": "__main__.Link",
+          "connected": {
+            "py/tuple": [
+              3,
+              4
+            ]
+          },
+          "delta": 1.541406129360285,
+          "dutyCycle": 0.25262222183513405,
+          "period": 426.50226997969503,
+          "phase": 614.5124121112583,
+          "strength": 4.935887608190181
+        }
+      ]
+    }
+  ],
+  "lastId": 10
+}
