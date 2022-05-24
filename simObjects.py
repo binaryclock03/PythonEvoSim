@@ -185,7 +185,21 @@ class Sample():
             creature.kill(space)
         self.creatures = []
     
-    def addCreature(self, creature):
+    def addCreature(self, popmanager, space, graphicsHandler = None):
+        creature = Creature(popmanager.id)
+        points = popmanager.points
+        links = popmanager.links
+        for point in points:
+            a, b = point.pos
+            creature.addJoint((a+200, b+200), 10, point.elasticity, point.friction)
+        for link in links:
+            a, b = link.connected
+            creature.addLimb(a, b, link.delta, link.dutyCycle, link.period, link.phase, link.strength)
+        creature.addToSpace(space)
+        self.creatures.append(creature)
+        if graphicsHandler != None:
+            graphicsHandler.addToDraw(creature)
+
         self.creatures.append(creature)
 
     def genRandomSample(self, numToGen, numPoints, space, graphicsHandler = None):
@@ -216,13 +230,15 @@ def only_collide_same(arbiter, space, data):
     return False
     #return a.pair_index == b.pair_index
 
-def sim(simLength, simPop = None, creatureList = None):
+def sim(simLength, simPop = None, creatureList = None, graphics = True, FPS = 120):
     pygame.init()
     display = pygame.display.set_mode((800,800))
     clock = pygame.time.Clock()
     space = pymunk.Space()
-    FPS = 120
-    graphicsHandler = camera.GraphicsHandler(space, display, FPS)
+    if graphics:
+        graphicsHandler = camera.GraphicsHandler(space, display, FPS)
+    else:
+        graphicsHandler = None
     space.gravity = 0, -981
 
     creatures = []
