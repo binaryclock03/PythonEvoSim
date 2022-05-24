@@ -13,3 +13,4 @@ for x in range(10):
 
 
 #print(so.simNoGraphics(10, 10))
+print(so.sim(10, 10, graphics=False))

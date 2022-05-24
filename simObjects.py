@@ -232,7 +232,8 @@ def only_collide_same(arbiter, space, data):
 
 def sim(simLength, simPop = None, creatureList = None, graphics = True, FPS = 120):
     pygame.init()
-    display = pygame.display.set_mode((800,800))
+    if graphics:
+        display = pygame.display.set_mode((800,800))
     clock = pygame.time.Clock()
     space = pymunk.Space()
     if graphics:
@@ -250,7 +251,7 @@ def sim(simLength, simPop = None, creatureList = None, graphics = True, FPS = 12
         return
     elif simPop == None:
         for creature in creatureList:
-            sample.addCreature(creature)
+            sample.addCreature(creature, space, graphicsHandler)
     elif creatureList == None:
         sample.genRandomSample(simPop, 5, space, graphicsHandler)
     simClock = 0
@@ -263,86 +264,47 @@ def sim(simLength, simPop = None, creatureList = None, graphics = True, FPS = 12
     #construct stage
     floor = Wall((-800,10), (8000,10), 100)
     floor.addToSpace(space)
-    graphicsHandler.addToDraw(floor)
-    
+    if graphics:
+        graphicsHandler.addToDraw(floor)
     #main sim loop
     while True:
         #event handler thing
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                return
-            if event.type == pygame.KEYDOWN:
-                pressed = pygame.key.get_pressed()
-                # if pressed[pygame.K_1]:
-                #     sample.killall(space, graphicsHandler)
-                #     sample.genRandomSample(1, 6, space, graphicsHandler)
-                #     simClock = 0
-                #     simRunning = True
-                # if pressed[pygame.K_5]:
-                #     sample.killall(space, graphicsHandler)
-                #     sample.genRandomSample(5, 6, space, graphicsHandler)
-                #     simClock = 0
-                #     simRunning = True
-                # if pressed[pygame.K_2]:
-                #     print(str(sample.findFitness()))
-                if pressed[pygame.K_LEFT]:
-                    graphicsHandler.panCameraLeft()
-                if pressed[pygame.K_RIGHT]:
-                    graphicsHandler.panCameraRight()
+        if graphics:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    return
+                if event.type == pygame.KEYDOWN:
+                    pressed = pygame.key.get_pressed()
+                    # if pressed[pygame.K_1]:
+                    #     sample.killall(space, graphicsHandler)
+                    #     sample.genRandomSample(1, 6, space, graphicsHandler)
+                    #     simClock = 0
+                    #     simRunning = True
+                    # if pressed[pygame.K_5]:
+                    #     sample.killall(space, graphicsHandler)
+                    #     sample.genRandomSample(5, 6, space, graphicsHandler)
+                    #     simClock = 0
+                    #     simRunning = True
+                    # if pressed[pygame.K_2]:
+                    #     print(str(sample.findFitness()))
+                    if pressed[pygame.K_LEFT]:
+                        graphicsHandler.panCameraLeft()
+                    if pressed[pygame.K_RIGHT]:
+                        graphicsHandler.panCameraRight()
 
         #draw white background
-        display.fill((255,255,255))
+        if graphics:
+            display.fill((255,255,255))
 
-        #run graphics handler draw
-        graphicsHandler.drawAll()
+            #run graphics handler draw
+            graphicsHandler.drawAll()
 
-        #update display, run clock stuff
-        pygame.display.update()
+            #update display, run clock stuff
+            pygame.display.update()
         sample.update()
         clock.tick(FPS)
         space.step(1/FPS)
         simClock += 1/FPS
-        if simClock > simLength and simRunning == True:
-            pygame.quit()
-            return str(sample.findFitness())
-            simRunning = False
-
-def simNoGraphics(simLength, simPop = None, creatureList = None):
-    pygame.init()
-    clock = pygame.time.Clock()
-    space = pymunk.Space()
-    TPS = 120
-    space.gravity = 0, -981
-
-    creatures = []
-
-    #generate sample
-    sample = Sample()
-    if simPop == None and creatureList == None:
-        print("nothing to sim!")
-        return
-    elif simPop == None:
-        for creature in creatureList:
-            sample.addCreature(creature)
-    elif creatureList == None:
-        sample.genRandomSample(simPop, 5, space)
-    simClock = 0
-    simRunning = True
-
-    #collision handler
-    handler = space.add_collision_handler(2, 2)
-    handler.begin = only_collide_same
-
-    #construct stage
-    floor = Wall((-800,10), (8000,10), 100)
-    floor.addToSpace(space)
-    
-    #main sim loop
-    while True:
-        #update display, run clock stuff
-        sample.update()
-        space.step(1/TPS)
-        simClock += 1/TPS
         if simClock > simLength and simRunning == True:
             pygame.quit()
             return str(sample.findFitness())
