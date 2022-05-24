@@ -1,3 +1,4 @@
+import time
 import pymunk
 import pygame
 import populationManager as pm
@@ -345,9 +346,12 @@ def fastsim(simLength, creature, TPS = 120):
             return sample.findFitness()
 
 def fastsimthing(simLength, creatureList, TPS = 120):
+    startTime = time.time()
     fitnessList = []
     for x, creature in enumerate(creatureList):
         fitness = fastsim(simLength, creature, TPS)
         fitnessList.append(fitness[0])
         #print("finished creature " + str(x) + " with " + str(fitness))
+    endTime = time.time()
+    print ("Elapsed time for generation: " + str(endTime - startTime))
     return fitnessList
