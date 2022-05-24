@@ -28,11 +28,27 @@ class Population():
             self.creatures.append(CreatureCreator(random.randrange(3,10),scale,radius,self.lastId))
             self.lastId += 1
                 
-    def mutateAll(self):
-        print("more stuff")
+    def nextGenertation(self):
+        print("stsdfgdg")
 
-    def breedBest(self):
-        print("even more stuff")
+        #Dertermine bottom 50%
+            #find median
+            #remove everything under median
+
+        #Separate top 10% of pop from rest
+            #duplicate every entry
+            # mutate all
+
+        #mutate all average ones
+
+        #New randos
+
+    def killSpecified(self,toKill):
+        for c in self.creatures:
+            c
+
+
+
 
     def savePop(self):
         f = open("Populations\\" + self.popName + "_Gen_ " + str(self.genNum) + ".json", 'w+')
@@ -41,7 +57,7 @@ class Population():
         print("Saving Finished")
     
 class CreatureCreator():
-    def __init__(self,numPoints,scale,radius,id = None):
+    def __init__(self,numPoints,scale,radius,id = 0):
         if numPoints < 3:
             self.numPoints = random.randrange(3,10)
         else:
@@ -49,8 +65,8 @@ class CreatureCreator():
 
         self.scale = scale
         self.radius = radius 
-        if id == 0 or None:
-            self.id = random.random() * 10 ** 12
+        if id == 0:
+            self.id = int(random.random() * 10 ** 16)
         else:
             self.id = id
         
