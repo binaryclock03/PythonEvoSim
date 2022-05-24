@@ -17,7 +17,9 @@ class Joint():
         self.shape.density = 1
         self.shape.collision_type = 2
         self.shape.pair_index = id
-        self.rotLimit = pymunk.RotaryLimitJoint(self.body, pymunk.Body(body_type=pymunk.Body.STATIC), 0, 0)
+        self.staticbody = pymunk.Body(body_type=pymunk.Body.STATIC)
+        self.staticbody.position = position
+        self.rotLimit = pymunk.RotaryLimitJoint(self.body, self.staticbody, 0, 0)
     
     def draw(self, display):
         color = (255*self.shape.friction, 0, 0)
@@ -27,13 +29,15 @@ class Joint():
 
     def addToSpace(self, space):
         space.add(self.body, self.shape)
+        space.add(self.rotLimit)
     
     def kill(self, space):
         space.remove(self.body, self.shape)
+        space.remove(self.rotLimit)
         del self
     
     def update(self):
-        self.body.angle = 0
+        pass
 
 class Limb():
     def __init__(self, joint1, joint2, lengthChangePercent, dutyCycle, peroid, phase, strength):
