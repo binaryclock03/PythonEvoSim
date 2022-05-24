@@ -2,14 +2,16 @@ import pymunk
 import pygame
 import skeleton as sk
 import phys
+import camera
 
 pygame.init()
 
 display = pygame.display.set_mode((800,800))
 clock = pygame.time.Clock()
 space = pymunk.Space()
-space.gravity = 0, -981
 FPS = 120
+graphicsHandler = camera.GraphicsHandler(space, display, FPS)
+space.gravity = 0, -981
 
 creatures = []
 
@@ -27,17 +29,9 @@ def sim():
     handler.begin = only_collide_same
 
     #construct stage
-    floor = phys.Wall((0,10), (800,10), 100)
+    floor = phys.Wall((-800,10), (8000,10), 100)
     floor.addToSpace(space)
-
-    wallright = phys.Wall((800,0), (800,800), 100)
-    wallright.addToSpace(space)
-
-    wallleft = phys.Wall((0,0), (0,800), 100)
-    wallleft.addToSpace(space)
-
-    roof = phys.Wall((0,800), (800,800), 100)
-    roof.addToSpace(space)
+    graphicsHandler.addToDraw(floor)
 
     #main sim loop
     while True:
@@ -49,24 +43,24 @@ def sim():
                 pressed = pygame.key.get_pressed()
                 if pressed[pygame.K_1]:
                     sample.killall(space)
-                    sample.genRandomSample(1, 5, space)
+                    sample.genRandomSample(1, 6, space)
                 if pressed[pygame.K_5]:
                     sample.killall(space)
-                    sample.genRandomSample(5, 5, space)
+                    sample.genRandomSample(5, 6, space)
                 if pressed[pygame.K_2]:
                     print(str(sample.findFitness()))
+                if pressed[pygame.K_LEFT]:
+                    graphicsHandler.panCameraLeft()
+                if pressed[pygame.K_RIGHT]:
+                    graphicsHandler.panCameraRight()
         
         #draw white background
         display.fill((255,255,255))
 
         #draw creatures
-        sample.draw(display)
+        sample.draw(display, graphicsHandler.offset)
 
-        #draw stage
-        floor.draw(display)
-        wallright.draw(display)
-        wallleft.draw(display)
-        roof.draw(display)
+        graphicsHandler.drawAll()
 
         #update display, run clock stuff
         pygame.display.update()
