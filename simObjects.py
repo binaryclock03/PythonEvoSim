@@ -266,7 +266,7 @@ def sim(simLength, simPop = None, creatureList = None, graphics = True, FPS = 12
             background = DrawableImage(image, (i*1600-1600, 800))
             graphicsHandler.addToDraw(background)
         for i in range(10):
-            post = BackgroundWall((i*100,0), (i*100,200), 5, color= (100,100,100))
+            post = BackgroundWall((i*250,0), (i*250,100), 5, color= (100,100,100))
             graphicsHandler.addToDraw(post)
         graphicsHandler.addToDraw(floor)
 
@@ -318,7 +318,7 @@ def sim(simLength, simPop = None, creatureList = None, graphics = True, FPS = 12
         sample.update()
         space.step(1/FPS)
         simClock += 1
-        if simClock > simLength*FPS and simRunning == True:
+        if simClock >= simLength*FPS and simRunning == True:
             pygame.quit()
             simRunning = False
             return sample.findFitness()

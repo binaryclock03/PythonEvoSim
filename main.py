@@ -1,11 +1,15 @@
 import simObjects as so
 import populationManager as pm
 
-testPop = pm.loadPop("testing",0)
+testPop = pm.Population("name")
+testPop.addRandomCreatures(100)
+testPop.savePop()
+testPop = pm.loadPop("name",0)
 
-for x in range(1000):
+for x in range(100):
 
     testPop.nextGenertation(so.sim(5,creatureList=testPop.creatures,graphics=False))
 
     testPop.savePop()
 
+    testPop.savePop()
