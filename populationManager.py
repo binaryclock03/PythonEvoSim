@@ -29,36 +29,33 @@ class Population():
             self.creatures.append(CreatureCreator(random.randrange(3,10),scale,radius,self.lastId))
             self.lastId += 1
                 
-    def nextGenertation(self,results):
+    def nextGenertation(self,simResults):
 
         toKill = []
         toMutate = []
 
-        def sortFunc(e):
-            return e[1]
-        
-        sortedResults = results.items().sort(key=sortFunc)
-        originalLen = len(sortedResults)
-        bottom = len(sortedResults)//2
+        (simResults.sort(key=sortFunc))
+
+        originalLen = len(simResults)
+        bottom = len(simResults)//2
 
         for c in range(bottom):
-            toKill.append(sortedResults[c][0])
-            sortedResults.pop(c)
+            toKill.append(simResults[c][0])
+            simResults.pop(c)
             
-        
         self.killSpecified(toKill)
 
-        top = int(len(sortedResults)*0.2)
+        top = int(len(simResults)*0.2)
 
         for c in range(top):
-            toMutate.append(sortedResults[c][0])
-            sortedResults.pop(c)
+            toMutate.append(simResults[c][0])
+            simResults.pop(c)
 
         self.mutateSpecified(toMutate,2)
 
         toMutate.clear()
 
-        for c in sortedResults:
+        for c in simResults:
             toMutate.append(c[0])
         
         self.mutateSpecified(toMutate,1)
@@ -106,7 +103,7 @@ class Population():
                     c.strength = clamp(c.strength + random.uniform(-(maxstrength-minstrength)/100,(maxstrength-minstrength)/100),minstrength,maxstrength)
         
     def savePop(self):
-        f = open("Populations\\" + self.popName + "_Gen_ " + str(self.genNum) + ".json", 'w+')
+        f = open("Populations\\" + self.popName + "_Gen_" + str(self.genNum) + ".json", 'w+')
         f.writelines(jsonpickle.encode(self, indent = 2))
         f.close()
         print("Saving Finished")
@@ -192,3 +189,5 @@ def clamp(num, min_value, max_value):
         num = max(min(num, max_value), min_value)
         return num
 
+def sortFunc(e):
+    return e[1]
