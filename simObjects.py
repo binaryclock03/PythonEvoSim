@@ -125,7 +125,6 @@ class Creature(SimObject):
         self.id = id
         self.joints = []
         self.limbs = []
-        self.flat = False
 
     def addJoint(self, position, radius, elasticity, friciton):
         self.joints.append(Joint(position, radius, elasticity, friciton, self.id))
@@ -155,20 +154,16 @@ class Creature(SimObject):
     def update(self):
         for limb in self.limbs:
             limb.update()
-        position = 0
-        if not self.flat:
-            for joint in self.joints:
-                position += (joint.body.position[1]-70)
-            if position < 5:
-                self.flat = True
 
     def findFitness(self):
         x, y = 0,0
         num = 0
         for joint in self.joints:
-            x += joint.body.position[0]-200
+            xtemp, ytemp = joint.body.position
+            x += (xtemp-200)
+            y += (ytemp-70)
             num += 1
-        return x/num, self.flat    
+        return self.id, x/num, y<5
 
 class BackgroundWall(Drawable):
     def __init__(self, point1, point2, thickness, color = (0,100,0)):
@@ -224,8 +219,7 @@ class Sample():
     def findFitness(self):
         list = []
         for creature in self.creatures:
-            fit, flat = creature.findFitness()
-            list.append(tuple((creature.id, fit, flat)))
+            list.append(creature.findFitness())
         return list
 
 def only_collide_same(arbiter, space, data):
