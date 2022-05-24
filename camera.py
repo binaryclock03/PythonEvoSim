@@ -6,20 +6,34 @@ class GraphicsHandler():
     def __init__(self, space, display, fps):
         self.clock = 0
         self.offset = 0
-        self.speed = 50
+        self.speed = 10
         self.fps = fps
         self.space = space
         self.display = display
         self.thingsToDraw = []
+        self.mode = 0
+        #0 = free cam
+        #1 = locked first
     
     def panCameraRight(self):
-        self.offset -= self.speed
+        if self.mode == 0:
+            self.offset -= self.speed
     
     def panCameraLeft(self):
-        self.offset += self.speed
+        if self.mode == 0:
+            self.offset += self.speed
 
-    def addToDraw(self, drawable):
-        self.thingsToDraw.append(drawable)
+    def lockFirst(self):
+        if self.mode != 1:
+            self.mode = 1
+        else:
+            self.mode = 0
+
+    def addToDraw(self, drawable, location = "bot"):
+        if location == "bot":
+            self.thingsToDraw.append(drawable)
+        if location == "top":
+            self.thingsToDraw.insert(0, drawable)
 
     def removeCreatures(self):
         thingsToDelete = []
@@ -29,6 +43,8 @@ class GraphicsHandler():
         for index in sorted(thingsToDelete, reverse=True):
             del self.thingsToDraw[index]
 
-    def drawAll(self):
+    def drawAll(self, sample = None):
+        if self.mode == 1 and not(sample is None):
+            list = sample.findFitness()
         for drawable in self.thingsToDraw:
             drawable.draw(self.display, self.offset)

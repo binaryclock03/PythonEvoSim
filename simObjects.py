@@ -280,33 +280,23 @@ def sim(simLength, simPop = None, creatureList = None, graphics = True, FPS = 12
     while True:
         #event handler thing
         if graphics:
+            pressed = pygame.key.get_pressed()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     return
                 if event.type == pygame.KEYDOWN:
-                    pressed = pygame.key.get_pressed()
-                    # if pressed[pygame.K_1]:
-                    #     sample.killall(space, graphicsHandler)
-                    #     sample.genRandomSample(1, 6, space, graphicsHandler)
-                    #     simClock = 0
-                    #     simRunning = True
-                    # if pressed[pygame.K_5]:
-                    #     sample.killall(space, graphicsHandler)
-                    #     sample.genRandomSample(5, 6, space, graphicsHandler)
-                    #     simClock = 0
-                    #     simRunning = True
-                    # if pressed[pygame.K_2]:
-                    #     print(str(sample.findFitness()))
-                    if pressed[pygame.K_LEFT]:
-                        graphicsHandler.panCameraLeft()
-                    if pressed[pygame.K_RIGHT]:
-                        graphicsHandler.panCameraRight()
+                    if pressed[pygame.K_l]:
+                        graphicsHandler.lockFirst()
+            if pressed[pygame.K_LEFT]:
+                graphicsHandler.panCameraLeft()
+            if pressed[pygame.K_RIGHT]:
+                graphicsHandler.panCameraRight()
 
             #draw white background
             display.fill((255,255,255))
 
             #run graphics handler draw
-            graphicsHandler.drawAll()
+            graphicsHandler.drawAll(sample)
 
             #update display, run clock stuff
             pygame.display.update()
@@ -317,5 +307,5 @@ def sim(simLength, simPop = None, creatureList = None, graphics = True, FPS = 12
         simClock += 1
         if simClock > simLength*FPS and simRunning == True:
             pygame.quit()
-            return sample.findFitness()
             simRunning = False
+            return sample.findFitness()
