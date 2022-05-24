@@ -150,7 +150,7 @@ class Creature(SimObject):
         x, y = 0,0
         num = 0
         for joint in self.joints:
-            x += joint.body.position[0]
+            x += joint.body.position[0]-200
             num += 1
         return x/num     
     
