@@ -1,6 +1,7 @@
 import jsonpickle
 import random
 import copy
+import csv
 from math import sqrt,floor
 
 from numpy import average
@@ -56,6 +57,8 @@ class Population():
         originalLen = len(simResults)
         bottom = floor(len(simResults)/2)
 
+        self.medianFitness = simResults[bottom][1]
+
         for c in range(bottom):
             toKill.append(simResults[c][0])
         
@@ -90,7 +93,13 @@ class Population():
 
         self.addRandomCreatures(originalLen-len(self.creatures))
 
-        print("Generation: " + str(self.genNum) + " Completed. Avg: " + str(self.avgFitness) + " Best: " + str(self.topFitness))
+        summary = "Generation: " + str(self.genNum) + " Avg: " + str(self.avgFitness) + " Best: " + str(self.topFitness) + " Median: " + str(self.medianFitness)
+
+        print(summary)
+
+        f = open("Populations\\"+ self.popName + "_summary.cvs", 'w+')
+        csv.writer(f).writerow(summary)
+        f.close()
 
         self.genNum += 1
 
