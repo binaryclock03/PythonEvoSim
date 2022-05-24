@@ -195,8 +195,9 @@ class Sample():
         for creature in self.creatures:
             creature.update()
     
-    def killall(self, space, graphicsHandler):
-        graphicsHandler.removeCreatures()
+    def killall(self, space, graphicsHandler = None):
+        if graphicsHandler != None:
+            graphicsHandler.removeCreatures()
         for creature in self.creatures:
             creature.kill(space)
         self.creatures = []
@@ -324,3 +325,31 @@ def sim(simLength, simPop = None, creatureList = None, graphics = True, FPS = 12
             pygame.quit()
             simRunning = False
             return sample.findFitness()
+
+def fastsim(simLength, creature, TPS = 120):
+    pygame.init()
+    space = pymunk.Space()
+    space.gravity = 0, -981
+
+    #construct stage
+    floor = Wall((-800,10), (8000,10), 100)
+    floor.addToSpace(space)
+
+    #define sim clock and set sim to true
+    sample = Sample()
+    sample.addCreature(creature, space)
+    simClock = 0
+    while True:    
+        sample.update()
+        space.step(1/TPS)
+        simClock += 1
+        if simClock >= simLength*TPS:
+            return sample.findFitness()
+
+def fastsimthing(simLength, creatureList, TPS = 120):
+    fitnessList = []
+    for x, creature in enumerate(creatureList):
+        fitness = fastsim(simLength, creature, TPS)
+        fitnessList.append(fitness[0])
+        #print("finished creature " + str(x) + " with " + str(fitness))
+    return fitnessList
