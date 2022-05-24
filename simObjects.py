@@ -245,24 +245,24 @@ def sim(simLength, simPop):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
-            # if event.type == pygame.KEYDOWN:
-            #     pressed = pygame.key.get_pressed()
-            #     if pressed[pygame.K_1]:
-            #         sample.killall(space, graphicsHandler)
-            #         sample.genRandomSample(1, 6, space, graphicsHandler)
-            #         simClock = 0
-            #         simRunning = True
-            #     if pressed[pygame.K_5]:
-            #         sample.killall(space, graphicsHandler)
-            #         sample.genRandomSample(5, 6, space, graphicsHandler)
-            #         simClock = 0
-            #         simRunning = True
-            #     if pressed[pygame.K_2]:
-            #         print(str(sample.findFitness()))
-            #     if pressed[pygame.K_LEFT]:
-            #         graphicsHandler.panCameraLeft()
-            #     if pressed[pygame.K_RIGHT]:
-            #         graphicsHandler.panCameraRight()
+            if event.type == pygame.KEYDOWN:
+                pressed = pygame.key.get_pressed()
+                # if pressed[pygame.K_1]:
+                #     sample.killall(space, graphicsHandler)
+                #     sample.genRandomSample(1, 6, space, graphicsHandler)
+                #     simClock = 0
+                #     simRunning = True
+                # if pressed[pygame.K_5]:
+                #     sample.killall(space, graphicsHandler)
+                #     sample.genRandomSample(5, 6, space, graphicsHandler)
+                #     simClock = 0
+                #     simRunning = True
+                # if pressed[pygame.K_2]:
+                #     print(str(sample.findFitness()))
+                if pressed[pygame.K_LEFT]:
+                    graphicsHandler.panCameraLeft()
+                if pressed[pygame.K_RIGHT]:
+                    graphicsHandler.panCameraRight()
 
         #draw white background
         display.fill((255,255,255))
