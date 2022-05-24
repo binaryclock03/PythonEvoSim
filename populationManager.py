@@ -4,6 +4,9 @@ from math import sqrt
 
 loadedPop = None
 
+maxstrength = 200000+50000
+minstrength = 200000-50000
+
 class Population():
     def __init__(self,popName,genNum = 0):
         self.popName = popName
@@ -98,7 +101,7 @@ class Link():
         self.dutyCycle = random.uniform(0.1,0.9)
         self.period = random.uniform(120,1200)
         self.phase = random.uniform(120,1200)
-        self.strength = random.uniform(1,10)
+        self.strength = random.uniform(minstrength,maxstrength)
 
 def loadPop(name,gen):
     f = open("Populations\\" + name + "_Gen_ " + str(gen) + ".json", 'r')
