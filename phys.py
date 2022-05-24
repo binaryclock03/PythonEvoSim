@@ -36,17 +36,18 @@ class Joint():
         self.body.angle = 0
 
 class Limb():
-    def __init__(self, joint1, joint2, lengthChangePercent, dutyCycle, peroid, phase):
+    def __init__(self, joint1, joint2, lengthChangePercent, dutyCycle, peroid, phase, strength):
         self.clock = 0
         self.state = False
         self.lengthChangePercent = lengthChangePercent
         self.dutyCycle = dutyCycle
         self.peroid = peroid
         self.phase = phase
+        self.strength = strength
         self.joint1 = joint1
         self.joint2 = joint2
         self.regularLen = abs(self.joint2.body.position-self.joint1.body.position)
-        self.joint = pymunk.DampedSpring(self.joint1.body, self.joint2.body, (0,0), (0,0), self.regularLen, 100000, 5000) 
+        self.joint = pymunk.DampedSpring(self.joint1.body, self.joint2.body, (0,0), (0,0), self.regularLen, self.strength, 5000) 
 
     def setLength(self, length):
         self.joint.rest_length = length
@@ -65,7 +66,8 @@ class Limb():
             color = (0,0,255)
         else:
             color = (0,0,0)
-        pygame.draw.line(display, color, convert_coordinates(self.joint1.body.position + self.joint.anchor_a), convert_coordinates(self.joint2.body.position + self.joint.anchor_b), 2)
+        thickness = int(3+8*((self.strength-sk.minstrength)/(sk.maxstrength-sk.minstrength)))
+        pygame.draw.line(display, color, convert_coordinates(self.joint1.body.position + self.joint.anchor_a), convert_coordinates(self.joint2.body.position + self.joint.anchor_b), thickness)
     
     def addToSpace(self, space):
         space.add(self.joint)
@@ -83,8 +85,8 @@ class Creature():
     def addJoint(self, position, radius, elasticity, friciton):
         self.joints.append(Joint(position, radius, elasticity, friciton, self.id))
 
-    def addLimb(self, jointindex1, jointindex2, lengthChangePercent, dutyCycle, peroid, phase):
-        self.limbs.append(Limb(self.joints[jointindex1],self.joints[jointindex2], lengthChangePercent, dutyCycle, peroid, phase))
+    def addLimb(self, jointindex1, jointindex2, lengthChangePercent, dutyCycle, peroid, phase, strength):
+        self.limbs.append(Limb(self.joints[jointindex1],self.joints[jointindex2], lengthChangePercent, dutyCycle, peroid, phase, strength))
 
     def addToSpace(self, space):
         for joint in self.joints:
@@ -156,10 +158,10 @@ class Sample():
             links = skeleton.links
             for point in points:
                 a, b = point.pos
-                creature.addJoint((a+200, b+200), 5, point.elasticity, point.friction)
+                creature.addJoint((a+200, b+200), 10, point.elasticity, point.friction)
             for link in links:
                 a, b = link.connected
-                creature.addLimb(a, b, link.delta, link.dutyCycle, link.period, link.phase)
+                creature.addLimb(a, b, link.delta, link.dutyCycle, link.period, link.phase, link.strength)
             creature.addToSpace(space)
             self.creatures.append(creature)
 

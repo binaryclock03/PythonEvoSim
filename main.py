@@ -55,7 +55,6 @@ def sim():
                     sample.genRandomSample(5, 5, space)
                 if pressed[pygame.K_2]:
                     print(str(sample.findFitness()))
-
         
         #draw white background
         display.fill((255,255,255))

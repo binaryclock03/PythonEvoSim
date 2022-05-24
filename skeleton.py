@@ -1,6 +1,9 @@
 import random as random
 from math import sqrt
 
+maxstrength = 200000+50000
+minstrength = 200000-50000
+
 class Skeleton():
     def __init__(self,numPoints,scale,radius):
         self.numPoints = numPoints
@@ -55,5 +58,6 @@ class Link():
         self.dutyCycle = random.uniform(0.1,0.9)
         self.period = random.uniform(120,1200)
         self.phase = random.uniform(120,1200)
+        self.strength = random.uniform(minstrength,maxstrength)
 
 
