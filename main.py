@@ -1,3 +1,3 @@
 import simObjects as so
 
-print(so.simNoGraphics(10, 10))
+print(so.sim(10, 10, graphics=False))
