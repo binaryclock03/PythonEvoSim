@@ -6,11 +6,6 @@ testPop = pm.loadPop("testing",0)
 
 for x in range(10):
 
-    testPop.nextGenertation(so.sim(30,creatureList=testPop.creatures))
+    testPop.nextGenertation(so.sim(30,creatureList=testPop.creatures, graphics=False))
 
     testPop.savePop()
-
-
-
-#print(so.simNoGraphics(10, 10))
-print(so.sim(10, 10, graphics=False))
