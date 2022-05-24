@@ -1,5 +1,6 @@
 import jsonpickle
 import random
+import copy
 from math import sqrt
 
 loadedPop = None
@@ -28,28 +29,81 @@ class Population():
             self.creatures.append(CreatureCreator(random.randrange(3,10),scale,radius,self.lastId))
             self.lastId += 1
                 
-    def nextGenertation(self):
-        print("stsdfgdg")
+    def nextGenertation(self,results):
 
-        #Dertermine bottom 50%
-            #find median
-            #remove everything under median
+        toKill = []
+        toMutate = []
 
-        #Separate top 10% of pop from rest
-            #duplicate every entry
-            # mutate all
+        def sortFunc(e):
+            return e[1]
+        
+        sortedResults = results.items().sort(key=sortFunc)
+        originalLen = len(sortedResults)
+        bottom = len(sortedResults)//2
 
-        #mutate all average ones
+        for c in range(bottom):
+            toKill.append(sortedResults[c][0])
+            sortedResults.pop(c)
+            
+        
+        self.killSpecified(toKill)
 
-        #New randos
+        top = int(len(sortedResults)*0.2)
+
+        for c in range(top):
+            toMutate.append(sortedResults[c][0])
+            sortedResults.pop(c)
+
+        self.mutateSpecified(toMutate,2)
+
+        toMutate.clear()
+
+        for c in sortedResults:
+            toMutate.append(c[0])
+        
+        self.mutateSpecified(toMutate,1)
+
+        self.addRandomCreatures(originalLen-len(self.creatures))
 
     def killSpecified(self,toKill):
         for c in self.creatures:
-            c
+            if c.id in toKill:
+                del c
 
+    def mutateSpecified(self,toMutate,offspringPer):
+        #Create Copies if needed
+        for c in self.creatures:
+            if c.id in toMutate:
+                if offspringPer > 1:
+                    for cc in range(offspringPer-1):
+                        cpy = copy.deepcopy(c)
+                        cpy.id = self.lastId
+                        toMutate.append(self.lastId)
+                        self.lastId += 1
+                        self.creatures.append(cpy)
+        
+        #Preform Mutations
 
+        for c in self.creatures:
+            for c.id in toMutate:
+                for p in c.points:
+                    p.pos = (p.pos[0]+random.uniform(-1,1),p.pos[1]+random.uniform(-1,1))
+                    
+                    p.fritction = clamp(p.friction + random.uniform(-1,1),0,1)
+                    
+                    p.elasticity = clamp(p.elasticity + random.uniform(-1,1),0,1)
+                    
+                for l in c.links:
+                    c.delta = clamp(c.delta + random.uniform(-0.015,0.015),0.5,2)
 
+                    c.dutyCycle = clamp(c.dutyCycle + random.uniform(-0.008,0.008),0.1,0.9)
 
+                    c.period = clamp(c.period + random.uniform(-1.2,1,2),120,1200)
+
+                    c.phase = clamp(c.phase + random.uniform(-1.2,1,2),120,1200)
+
+                    c.strength = clamp(c.strength + random.uniform(-(maxstrength-minstrength)/100,(maxstrength-minstrength)/100),minstrength,maxstrength)
+        
     def savePop(self):
         f = open("Populations\\" + self.popName + "_Gen_ " + str(self.genNum) + ".json", 'w+')
         f.writelines(jsonpickle.encode(self, indent = 2))
@@ -124,3 +178,8 @@ def loadPop(name,gen):
     global loadedPop
     loadedPop = jsonpickle.decode(f.read())
     f.close()
+
+def clamp(num, min_value, max_value):
+        num = max(min(num, max_value), min_value)
+        return num
+
