@@ -220,9 +220,9 @@ class Sample():
                 graphicsHandler.addToDraw(creature)
     
     def findFitness(self):
-        list = {}
+        list = []
         for creature in self.creatures:
-            list.update({creature.id: creature.findFitness()})
+            list.append((creature.id, creature.findFitness()))
         return list
 
 def only_collide_same(arbiter, space, data):
@@ -232,11 +232,10 @@ def only_collide_same(arbiter, space, data):
 
 def sim(simLength, simPop = None, creatureList = None, graphics = True, FPS = 120):
     pygame.init()
-    if graphics:
-        display = pygame.display.set_mode((800,800))
     clock = pygame.time.Clock()
     space = pymunk.Space()
     if graphics:
+        display = pygame.display.set_mode((800,800))
         graphicsHandler = camera.GraphicsHandler(space, display, FPS)
     else:
         graphicsHandler = None
@@ -254,6 +253,8 @@ def sim(simLength, simPop = None, creatureList = None, graphics = True, FPS = 12
             sample.addCreature(creature, space, graphicsHandler)
     elif creatureList == None:
         sample.genRandomSample(simPop, 5, space, graphicsHandler)
+
+    #define sim clock and set sim to true
     simClock = 0
     simRunning = True
 
@@ -300,10 +301,9 @@ def sim(simLength, simPop = None, creatureList = None, graphics = True, FPS = 12
 
             #update display, run clock stuff
             pygame.display.update()
-            
-        sample.update()
-        if graphics:
             clock.tick(FPS)
+        
+        sample.update()
         space.step(1/FPS)
         simClock += 1
         if simClock > simLength*FPS and simRunning == True:
