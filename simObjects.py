@@ -247,6 +247,16 @@ def sim(simLength, simPop = None, creatureList = None, graphics = True, FPS = 12
 
     creatures = []
 
+    #construct stage
+    floor = Wall((-800,10), (8000,10), 100)
+    floor.addToSpace(space)
+    if graphics:
+        for i in range(10):
+            post = BackgroundWall((i*100,0), (i*100,200), 5, color= (100,100,100))
+            graphicsHandler.addToDraw(post)
+
+        graphicsHandler.addToDraw(floor)
+
     #generate sample
     sample = Sample()
     if simPop == None and creatureList == None:
@@ -266,15 +276,6 @@ def sim(simLength, simPop = None, creatureList = None, graphics = True, FPS = 12
     handler = space.add_collision_handler(2, 2)
     handler.begin = only_collide_same
 
-    #construct stage
-    floor = Wall((-800,10), (8000,10), 100)
-    floor.addToSpace(space)
-    if graphics:
-        graphicsHandler.addToDraw(floor)
-
-        for i in range(10):
-            post = BackgroundWall((i*100,0), (i*100,50), 5, color= (100,100,100))
-            graphicsHandler.addToDraw(post)
     #main sim loop
     while True:
         #event handler thing
@@ -316,5 +317,6 @@ def sim(simLength, simPop = None, creatureList = None, graphics = True, FPS = 12
         simClock += 1
         if simClock > simLength*FPS and simRunning == True:
             pygame.quit()
+            print(len(sample.findFitness()))
             return sample.findFitness()
             simRunning = False
