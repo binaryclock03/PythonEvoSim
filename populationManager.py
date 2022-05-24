@@ -3,6 +3,8 @@ import random
 import copy
 from math import sqrt,floor
 
+from numpy import average
+
 loadedPop = None
 
 maxstrength = 200000+50000
@@ -12,6 +14,9 @@ class Population():
     def __init__(self,popName,genNum = 0):
         self.popName = popName
         self.genNum = genNum
+
+        self.avgFitness = 0
+        self.topFitness = 0
 
         self.creatures = []
 
@@ -34,7 +39,16 @@ class Population():
         toKill = []
         toMutate = []
 
-        (simResults.sort(key=sortFunc))
+        simResults.sort(key=sortFunc)
+
+        self.topFitness = simResults[-1][1]
+
+        sum = 0
+
+        for x in simResults:
+            sum += x[1]
+        
+        self.avgFitness = sum/len(simResults)
 
         originalLen = len(simResults)
         bottom = floor(len(simResults)/2)
@@ -63,6 +77,8 @@ class Population():
         self.mutateSpecified(toMutate,1)
 
         self.addRandomCreatures(originalLen-len(self.creatures))
+
+        print("Generation: " + str(self.genNum) + " Completed. Avg: " + str(self.avgFitness) + " Best: " + str(self.topFitness))
 
         self.genNum += 1
 
@@ -116,7 +132,7 @@ class Population():
                     l.strength = clamp(l.strength + random.uniform(-(maxstrength-minstrength)/100,(maxstrength-minstrength)/100),minstrength,maxstrength)
         
     def savePop(self):
-        f = open("Populations\\" + self.popName + "_Gen_" + str(self.genNum) + ".json", 'w+')
+        f = open("Populations\\"+ self.popName + "_Gen_" + str(self.genNum) + ".json", 'w+')
         f.writelines(jsonpickle.encode(self, indent = 2))
         f.close()
         print("Saving Finished")
@@ -188,7 +204,7 @@ class Link():
         self.strength = random.uniform(minstrength,maxstrength)
 
 def loadPop(name,gen):
-    f = open("Populations\\" + name + "_Gen_" + str(gen) + ".json", 'r')
+    f = open("Populations\\"+ name + "_Gen_" + str(gen) + ".json", 'r')
     global loadedPop
     loadedPop = jsonpickle.decode(f.read())
     f.close()
