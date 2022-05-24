@@ -78,7 +78,7 @@ class Population():
 
         self.addRandomCreatures(originalLen-len(self.creatures))
 
-        print("Generation: " + self.genNum + " Completed. Avg: " + self.avgFitness + " Best: " + self.topFitness)
+        print("Generation: " + str(self.genNum) + " Completed. Avg: " + str(self.avgFitness) + " Best: " + str(self.topFitness))
 
         self.genNum += 1
 
@@ -132,7 +132,7 @@ class Population():
                     l.strength = clamp(l.strength + random.uniform(-(maxstrength-minstrength)/100,(maxstrength-minstrength)/100),minstrength,maxstrength)
         
     def savePop(self):
-        f = open("Populations\\" + self.popName +"\\" + self.popName + "_Gen_" + str(self.genNum) + ".json", 'w+')
+        f = open("Populations\\"+ self.popName + "_Gen_" + str(self.genNum) + ".json", 'w+')
         f.writelines(jsonpickle.encode(self, indent = 2))
         f.close()
         print("Saving Finished")
@@ -204,7 +204,7 @@ class Link():
         self.strength = random.uniform(minstrength,maxstrength)
 
 def loadPop(name,gen):
-    f = open("Populations\\"+ name +"\\" + name + "_Gen_" + str(gen) + ".json", 'r')
+    f = open("Populations\\"+ name + "_Gen_" + str(gen) + ".json", 'r')
     global loadedPop
     loadedPop = jsonpickle.decode(f.read())
     f.close()
