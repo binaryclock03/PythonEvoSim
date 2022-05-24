@@ -1,7 +1,6 @@
 import pymunk
 import pygame
 import populationManager as pm
-import simObjects as phys
 import camera
 
 def convert_coordinates(point, offset = 0):
@@ -185,8 +184,11 @@ class Sample():
         for creature in self.creatures:
             creature.kill(space)
         self.creatures = []
+    
+    def addCreature(self, creature):
+        self.creatures.append(creature)
 
-    def genRandomSample(self, numToGen, numPoints, space, graphicsHandler):
+    def genRandomSample(self, numToGen, numPoints, space, graphicsHandler = None):
         for i in range(numToGen):
             popmanager = pm.CreatureCreator(numPoints, 100, 10)
             creature = Creature(popmanager.id)
@@ -200,12 +202,13 @@ class Sample():
                 creature.addLimb(a, b, link.delta, link.dutyCycle, link.period, link.phase, link.strength)
             creature.addToSpace(space)
             self.creatures.append(creature)
-            graphicsHandler.addToDraw(creature)
+            if graphicsHandler != None:
+                graphicsHandler.addToDraw(creature)
     
     def findFitness(self):
-        list = []
+        list = {}
         for creature in self.creatures:
-            list.append((creature.id, creature.findFitness()))
+            list.update({creature.id: creature.findFitness()})
         return list
 
 def only_collide_same(arbiter, space, data):
@@ -213,7 +216,7 @@ def only_collide_same(arbiter, space, data):
     return False
     #return a.pair_index == b.pair_index
 
-def sim(simLength, simPop):
+def sim(simLength, simPop = None, creatureList = None):
     pygame.init()
     display = pygame.display.set_mode((800,800))
     clock = pygame.time.Clock()
@@ -225,8 +228,15 @@ def sim(simLength, simPop):
     creatures = []
 
     #generate sample
-    sample = phys.Sample()
-    sample.genRandomSample(simPop, 5, space, graphicsHandler)
+    sample = Sample()
+    if simPop == None and creatureList == None:
+        print("nothing to sim!")
+        return
+    elif simPop == None:
+        for creature in creatureList:
+            sample.addCreature(creature)
+    elif creatureList == None:
+        sample.genRandomSample(simPop, 5, space, graphicsHandler)
     simClock = 0
     simRunning = True
 
@@ -235,7 +245,7 @@ def sim(simLength, simPop):
     handler.begin = only_collide_same
 
     #construct stage
-    floor = phys.Wall((-800,10), (8000,10), 100)
+    floor = Wall((-800,10), (8000,10), 100)
     floor.addToSpace(space)
     graphicsHandler.addToDraw(floor)
     
@@ -276,6 +286,47 @@ def sim(simLength, simPop):
         clock.tick(FPS)
         space.step(1/FPS)
         simClock += 1/FPS
+        if simClock > simLength and simRunning == True:
+            pygame.quit()
+            return str(sample.findFitness())
+            simRunning = False
+
+def simNoGraphics(simLength, simPop = None, creatureList = None):
+    pygame.init()
+    clock = pygame.time.Clock()
+    space = pymunk.Space()
+    TPS = 120
+    space.gravity = 0, -981
+
+    creatures = []
+
+    #generate sample
+    sample = Sample()
+    if simPop == None and creatureList == None:
+        print("nothing to sim!")
+        return
+    elif simPop == None:
+        for creature in creatureList:
+            sample.addCreature(creature)
+    elif creatureList == None:
+        sample.genRandomSample(simPop, 5, space)
+    simClock = 0
+    simRunning = True
+
+    #collision handler
+    handler = space.add_collision_handler(2, 2)
+    handler.begin = only_collide_same
+
+    #construct stage
+    floor = Wall((-800,10), (8000,10), 100)
+    floor.addToSpace(space)
+    
+    #main sim loop
+    while True:
+        #update display, run clock stuff
+        sample.update()
+        space.step(1/TPS)
+        simClock += 1/TPS
         if simClock > simLength and simRunning == True:
             pygame.quit()
             return str(sample.findFitness())
