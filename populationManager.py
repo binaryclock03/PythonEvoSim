@@ -22,7 +22,7 @@ class Population():
 
     def addRandomCreatures(self,amount,scale = 100,radius = 10):
         for i in range(amount):
-            self.creatures.append(Creature(random.randrange(3,10),scale,radius,self.lastId))
+            self.creatures.append(CreatureCreator(random.randrange(3,10),scale,radius,self.lastId))
             self.lastId += 1
                 
     def mutateAll(self):
@@ -37,7 +37,7 @@ class Population():
         f.close()
         print("Saving Finished")
     
-class Creature():
+class CreatureCreator():
     def __init__(self,numPoints,scale,radius,id):
         if numPoints < 3:
             self.numPoints = random.randrange(3,10)
