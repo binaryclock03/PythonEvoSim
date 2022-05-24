@@ -1,7 +1,7 @@
 import jsonpickle
 import random
 import copy
-from math import sqrt
+from math import sqrt,floor
 
 loadedPop = None
 
@@ -15,7 +15,7 @@ class Population():
 
         self.creatures = []
 
-        self.lastId = 0
+        self.lastId = 1
     
     def clearCreatures(self):
         for c in self.creatures:
@@ -26,7 +26,7 @@ class Population():
 
     def addRandomCreatures(self,amount,scale = 100,radius = 10):
         for i in range(amount):
-            self.creatures.append(CreatureCreator(random.randrange(3,10),scale,radius,self.lastId))
+            self.creatures.append(CreatureCreator(random.randrange(3,8),scale,radius,self.lastId))
             self.lastId += 1
                 
     def nextGenertation(self,simResults):
@@ -37,13 +37,15 @@ class Population():
         (simResults.sort(key=sortFunc))
 
         originalLen = len(simResults)
-        bottom = len(simResults)//2
+        bottom = floor(len(simResults)/2)
 
         for c in range(bottom):
             toKill.append(simResults[c][0])
             simResults.pop(c)
-            
+
+ 
         self.killSpecified(toKill)
+
 
         top = int(len(simResults)*0.2)
 
@@ -53,7 +55,7 @@ class Population():
 
         self.mutateSpecified(toMutate,2)
 
-        toMutate.clear()
+        toMutate = []
 
         for c in simResults:
             toMutate.append(c[0])
@@ -65,25 +67,36 @@ class Population():
         self.genNum += 1
 
     def killSpecified(self,toKill):
-        for c in self.creatures:
+        fuck = []
+        for i,c in enumerate(self.creatures):
             if c.id in toKill:
-                del c
+                fuck.append(i)
+        for i in sorted(fuck,reverse=True):
+            del self.creatures[i]
+        
 
     def mutateSpecified(self,toMutate,offspringPer):
         #Create Copies if needed
+        tempCreatures = []
+        tempToMutate = []
         for c in self.creatures:
             if c.id in toMutate:
                 if offspringPer > 1:
-                    for cc in range(offspringPer-1):
-                        cpy = copy.deepcopy(c)
-                        cpy.id = self.lastId
-                        toMutate.append(self.lastId)
-                        self.lastId += 1
-                        self.creatures.append(cpy)
-        
+                    #for cc in range(offspringPer-1):
+                    cpy = copy.deepcopy(c)
+                    cpy.id = self.lastId
+                    tempToMutate.append(self.lastId)
+                    tempCreatures.append(cpy)
+                    self.lastId += 1
+                        
+        self.creatures.extend(tempCreatures)
+        toMutate.extend(tempToMutate)
+
         #Preform Mutations
         for c in self.creatures:
-            for c.id in toMutate:
+            if c.id in toMutate:
+                c.id = self.lastId
+                self.lastId += 1
                 for p in c.points:
                     p.pos = (p.pos[0]+random.uniform(-1,1),p.pos[1]+random.uniform(-1,1))
                     
@@ -92,15 +105,15 @@ class Population():
                     p.elasticity = clamp(p.elasticity + random.uniform(-1,1),0,1)
                     
                 for l in c.links:
-                    c.delta = clamp(c.delta + random.uniform(-0.015,0.015),0.5,2)
+                    l.delta = clamp(l.delta + random.uniform(-0.015,0.015),0.5,2)
 
-                    c.dutyCycle = clamp(c.dutyCycle + random.uniform(-0.008,0.008),0.1,0.9)
+                    l.dutyCycle = clamp(l.dutyCycle + random.uniform(-0.008,0.008),0.1,0.9)
 
-                    c.period = clamp(c.period + random.uniform(-1.2,1,2),120,1200)
+                    l.period = clamp(l.period + random.uniform(-1.2,1.2),120,1200)
 
-                    c.phase = clamp(c.phase + random.uniform(-1.2,1,2),120,1200)
+                    l.phase = clamp(l.phase + random.uniform(-1.2,1.2),120,1200)
 
-                    c.strength = clamp(c.strength + random.uniform(-(maxstrength-minstrength)/100,(maxstrength-minstrength)/100),minstrength,maxstrength)
+                    l.strength = clamp(l.strength + random.uniform(-(maxstrength-minstrength)/100,(maxstrength-minstrength)/100),minstrength,maxstrength)
         
     def savePop(self):
         f = open("Populations\\" + self.popName + "_Gen_" + str(self.genNum) + ".json", 'w+')
@@ -123,7 +136,7 @@ class CreatureCreator():
         if id == 0:
             self.id = int(random.random() * 10 ** 16)
         else:
-            self.id = id
+            self.id = int(id)
         
         self.points = []
         self.links = []
@@ -175,7 +188,7 @@ class Link():
         self.strength = random.uniform(minstrength,maxstrength)
 
 def loadPop(name,gen):
-    f = open("Populations\\" + name + "_Gen_ " + str(gen) + ".json", 'r')
+    f = open("Populations\\" + name + "_Gen_" + str(gen) + ".json", 'r')
     global loadedPop
     loadedPop = jsonpickle.decode(f.read())
     f.close()
