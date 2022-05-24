@@ -46,7 +46,7 @@ class CreatureCreator():
 
         self.scale = scale
         self.radius = radius 
-        if id == 0:
+        if id == 0 or None:
             self.id = random.random() * 10 ** 12
         else:
             self.id = id
