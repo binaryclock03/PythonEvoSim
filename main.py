@@ -1,7 +1,7 @@
 import pymunk
 import pygame
 import skeleton as sk
-import phys
+import simObjects as phys
 import camera
 
 pygame.init()
@@ -43,10 +43,10 @@ def sim():
                 pressed = pygame.key.get_pressed()
                 if pressed[pygame.K_1]:
                     sample.killall(space)
-                    sample.genRandomSample(1, 6, space)
+                    sample.genRandomSample(1, 6, space, graphicsHandler)
                 if pressed[pygame.K_5]:
                     sample.killall(space)
-                    sample.genRandomSample(5, 6, space)
+                    sample.genRandomSample(5, 6, space, graphicsHandler)
                 if pressed[pygame.K_2]:
                     print(str(sample.findFitness()))
                 if pressed[pygame.K_LEFT]:
@@ -58,7 +58,7 @@ def sim():
         display.fill((255,255,255))
 
         #draw creatures
-        sample.draw(display, graphicsHandler.offset)
+        #sample.draw(display, graphicsHandler.offset)
 
         graphicsHandler.drawAll()
 

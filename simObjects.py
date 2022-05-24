@@ -2,11 +2,57 @@ import pymunk
 import pygame
 import populationManager as pm
 
-def convert_coordinates(point):
-    return point[0], 800-point[1]
+def convert_coordinates(point, offset = 0):
+    return int(point[0]+offset), int(800-point[1])
 
-class Joint():
+class Drawable():
+    def __init__(self):
+        pass
+    
+    def draw(self, display, offset):
+        pass
+
+class SimObject(Drawable):
+    def __init__(self):
+        super().__init__()
+
+    def update(self):
+        pass
+
+    def addToSpace(self, space):
+        pass
+
+    def kill(self, space):
+        del self
+
+class PhysicsObject(SimObject):
+    def __init__(self):
+        super().__init__()
+        self.body = None
+        self.shape = None
+        self.joint = None
+
+    def addToSpace(self, space):
+        if (self.body != None) and (self.shape != None):
+            space.add(self.body, self.shape)
+        elif (self.body != None):
+            space.add(self.body)
+        if (self.joint != None):
+            space.add(self.joint)
+            
+
+    def kill(self, space):
+        if (self.body != None) and not (self.shape != None):
+            space.remove(self.body, self.shape)
+        elif (self.body != None):
+            space.remove(self.body)
+        if (self.joint != None):
+            space.remove(self.joint)
+        del self
+
+class Joint(PhysicsObject):
     def __init__(self, position, radius, elasticity, friction, id):
+        super().__init__()
         self.radius = radius
         self.body = pymunk.Body()
         self.body.position = position
@@ -18,27 +64,16 @@ class Joint():
         self.shape.pair_index = id
         self.staticbody = pymunk.Body(body_type=pymunk.Body.STATIC)
         self.staticbody.position = position
-        self.rotLimit = pymunk.RotaryLimitJoint(self.body, self.staticbody, 0, 0)
+        self.joint = pymunk.RotaryLimitJoint(self.body, self.staticbody, 0, 0)
     
     def draw(self, display, offset):
         color = (255*self.shape.friction, 0, 0)
-        x, y = convert_coordinates(self.body.position)
-        pygame.draw.circle(display, color, (int(x)+offset, int(y)), self.radius) 
+        coord = convert_coordinates(self.body.position, offset)
+        pygame.draw.circle(display, color, coord, self.radius)
 
-    def addToSpace(self, space):
-        space.add(self.body, self.shape)
-        space.add(self.rotLimit)
-    
-    def kill(self, space):
-        space.remove(self.body, self.shape)
-        space.remove(self.rotLimit)
-        del self
-    
-    def update(self):
-        pass
-
-class Limb():
+class Limb(PhysicsObject):
     def __init__(self, joint1, joint2, lengthChangePercent, dutyCycle, peroid, phase, strength):
+        super().__init__()
         self.clock = 0
         self.state = False
         self.lengthChangePercent = lengthChangePercent
@@ -69,18 +104,9 @@ class Limb():
         else:
             color = (0,0,0)
         thickness = int(3+8*((self.strength-pm.minstrength)/(pm.maxstrength-pm.minstrength)))
-        x1, y1 = convert_coordinates(self.joint1.body.position + self.joint.anchor_a)
-        x1 += offset
-        x2, y2 = convert_coordinates(self.joint2.body.position + self.joint.anchor_b)
-        x2 += offset
-        pygame.draw.line(display, color, (x1, y1), (x2, y2), thickness)
-    
-    def addToSpace(self, space):
-        space.add(self.joint)
-
-    def kill(self, space):
-        space.remove(self.joint)
-        del self
+        coord = convert_coordinates(self.joint1.body.position, offset)
+        coord2 = convert_coordinates(self.joint2.body.position, offset)
+        pygame.draw.line(display, color, coord, coord2, thickness)
 
 class Creature():
     def __init__(self, id):
@@ -127,8 +153,9 @@ class Creature():
             num += 1
         return x/num     
     
-class Wall():
+class Wall(PhysicsObject):
     def __init__(self, point1, point2, thickness):
+        super().__init__()
         self.point1 = point1
         self.point2 = point2
         self.thickness = thickness
@@ -138,14 +165,9 @@ class Wall():
         self.shape.friction = 1
     
     def draw(self, display, offset):
-        x1, y1 = convert_coordinates(self.point1)
-        x1 = x1 + offset
-        x2, y2 = convert_coordinates(self.point2)
-        x2 = x2 + offset
-        pygame.draw.line(display, (0,255,0), (x1, y1), (x2, y2), self.thickness)
-
-    def addToSpace(self, space):
-        space.add(self.body, self.shape)
+        coord = convert_coordinates(self.point1, offset)
+        coord2 = convert_coordinates(self.point2, offset)
+        pygame.draw.line(display, (0,255,0), coord, coord2, self.thickness)
 
 class Sample():
     def __init__(self):
@@ -160,7 +182,7 @@ class Sample():
             creature.kill(space)
         self.creatures = []
 
-    def genRandomSample(self, numToGen, numPoints, space):
+    def genRandomSample(self, numToGen, numPoints, space, graphicsHandler):
         for i in range(numToGen):
             popmanager = pm.CreatureCreator(numPoints, 100, 10)
             creature = Creature(popmanager.id)
@@ -174,10 +196,7 @@ class Sample():
                 creature.addLimb(a, b, link.delta, link.dutyCycle, link.period, link.phase, link.strength)
             creature.addToSpace(space)
             self.creatures.append(creature)
-
-    def draw(self, display, offset):
-        for creature in self.creatures:
-            creature.draw(display, offset)
+            graphicsHandler.addToDraw(creature)
     
     def findFitness(self):
         list = []

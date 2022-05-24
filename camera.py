@@ -21,6 +21,10 @@ class GraphicsHandler():
     def addToDraw(self, drawable):
         self.thingsToDraw.append(drawable)
 
+    def removeCreatures():
+        pass
+
     def drawAll(self):
+        print(str(len(self.thingsToDraw)))
         for drawable in self.thingsToDraw:
             drawable.draw(self.display, self.offset)
