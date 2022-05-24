@@ -222,7 +222,7 @@ class Sample():
     def findFitness(self):
         list = []
         for creature in self.creatures:
-            list.append((creature.id, creature.findFitness()))
+            list.append(tuple((creature.id, creature.findFitness())))
         return list
 
 def only_collide_same(arbiter, space, data):
@@ -308,5 +308,5 @@ def sim(simLength, simPop = None, creatureList = None, graphics = True, FPS = 12
         simClock += 1
         if simClock > simLength*FPS and simRunning == True:
             pygame.quit()
-            return str(sample.findFitness())
+            return sample.findFitness()
             simRunning = False
