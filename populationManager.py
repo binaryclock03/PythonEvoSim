@@ -45,9 +45,12 @@ class Population():
 
         sum = 0
 
+        simResultIds = []
+
         for x in simResults:
             sum += x[1]
-        
+            simResultIds.append(x[0])
+
         self.avgFitness = sum/len(simResults)
 
         originalLen = len(simResults)
@@ -55,26 +58,35 @@ class Population():
 
         for c in range(bottom):
             toKill.append(simResults[c][0])
-            simResults.pop(c)
+        
+        for c in range(len(simResults)):
+            if simResults[c][2] and simResults[c][0] not in toKill:
+                toKill.append(simResults[c][0])
 
- 
+        for c in toKill:
+            simResultIds.remove(c)
+
         self.killSpecified(toKill)
-
 
         top = int(len(simResults)*0.2)
 
-        for c in range(top):
-            toMutate.append(simResults[c][0])
-            simResults.pop(c)
+        if top >= len(simResultIds):
+            self.mutateSpecified(simResultIds,2)
+        else:
+            for c in range(top):
+                toMutate.append(simResultIds[c])
 
-        self.mutateSpecified(toMutate,2)
+            for c in toMutate:
+                simResultIds.remove(c)
 
-        toMutate = []
+            self.mutateSpecified(toMutate,2)
 
-        for c in simResults:
-            toMutate.append(c[0])
+            toMutate = []
+
+            for c in simResultIds:
+                toMutate.append(c)
         
-        self.mutateSpecified(toMutate,1)
+            self.mutateSpecified(toMutate,1)
 
         self.addRandomCreatures(originalLen-len(self.creatures))
 
@@ -125,9 +137,9 @@ class Population():
 
                     l.dutyCycle = clamp(l.dutyCycle + random.uniform(-0.008,0.008),0.1,0.9)
 
-                    l.period = clamp(l.period + random.uniform(-1.2,1.2),120,1200)
+                    l.period = clamp(l.period + random.uniform(-0.06,0.06),60,300)
 
-                    l.phase = clamp(l.phase + random.uniform(-1.2,1.2),120,1200)
+                    l.phase = clamp(l.phase + random.uniform(-0.06,0.06),60,300)
 
                     l.strength = clamp(l.strength + random.uniform(-(maxstrength-minstrength)/100,(maxstrength-minstrength)/100),minstrength,maxstrength)
         
@@ -199,8 +211,8 @@ class Link():
         self.connected = connected
         self.delta = random.uniform(0.5,2)
         self.dutyCycle = random.uniform(0.1,0.9)
-        self.period = random.uniform(120,1200)
-        self.phase = random.uniform(120,1200)
+        self.period = random.uniform(60,300)
+        self.phase = random.uniform(60,300)
         self.strength = random.uniform(minstrength,maxstrength)
 
 def loadPop(name,gen):

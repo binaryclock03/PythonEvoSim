@@ -2,7 +2,7 @@ import simObjects as so
 import populationManager as pm
 
 testPop = pm.Population("fastTest")
-testPop.addRandomCreatures(10)
+testPop.addRandomCreatures(100)
 testPop.savePop()
 testPop = pm.loadPop("fastTest",0)
 
