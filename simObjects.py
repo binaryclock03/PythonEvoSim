@@ -125,6 +125,7 @@ class Creature(SimObject):
         self.id = id
         self.joints = []
         self.limbs = []
+        self.flat = False
 
     def addJoint(self, position, radius, elasticity, friciton):
         self.joints.append(Joint(position, radius, elasticity, friciton, self.id))
@@ -154,8 +155,12 @@ class Creature(SimObject):
     def update(self):
         for limb in self.limbs:
             limb.update()
-        for joint in self.joints:
-            joint.update()
+        position = 0
+        if not self.flat:
+            for joint in self.joints:
+                position += (joint.body.position[1]-70)
+            if position < 5:
+                self.flat = True
 
     def findFitness(self):
         x, y = 0,0
@@ -163,7 +168,7 @@ class Creature(SimObject):
         for joint in self.joints:
             x += joint.body.position[0]-200
             num += 1
-        return x/num     
+        return x/num, self.flat    
 
 class BackgroundWall(Drawable):
     def __init__(self, point1, point2, thickness, color = (0,100,0)):
@@ -216,27 +221,11 @@ class Sample():
         if graphicsHandler != None:
             graphicsHandler.addToDraw(creature)
 
-    def genRandomSample(self, numToGen, numPoints, space, graphicsHandler = None):
-        for i in range(numToGen):
-            popmanager = pm.CreatureCreator(numPoints, 100, 10)
-            creature = Creature(popmanager.id)
-            points = popmanager.points
-            links = popmanager.links
-            for point in points:
-                a, b = point.pos
-                creature.addJoint((a+200, b+200), 10, point.elasticity, point.friction)
-            for link in links:
-                a, b = link.connected
-                creature.addLimb(a, b, link.delta, link.dutyCycle, link.period, link.phase, link.strength)
-            creature.addToSpace(space)
-            self.creatures.append(creature)
-            if graphicsHandler != None:
-                graphicsHandler.addToDraw(creature)
-    
     def findFitness(self):
         list = []
         for creature in self.creatures:
-            list.append(tuple((creature.id, creature.findFitness())))
+            fit, flat = creature.findFitness()
+            list.append(tuple((creature.id, fit, flat)))
         return list
 
 def only_collide_same(arbiter, space, data):
@@ -325,8 +314,7 @@ def sim(simLength, simPop = None, creatureList = None, graphics = True, FPS = 12
             simRunning = False
             return sample.findFitness()
 
-def fastsim(simLength, creature, TPS = 120):
-    pygame.init()
+def fastsim(simLength, creature, TPS):
     space = pymunk.Space()
     space.gravity = 0, -981
 
