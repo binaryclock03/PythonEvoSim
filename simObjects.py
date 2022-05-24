@@ -1,3 +1,4 @@
+from turtle import back
 from colorama import Back
 import pymunk
 import pygame
@@ -13,6 +14,15 @@ class Drawable():
     
     def draw(self, display, offset):
         pass
+
+class DrawableImage(Drawable):
+    def __init__(self, image, position):
+        self.position = position
+        self.image = image
+
+    def draw(self, display, offset):
+        coords = convert_coordinates(self.position, offset)
+        display.blit(self.image, (coords))
 
 class SimObject(Drawable):
     def __init__(self):
@@ -236,10 +246,12 @@ def only_collide_same(arbiter, space, data):
 
 def sim(simLength, simPop = None, creatureList = None, graphics = True, FPS = 120):
     pygame.init()
+
     clock = pygame.time.Clock()
     space = pymunk.Space()
     if graphics:
         display = pygame.display.set_mode((800,800))
+        pygame.display.set_caption("Python Evolution Simulator")
         graphicsHandler = camera.GraphicsHandler(space, display, FPS)
     else:
         graphicsHandler = None
@@ -251,10 +263,13 @@ def sim(simLength, simPop = None, creatureList = None, graphics = True, FPS = 12
     floor = Wall((-800,10), (8000,10), 100)
     floor.addToSpace(space)
     if graphics:
+        image = pygame.image.load("Graphics\\Background1.png")
+        for i in range(5):
+            background = DrawableImage(image, (i*1600-1600, 800))
+            graphicsHandler.addToDraw(background)
         for i in range(10):
             post = BackgroundWall((i*100,0), (i*100,200), 5, color= (100,100,100))
             graphicsHandler.addToDraw(post)
-
         graphicsHandler.addToDraw(floor)
 
     #generate sample
