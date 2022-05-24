@@ -65,6 +65,8 @@ class Population():
 
         self.addRandomCreatures(originalLen-len(self.creatures))
 
+        self.genNum += 1
+
     def killSpecified(self,toKill):
         for c in self.creatures:
             if c.id in toKill:
@@ -83,7 +85,6 @@ class Population():
                         self.creatures.append(cpy)
         
         #Preform Mutations
-
         for c in self.creatures:
             for c.id in toMutate:
                 for p in c.points:
@@ -109,6 +110,9 @@ class Population():
         f.writelines(jsonpickle.encode(self, indent = 2))
         f.close()
         print("Saving Finished")
+    
+    def getCreatures(self):
+        return self.creatures
     
 class CreatureCreator():
     def __init__(self,numPoints,scale,radius,id = 0):
@@ -178,6 +182,11 @@ def loadPop(name,gen):
     global loadedPop
     loadedPop = jsonpickle.decode(f.read())
     f.close()
+    print("Pop: " + name + ", Gen: " + str(gen) + " loaded")
+    return loadedPop
+
+def initNewPop(name):
+    loadedPop = Population(name)
 
 def clamp(num, min_value, max_value):
         num = max(min(num, max_value), min_value)
