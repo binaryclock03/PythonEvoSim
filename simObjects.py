@@ -1,5 +1,3 @@
-from turtle import back
-from colorama import Back
 import pymunk
 import pygame
 import populationManager as pm
