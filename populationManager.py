@@ -38,7 +38,7 @@ class Population():
         print("Saving Finished")
     
 class CreatureCreator():
-    def __init__(self,numPoints,scale,radius,id):
+    def __init__(self,numPoints,scale,radius,id = None):
         if numPoints < 3:
             self.numPoints = random.randrange(3,10)
         else:
