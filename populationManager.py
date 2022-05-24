@@ -33,9 +33,7 @@ class Population():
 
     def savePop(self):
         f = open("Populations\\" + self.popName + "_Gen_ " + str(self.genNum) + ".json", 'w+')
-        #f = open("test.json","a")
-        thing = str(jsonpickle.encode(self, indent = 2))
-        f.writelines(thing)
+        f.writelines(jsonpickle.encode(self, indent = 2))
         f.close()
         print("Saving Finished")
     
