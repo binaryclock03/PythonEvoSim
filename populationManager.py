@@ -199,9 +199,9 @@ class Population():
                             for y in range(x+1,(len(c.points))):
                                 availableConnections.append((x,y))
                                 
-                    for conection in c.links:
-                        if conection in availableConnections:
-                            availableConnections.remove(connection)
+                    for connection in c.links:
+                        if connection.connected in availableConnections:
+                            availableConnections.remove(connection.connected)
 
                     if coin2 < 0.3:
                         c.links.remove(random.choice(c.links))
