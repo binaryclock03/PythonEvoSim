@@ -173,6 +173,17 @@ class Population():
     def getCreatures(self):
         return self.creatures
     
+    def getBestCreature(self):
+        for c in self.creatures:
+            if self.topFitness == c.fitness:
+                return c.id
+
+    def getMedianCreature(self):
+        for c in self.creatures:
+            if self.medianFitness == c.fitness:
+                return c.id
+
+    
 class CreatureCreator():
     def __init__(self,numPoints,scale,radius,id = 0):
         if numPoints < 3:
