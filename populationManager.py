@@ -1,3 +1,4 @@
+from operator import pos
 import jsonpickle
 import pickle
 import random
@@ -31,6 +32,102 @@ class Population():
         for i in range(amount):
             self.creatures.append(CreatureCreator(random.randrange(3,8),scale,radius,self.lastId))
             self.lastId += 1
+
+    def linkMutation(self,creature):
+        coin = random.random()
+
+        availableConnections = []
+            
+        #Find all possible connections
+        for x in range(len(creature.points)):
+                for y in range(x+1,(len(creature.points))):
+                    availableConnections.append((x,y))
+
+        #Find empty connections           
+        for connection in creature.links:
+            if connection.connected in availableConnections:
+                availableConnections.remove(connection.connected)
+        
+
+        if coin > 0.5 and len(availableConnections) > 0:
+            #Replace Link
+            #print('Replaced Link')
+            creature.links.remove(random.choice(creature.links))
+            creature.links.append(Link(random.choice(availableConnections)))
+        elif coin > 0.25 and len(availableConnections) > 0:
+            #Make new Link
+            #print('Added New Link')
+            creature.links.append(Link(random.choice(availableConnections)))
+        elif coin < 0.25:
+            #Remove Random Link
+            #print('Removed Link')
+            creature.links.remove(random.choice(creature.links))
+
+    def pointMutation(self,creature):
+
+        possibleMergingPairs = []
+        
+        merger = None
+        mergee = None
+
+        for p in creature.points:
+                    #Finds the distance of other points to the current point 'p' and valid merging pairs.
+            for t in creature.points:
+                if p != t:
+                    distance = sqrt((p.pos[0]-t.pos[0])**2 + (p.pos[1]-t.pos[1])**2)
+                    if distance < creature.scale/10:
+                        possibleMergingPairs.append(((p,t)))
+                        if not (set(creature.getConnectedPoints(t)).issubset(set(creature.getConnectedPoints(p))) or set(creature.getConnectedPoints(p)).issubset(set(creature.getConnectedPoints(t)))):
+                            possibleMergingPairs.remove((p,t))
+                    
+        #Pick random valid merging pair
+        if len(possibleMergingPairs) > 0:
+            
+            mergingPair = random.choice(possibleMergingPairs)
+            #Determine merger and mergee
+            if set(creature.getConnectedPoints(mergingPair[1])).issubset(set(creature.getConnectedPoints(mergingPair[0]))):
+                merger = mergingPair[0]
+                mergee = mergingPair[1]
+            elif set(creature.getConnectedPoints(mergingPair[0])).issubset(set(creature.getConnectedPoints(mergingPair[1]))):
+                merger = mergingPair[1]
+                mergee = mergingPair[0]
+        
+            #Average the properties of both points and give it to merger
+            merger.pos = ((merger.pos[0]+mergee.pos[0])/2,(merger.pos[1]+mergee.pos[1])/2) 
+            merger.friction = (merger.friction + mergee.friction)/2
+            merger.elasticity = (merger.elasticity + mergee.elasticity)/2
+
+            #Averge the properties of links that will be merged into its counter part connected to merger
+            commonPoints = list(set(creature.getConnectedPoints(merger)).intersection(set(creature.getConnectedPoints(mergee))))
+            mergerLinks = creature.getLinksOfPoint(merger)
+            mergeeLinks = creature.getLinksOfPoint(mergee)
+            mergeeIndex = creature.points.index(mergee)
+
+            # for l in range(len(mergeeLinks)):
+            #     mergerLinks[l].delta = (mergerLinks[l].delta + mergeeLinks[l].delta)/2
+            #     mergerLinks[l].dutyCycle = (mergerLinks[l].dutyCycle + mergeeLinks[l].dutyCycle)/2
+            #     mergerLinks[l].period = (mergerLinks[l].period + mergeeLinks[l].period)/2
+            #     mergerLinks[l].phase = (mergerLinks[l].phase + mergeeLinks[l].phase)/2
+            #     mergerLinks[l].strength = (mergerLinks[l].strength + mergeeLinks[l].strength)/2
+
+            #Remove mergee and its links
+            creature.points.remove(mergee)
+            for l in mergeeLinks:
+                creature.links.remove(l)
+            
+            #Rebuild Creature
+            for l in creature.links:
+                if l.connected[0] > mergeeIndex:
+                    l.connected = (l.connected[0] - 1,l.connected[1])                  
+                if l.connected[1] > mergeeIndex:
+                    l.connected = (l.connected[0],l.connected[1]- 1)
+
+        elif random.random() > 0.5:
+            #Add New Point
+            pass
+        else:
+            #Remove Random Point
+            pass
                 
     def nextGenertation(self,simResults):
 
@@ -49,8 +146,7 @@ class Population():
 
         simResults.sort(key=sortFunc)
 
-    #Start of mess
-        
+    
         self.topFitness = simResults[-1][1]
 
         sum = 0
@@ -67,6 +163,8 @@ class Population():
         bottom = floor(len(simResults)/2)
 
         self.medianFitness = simResults[bottom][1]
+
+    #Start of mess
 
         for c in range(bottom):
             toKill.append(simResults[c][0])
@@ -145,16 +243,12 @@ class Population():
         self.creatures.extend(tempCreatures)
         toMutate.extend(tempToMutate)
 
-        #Preform Mutations
+        #Preform Basic Mutations
         for c in self.creatures:
             if c.id in toMutate:
                 c.id = self.lastId
                 self.lastId += 1
-                
-                pointPosList = []
-                
-                coin1 = random.random()
-                
+                                
                 for p in c.points:
                     p.pos = (clamp(p.pos[0]+random.uniform(-1,1),0,c.scale*1.5),clamp(p.pos[1]+random.uniform(-1,1),0,c.scale*1.5))
                     
@@ -162,22 +256,6 @@ class Population():
                     
                     p.elasticity = clamp(p.elasticity + random.uniform(-1,1),0,1)
 
-                    pointPosList.append(p.pos)
-                    
-                    #Check for possible point merge
-
-                    merger = None
-                    mergee = None
-
-                    #Finds Points that are close enough, is kinda wierd so it plays nice with the link generation
-                    if coin1 > 0.9:
-                        for t in range(c.points.index(p)+1,(len(c.points))):
-                            distance = sqrt((p.pos[0]-c.points[t].pos[0])**2+(p.pos[1]-c.points[t].pos[1])**2)
-                            if distance < 15:
-                                newPos = ((p.pos[0]+c.points[t].pos[0])/2,(p.pos[1]+c.points[t].pos[1])/2)
-                                merger = c.points.index(p)
-                                mergee = t
-                                
                 for l in c.links:
                 
                     l.delta = clamp(l.delta + random.uniform(-0.015,0.015),0.5,2)
@@ -189,30 +267,12 @@ class Population():
                     l.phase = clamp(l.phase + random.uniform(-0.06,0.06),10,120)
 
                     l.strength = clamp(l.strength + random.uniform(-(maxstrength-minstrength)/100,(maxstrength-minstrength)/100),minstrength,maxstrength)
-        
-                coin2 = random.random()
-                coin3 = random.random()
 
-                if coin3 < 0.05:
-                    availableConnections = []
-                    
-                    for x in range(len(c.points)):
-                            for y in range(x+1,(len(c.points))):
-                                availableConnections.append((x,y))
-                                
-                    for connection in c.links:
-                        if connection.connected in availableConnections:
-                            availableConnections.remove(connection.connected)
-
-                    if coin2 < 0.3:
-                        c.links.remove(random.choice(c.links))
-
-                    if len(availableConnections) > 0:    
-                        c.links.append(Link(random.choice(availableConnections)))
-                
-                elif coin2 < 0.5 and coin2 > 0.4:
-                    c.links.remove(random.choice(c.links))
-                    
+                if random.random() < 0.05:
+                    if random.random() < 0.5:
+                        self.pointMutation(c)
+                    else:
+                        self.linkMutation(c)
 
     def savePopJson(self):
         f = open("Populations\\"+ self.popName + "_Gen_" + str(self.genNum) + ".json", 'w+')
@@ -308,12 +368,29 @@ class CreatureCreator():
         for l in self.links:
             if l.connected == connected:
                 return l
-            
+    def getLinksOfPoint(self,point):
+        connectedLinks = []
+        for l in self.links:
+            if self.points.index(point) in l.connected:
+                connectedLinks.append(l)
+        return connectedLinks
+    
+    def getConnectedPoints(self,point):
+        connectedPoints = []
+        for l in self.links:
+            if self.points.index(point) in l.connected:
+                if self.points.index(point) == l.connected[0]:
+                    connectedPoints.append(l.connected[1])
+                else:
+                    connectedPoints.append(l.connected[0])
+        return connectedPoints
+
 class Point():
     def __init__(self,pos):
         self.pos = pos
         self.friction = random.random()
         self.elasticity = random.random()
+
 
 class Link():
     def __init__(self,connected):
