@@ -120,11 +120,19 @@ class Limb(PhysicsObject):
         pygame.draw.line(display, color, coord, coord2, thickness)
 
 class Creature(SimObject):
-    def __init__(self, id):
+    def __init__(self, popmanager):
         super().__init__()
-        self.id = id
+        self.id = popmanager.id
         self.joints = []
         self.limbs = []
+        points = popmanager.points
+        links = popmanager.links
+        for point in points:
+            a, b = point.pos
+            self.addJoint((a+200, b+200), 10, point.elasticity, point.friction)
+        for link in links:
+            a, b = link.connected
+            self.addLimb(a, b, link.delta, link.dutyCycle, link.period, link.phase, link.strength)
 
     def addJoint(self, position, radius, elasticity, friciton):
         self.joints.append(Joint(position, radius, elasticity, friciton, self.id))
@@ -202,17 +210,8 @@ class Sample():
         self.creatures = []
     
     def addCreature(self, popmanager, space, graphicsHandler = None):
-        creature = Creature(popmanager.id)
-        points = popmanager.points
-        links = popmanager.links
-        for point in points:
-            a, b = point.pos
-            creature.addJoint((a+200, b+200), 10, point.elasticity, point.friction)
-        for link in links:
-            a, b = link.connected
-            creature.addLimb(a, b, link.delta, link.dutyCycle, link.period, link.phase, link.strength)
+        creature = Creature(popmanager)
         creature.addToSpace(space)
-        self.creatures.append(creature)
         if graphicsHandler != None:
             graphicsHandler.addToDraw(creature)
 
@@ -221,6 +220,19 @@ class Sample():
         for creature in self.creatures:
             list.append(creature.findFitness())
         return list
+
+class Sample1():
+    def __init__(self, popmanager, space):
+        creature = Creature(popmanager)
+        creature.addToSpace(space)
+        self.creature = creature
+
+    def update(self):
+        self.creature.update()
+
+    def findFitness(self):
+        return self.creature.findFitness()
+
 
 def only_collide_same(arbiter, space, data):
     a, b = arbiter.shapes
@@ -308,7 +320,7 @@ def sim(simLength, simPop = None, creatureList = None, graphics = True, FPS = 12
             simRunning = False
             return sample.findFitness()
 
-def fastsim(simLength, creature, TPS):
+def fastsimthing(simLength, popmanager, TPS):
     space = pymunk.Space()
     space.gravity = 0, -981
 
@@ -317,22 +329,22 @@ def fastsim(simLength, creature, TPS):
     floor.addToSpace(space)
 
     #define sim clock and set sim to true
-    sample = Sample()
-    sample.addCreature(creature, space)
+    creature = Creature(popmanager)
+    creature.addToSpace(space)
     simClock = 0
     while True:    
-        sample.update()
+        creature.update()
         space.step(1/TPS)
         simClock += 1
         if simClock >= simLength*TPS:
-            return sample.findFitness()
+            return creature.findFitness()
 
-def fastsimthing(simLength, creatureList, TPS = 120):
+def fastsim(simLength, creatureList, TPS = 60):
     startTime = time.time()
     fitnessList = []
     for x, creature in enumerate(creatureList):
-        fitness = fastsim(simLength, creature, TPS)
-        fitnessList.append(fitness[0])
+        fitness = fastsimthing(simLength, creature, TPS)
+        fitnessList.append(fitness)
         #print("finished creature " + str(x) + " with " + str(fitness))
     endTime = time.time()
     print ("Elapsed time for generation: " + str(endTime - startTime))
