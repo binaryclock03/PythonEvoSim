@@ -7,7 +7,7 @@ def runPlayback(*args):
     if not simRunning.get():
         simRunning.set(True)
         try:
-            testPop = pm.loadPop("fastTest", genNumber.get())
+            testPop = pm.loadPop(genName.get(), genNumber.get())
             simRunning.set(so.playback(0, testPop.creatures))
         except:
             print("something went wrong with the sim")
