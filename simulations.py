@@ -38,15 +38,14 @@ def playback(simLength, creatureList, FPS = 60):
     floor.addToSpace(space)
 
     #generate sample
-    sample = so.Sample()
+    sample = so.Sample(showStats = True)
     for creature in creatureList:
         sample.addCreature(creature, space, graphicsHandler)
 
     graphicsHandler.addToDraw(floor, layer="fg")
 
     #make hud
-    #seconds
-    secondsCounter = so.DrawableDynText((100,700))
+    secondsCounter = so.DrawableDynText((50,750), "clock")
     graphicsHandler.addToDraw(secondsCounter, layer="hd")
     graphicsHandler.addToDynamics(secondsCounter)
 
@@ -79,7 +78,7 @@ def playback(simLength, creatureList, FPS = 60):
         display.fill((255,255,255))
 
         #run graphics handler draw
-        graphicsHandler.update(string = str(round(simClock/FPS,2)))
+        graphicsHandler.update(clock = str(round(simClock/FPS,2)))
         graphicsHandler.drawAll(sample)
 
         #update display, run clock stuff
