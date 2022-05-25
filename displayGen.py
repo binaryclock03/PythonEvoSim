@@ -1,5 +1,5 @@
 import simObjects as so
 import populationManager as pm
 
-testPop = pm.loadPop("fastTest", 99)
-so.sim(30,creatureList=testPop.creatures)
+testPop = pm.loadPop("fastTest", 5)
+so.playback(30, testPop.creatures)

@@ -209,11 +209,11 @@ class Sample():
             creature.kill(space)
         self.creatures = []
     
-    def addCreature(self, popmanager, space, graphicsHandler = None):
+    def addCreature(self, popmanager, space, graphicsHandler):
         creature = Creature(popmanager)
+        self.creatures.append(creature)
         creature.addToSpace(space)
-        if graphicsHandler != None:
-            graphicsHandler.addToDraw(creature)
+        graphicsHandler.addToDraw(creature)
 
     def findFitness(self):
         list = []
@@ -221,62 +221,38 @@ class Sample():
             list.append(creature.findFitness())
         return list
 
-class Sample1():
-    def __init__(self, popmanager, space):
-        creature = Creature(popmanager)
-        creature.addToSpace(space)
-        self.creature = creature
-
-    def update(self):
-        self.creature.update()
-
-    def findFitness(self):
-        return self.creature.findFitness()
-
-
 def only_collide_same(arbiter, space, data):
     a, b = arbiter.shapes
     return False
     #return a.pair_index == b.pair_index
 
-def sim(simLength, simPop = None, creatureList = None, graphics = True, FPS = 120):
+def playback(simLength, creatureList, FPS = 60):
+    #initial setup stuff
     pygame.init()
-
     clock = pygame.time.Clock()
     space = pymunk.Space()
-    if graphics:
-        display = pygame.display.set_mode((800,800))
-        pygame.display.set_caption("Python Evolution Simulator")
-        graphicsHandler = camera.GraphicsHandler(space, display, FPS)
-    else:
-        graphicsHandler = None
+    display = pygame.display.set_mode((800,800))
+    pygame.display.set_caption("Python Evolution Simulator")
+    graphicsHandler = camera.GraphicsHandler(space, display, FPS)
     space.gravity = 0, -981
 
-    creatures = []
-
     #construct stage
+    image = pygame.image.load("Graphics\\Background1.png")
+    for i in range(10):
+        background = DrawableImage(image, (i*1600-1600, 800))
+        graphicsHandler.addToDraw(background)
+    for i in range(50):
+        post = BackgroundWall((i*250,0), (i*250,100), 5, color= (100,100,100))
+        graphicsHandler.addToDraw(post)
+
     floor = Wall((-800,10), (8000,10), 100)
     floor.addToSpace(space)
-    if graphics:
-        image = pygame.image.load("Graphics\\Background1.png")
-        for i in range(5):
-            background = DrawableImage(image, (i*1600-1600, 800))
-            graphicsHandler.addToDraw(background)
-        for i in range(10):
-            post = BackgroundWall((i*250,0), (i*250,100), 5, color= (100,100,100))
-            graphicsHandler.addToDraw(post)
-        graphicsHandler.addToDraw(floor)
+    graphicsHandler.addToDraw(floor)
 
     #generate sample
     sample = Sample()
-    if simPop == None and creatureList == None:
-        print("nothing to sim!")
-        return
-    elif simPop == None:
-        for creature in creatureList:
-            sample.addCreature(creature, space, graphicsHandler)
-    elif creatureList == None:
-        sample.genRandomSample(simPop, 5, space, graphicsHandler)
+    for creature in creatureList:
+        sample.addCreature(creature, space, graphicsHandler)
 
     #define sim clock and set sim to true
     simClock = 0
@@ -289,38 +265,37 @@ def sim(simLength, simPop = None, creatureList = None, graphics = True, FPS = 12
     #main sim loop
     while True:
         #event handler thing
-        if graphics:
-            pressed = pygame.key.get_pressed()
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    return
-                if event.type == pygame.KEYDOWN:
-                    if pressed[pygame.K_l]:
-                        graphicsHandler.lockFirst()
-            if pressed[pygame.K_LEFT]:
-                graphicsHandler.panCameraLeft()
-            if pressed[pygame.K_RIGHT]:
-                graphicsHandler.panCameraRight()
-
-            #draw white background
-            display.fill((255,255,255))
-
-            #run graphics handler draw
-            graphicsHandler.drawAll(sample)
-
-            #update display, run clock stuff
-            pygame.display.update()
-            clock.tick(FPS)
         
+        pressed = pygame.key.get_pressed()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return
+            if event.type == pygame.KEYDOWN:
+                if pressed[pygame.K_l]:
+                    graphicsHandler.lockFirst()
+        if pressed[pygame.K_LEFT]:
+            graphicsHandler.panCameraLeft()
+        if pressed[pygame.K_RIGHT]:
+            graphicsHandler.panCameraRight()
+
+        #draw white background
+        display.fill((255,255,255))
+
+        #run graphics handler draw
+        graphicsHandler.drawAll(sample)
+
+        #update display, run clock stuff
+        pygame.display.update()
+        clock.tick(FPS)
         sample.update()
         space.step(1/FPS)
         simClock += 1
         if simClock >= simLength*FPS and simRunning == True:
             pygame.quit()
             simRunning = False
-            return sample.findFitness()
+            return
 
-def fastsimthing(simLength, popmanager, TPS):
+def fastsimHelper(simLength, popmanager, TPS):
     space = pymunk.Space()
     space.gravity = 0, -981
 
@@ -343,7 +318,7 @@ def fastsim(simLength, creatureList, TPS = 60):
     startTime = time.time()
     fitnessList = []
     for x, creature in enumerate(creatureList):
-        fitness = fastsimthing(simLength, creature, TPS)
+        fitness = fastsimHelper(simLength, creature, TPS)
         fitnessList.append(fitness)
         #print("finished creature " + str(x) + " with " + str(fitness))
     endTime = time.time()
