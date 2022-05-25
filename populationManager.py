@@ -246,17 +246,14 @@ class Population():
     def getPreview(self):
         self.sortCreatures()
         sample = []
-        
+
         for x in range(0,len(self.creatures),len(self.creatures)//4):
             sample.append(self.creatures[x])
-        for x in range(len(self.creatures)-10,len(self.creatures)-1):
+        for x in range(len(self.creatures)-1,len(self.creatures)-10,-1):
             sample.append(self.creatures[x])
 
         return sample
 
-
-
-    
 class CreatureCreator():
     def __init__(self,numPoints,scale,radius,id = 0):
         if numPoints < 3:
