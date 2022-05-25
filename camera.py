@@ -11,7 +11,7 @@ class GraphicsHandler():
         self.space = space
         self.display = display
         self.thingsToDraw = []
-        self.mode = 0
+        self.mode = 1
         #0 = free cam
         #1 = locked first
     
@@ -24,7 +24,6 @@ class GraphicsHandler():
             self.offset += self.speed
 
     def lockFirst(self):
-        print("toggling lock")
         if self.mode != 1:
             self.mode = 1
         else:

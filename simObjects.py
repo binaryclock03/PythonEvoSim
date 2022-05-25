@@ -293,7 +293,7 @@ def playback(simLength, creatureList, FPS = 60):
         sample.update()
         space.step(1/FPS)
         simClock += 1
-        if simClock >= simLength*FPS and simRunning == True:
+        if simLength != 0 and simClock >= simLength*FPS and simRunning == True:
             pygame.quit()
             simRunning = False
             return
