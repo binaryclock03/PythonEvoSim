@@ -1,5 +1,6 @@
 import simObjects as so
 import populationManager as pm
+import simulations as sim
 
-testPop = pm.loadPop("fastTest", 10)
-so.playback(0, testPop.creatures)
+testPop = pm.loadPop("LongTest", 1000)
+sim.playback(0, testPop.creatures)

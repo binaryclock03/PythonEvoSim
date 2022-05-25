@@ -2,13 +2,14 @@ from tkinter import *
 from tkinter import ttk
 import simObjects as so
 import populationManager as pm
+import simulations as sim
 
 def runPlayback(*args):
     if not simRunning.get():
         simRunning.set(True)
         try:
             testPop = pm.loadPop(popName.get(), genNumber.get())
-            simRunning.set(so.playback(0, testPop.creatures))
+            simRunning.set(sim.playback(0, testPop.creatures))
         except:
             print("something went wrong with the sim")
             simRunning.set(False)
@@ -18,7 +19,7 @@ def showCreatures(*args):
         simRunning.set(True)
         try:
             testPop = pm.loadPop(popName.get(), genNumber.get())
-            simRunning.set(so.showCreatures(0, testPop.creatures))
+            simRunning.set(sim.showCreatures(0, testPop.creatures))
         except:
             print("something went wrong with the sim")
             simRunning.set(False)
