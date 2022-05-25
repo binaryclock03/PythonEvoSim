@@ -1,3 +1,4 @@
+import math
 import os
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import time
@@ -214,8 +215,8 @@ class Sample():
             creature.kill(space)
         self.creatures = []
     
-    def addCreature(self, popmanager, space, graphicsHandler , pos = (200,200)):
-        creature = Creature(popmanager, pos = pos)
+    def addCreature(self, popmanager, space, graphicsHandler , pos = (200,200), scale = 1):
+        creature = Creature(popmanager, pos = pos, scale = scale)
         self.creatures.append(creature)
         creature.addToSpace(space)
         graphicsHandler.addToDraw(creature)
@@ -306,18 +307,20 @@ def showCreatures(simLength, creatureList, FPS = 60):
     pygame.init()
     clock = pygame.time.Clock()
     space = pymunk.Space()
-    display = pygame.display.set_mode((1000,1000))
+    display = pygame.display.set_mode((800,800))
     pygame.display.set_caption("Python Evolution Simulator")
     graphicsHandler = camera.GraphicsHandler(space, display, FPS)
     space.gravity = 0, 0
 
     #generate sample
     sample = Sample()
-    numPerRow = 5
+    scale = 0.4
+    buffer = 150 * scale
+    numPerRow = 10
     for i, creature in enumerate(creatureList):
-        x = ((1000-200)/numPerRow)*(i%numPerRow) + 200
-        y = ((1000-200)/numPerRow)*(i//numPerRow) + 200
-        sample.addCreature(creature, space, graphicsHandler, pos = (x, y))
+        x =      ((800-(buffer))/numPerRow)*(i%numPerRow) + buffer
+        y = 800-(((800-(buffer))/numPerRow)*(i//numPerRow) + buffer)
+        sample.addCreature(creature, space, graphicsHandler, pos = (x, y), scale = scale)
 
     #define sim clock and set sim to true
     simClock = 0
