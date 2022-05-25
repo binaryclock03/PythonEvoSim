@@ -23,6 +23,19 @@ class DrawableImage(Drawable):
         coords = convert_coordinates(self.position, offset)
         display.blit(self.image, (coords))
 
+class DrawableText(Drawable):
+    def __init__(self, string, position, color = (0,0,0)):
+        self.position = position
+        font = pygame.font.Font('freesansbold.ttf', 32)
+        self.text = font.render(string, True, color)
+        self.textRect = self.text.get_rect()
+
+    def draw(self, display, offset):
+        coords = convert_coordinates(self.position, offset)
+        self.textRect.center = coords
+        display.blit(self.text, self.textRect)
+
+
 class SimObject(Drawable):
     def __init__(self):
         super().__init__()

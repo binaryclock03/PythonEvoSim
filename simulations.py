@@ -1,4 +1,5 @@
 import os
+from matplotlib.pyplot import draw
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
 import pymunk
@@ -29,6 +30,8 @@ def playback(simLength, creatureList, FPS = 60):
     for i in range(50):
         post = so.BackgroundWall((i*250,0), (i*250,100), 5, color= (100,100,100))
         graphicsHandler.addToDraw(post)
+        number = so.DrawableText(str(i*250), (i*250,100))
+        graphicsHandler.addToDraw(number)
 
     floor = so.Wall((-800,10), (80000,10), 100)
     floor.addToSpace(space)

@@ -7,10 +7,11 @@ class GraphicsHandler():
         self.fps = fps
         self.space = space
         self.display = display
-        self.thingsToDraw = []
         self.mode = 1
         #0 = free cam
         #1 = locked first
+
+        self.thingsToDraw = []
     
     def panCameraRight(self):
         if self.mode == 0:
