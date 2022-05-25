@@ -123,16 +123,18 @@ class Limb(PhysicsObject):
         pygame.draw.line(display, color, coord, coord2, thickness)
 
 class Creature(SimObject):
-    def __init__(self, popmanager):
+    def __init__(self, popmanager, pos = (200,200), scale = 1):
         super().__init__()
         self.id = popmanager.id
         self.joints = []
         self.limbs = []
+        self.scale = scale
+        self.spawnPos = pos
         points = popmanager.points
         links = popmanager.links
         for point in points:
             a, b = point.pos
-            self.addJoint((a+200, b+200), 10, point.elasticity, point.friction)
+            self.addJoint(((a*scale)+self.spawnPos[0], (b*scale)+self.spawnPos[1]), 10*scale, point.elasticity, point.friction)
         for link in links:
             a, b = link.connected
             self.addLimb(a, b, link.delta, link.dutyCycle, link.period, link.phase, link.strength)
@@ -171,7 +173,7 @@ class Creature(SimObject):
         num = 0
         for joint in self.joints:
             xtemp, ytemp = joint.body.position
-            x += (xtemp-200)
+            x += (xtemp-self.spawnPos[0])
             y += (ytemp-70)
             num += 1
         return self.id, x/num, y<5
@@ -212,8 +214,8 @@ class Sample():
             creature.kill(space)
         self.creatures = []
     
-    def addCreature(self, popmanager, space, graphicsHandler):
-        creature = Creature(popmanager)
+    def addCreature(self, popmanager, space, graphicsHandler , pos = (200,200)):
+        creature = Creature(popmanager, pos = pos)
         self.creatures.append(creature)
         creature.addToSpace(space)
         graphicsHandler.addToDraw(creature)
@@ -292,6 +294,58 @@ def playback(simLength, creatureList, FPS = 60):
         pygame.display.update()
         clock.tick(FPS)
         sample.update()
+        space.step(1/FPS)
+        simClock += 1
+        if simLength != 0 and simClock >= simLength*FPS and simRunning == True:
+            pygame.quit()
+            simRunning = False
+            return False
+
+def showCreatures(simLength, creatureList, FPS = 60):
+    #initial setup stuff
+    pygame.init()
+    clock = pygame.time.Clock()
+    space = pymunk.Space()
+    display = pygame.display.set_mode((1000,1000))
+    pygame.display.set_caption("Python Evolution Simulator")
+    graphicsHandler = camera.GraphicsHandler(space, display, FPS)
+    space.gravity = 0, 0
+
+    #generate sample
+    sample = Sample()
+    numPerRow = 5
+    for i, creature in enumerate(creatureList):
+        x = ((1000-200)/numPerRow)*(i%numPerRow) + 200
+        y = ((1000-200)/numPerRow)*(i//numPerRow) + 200
+        sample.addCreature(creature, space, graphicsHandler, pos = (x, y))
+
+    #define sim clock and set sim to true
+    simClock = 0
+    simRunning = True
+
+    #collision handler
+    handler = space.add_collision_handler(2, 2)
+    handler.begin = only_collide_same
+
+    #main sim loop
+    while True:
+        #event handler thing
+        pressed = pygame.key.get_pressed()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                return False
+
+        #draw white background
+        display.fill((50,100,50))
+
+        #run graphics handler draw
+        graphicsHandler.drawAll(sample)
+
+        #update display, run clock stuff
+        pygame.display.update()
+        clock.tick(FPS)
+        #sample.update()
         space.step(1/FPS)
         simClock += 1
         if simLength != 0 and simClock >= simLength*FPS and simRunning == True:
