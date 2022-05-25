@@ -37,6 +37,16 @@ class Population():
                 
     def nextGenertation(self,simResults):
 
+        for c in self.creatures:
+            for cc in simResults:
+                if cc[0] == c.id:
+                    c.fitness = cc[1]
+
+        fitnessList = []
+
+        for c in simResults:
+            fitnessList.append(c[1])            
+
         toKill = []
         toMutate = []
 
@@ -96,9 +106,11 @@ class Population():
         summary = "Generation: " + str(self.genNum) + " Avg: " + str(self.avgFitness) + " Best: " + str(self.topFitness) + " Median: " + str(self.medianFitness)
 
         print(summary)
-
-        f = open("Populations\\"+ self.popName + "_summary.cvs", 'w+')
-        csv.writer(f).writerow(summary)
+        if self.genNum == 0:
+             f = open("Populations\\"+ self.popName + "_summary.cvs", 'w+')
+             f.close()
+        f = open("Populations\\"+ self.popName + "_summary.cvs", 'a')
+        csv.writer(f).writerow(fitnessList)
         f.close()
 
         self.genNum += 1
@@ -146,9 +158,9 @@ class Population():
 
                     l.dutyCycle = clamp(l.dutyCycle + random.uniform(-0.008,0.008),0.1,0.9)
 
-                    l.period = clamp(l.period + random.uniform(-0.06,0.06),60,300)
+                    l.period = clamp(l.period + random.uniform(-0.06,0.06),10,60)
 
-                    l.phase = clamp(l.phase + random.uniform(-0.06,0.06),60,300)
+                    l.phase = clamp(l.phase + random.uniform(-0.06,0.06),10,60)
 
                     l.strength = clamp(l.strength + random.uniform(-(maxstrength-minstrength)/100,(maxstrength-minstrength)/100),minstrength,maxstrength)
         
@@ -178,6 +190,8 @@ class CreatureCreator():
         self.points = []
         self.links = []
         tempLinks = []
+
+        self.fitness = 0
 
         #Create List of Points
         for x in range(numPoints):
@@ -220,8 +234,8 @@ class Link():
         self.connected = connected
         self.delta = random.uniform(0.5,2)
         self.dutyCycle = random.uniform(0.1,0.9)
-        self.period = random.uniform(60,300)
-        self.phase = random.uniform(60,300)
+        self.period = random.uniform(10,60)
+        self.phase = random.uniform(10,60)
         self.strength = random.uniform(minstrength,maxstrength)
 
 def loadPop(name,gen):
