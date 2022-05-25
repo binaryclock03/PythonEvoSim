@@ -50,7 +50,7 @@ class GraphicsHandler():
             for item in sample.findFitness():
                 list.append(item[1])
             if len(list)>1:
-                list = list.sort()
+                list.sort(reverse=True)
             list = list[0]
             self.offset = -list
 
