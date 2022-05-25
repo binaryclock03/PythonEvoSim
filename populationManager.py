@@ -1,5 +1,6 @@
 from multiprocessing import connection
 import jsonpickle
+import pickle
 import random
 import copy
 import csv
@@ -150,12 +151,33 @@ class Population():
             if c.id in toMutate:
                 c.id = self.lastId
                 self.lastId += 1
+                
+                pointPosList = []
+                
+                coin1 = random.random()
+                
                 for p in c.points:
                     p.pos = (clamp(p.pos[0]+random.uniform(-1,1),0,c.scale*1.5),clamp(p.pos[1]+random.uniform(-1,1),0,c.scale*1.5))
                     
                     p.fritction = clamp(p.friction + random.uniform(-1,1),0,1)
                     
                     p.elasticity = clamp(p.elasticity + random.uniform(-1,1),0,1)
+
+                    pointPosList.append(p.pos)
+                    
+                    #Check for possible point merge
+
+                    merger = None
+                    mergee = None
+
+                    #Finds Points that are close enough, is kinda wierd because to play nice with the link generation
+                    if coin1 > 0.9:
+                        for t in range(c.points.index(p)+1,(len(c.points))):
+                            distance = sqrt((p.pos[0]-c.points[t].pos[0])**2+(p.pos[1]-c.points[t].pos[1])**2)
+                            if distance < 15:
+                                newPos = ((p.pos[0]+c.points[t].pos[0])/2,(p.pos[1]+c.points[t].pos[1])/2)
+                                merger = c.points.index(p)
+                                mergee = t
                     
                 for l in c.links:
                 
@@ -169,8 +191,8 @@ class Population():
 
                     l.strength = clamp(l.strength + random.uniform(-(maxstrength-minstrength)/100,(maxstrength-minstrength)/100),minstrength,maxstrength)
         
-                coin = random.random()
-                if coin < 0.4:
+                coin2 = random.random()
+                if coin2 < 0.4:
                     availableConnections = []
                     
                     for x in range(len(c.points)):
@@ -181,21 +203,28 @@ class Population():
                         if conection in availableConnections:
                             availableConnections.remove(connection)
 
-                    if coin < 0.3:
+                    if coin2 < 0.3:
                         c.links.remove(random.choice(c.links))
                         
                     c.links.append(Link(random.choice(availableConnections)))
                 
-                elif coin < 0.5 and coin > 0.4:
+                elif coin2 < 0.5 and coin2 > 0.4:
                     c.links.remove(random.choice(c.links))
                     
 
-    def savePop(self):
+    def savePopJson(self):
         f = open("Populations\\"+ self.popName + "_Gen_" + str(self.genNum) + ".json", 'w+')
         f.writelines(jsonpickle.encode(self, indent = 2))
         f.close()
+        print("Saving Json Finished")
+
+    def savePop(self):
+        f = open("Populations\\"+ self.popName + "_Gen_" + str(self.genNum) + ".pickle", 'wb')
+        pickle.dump(self,f)
+        f.close()
         print("Saving Finished")
-    
+
+
     def getCreatures(self):
         return self.creatures
     
@@ -275,13 +304,22 @@ class Link():
         self.phase = random.uniform(10,120)
         self.strength = random.uniform(minstrength,maxstrength)
 
-def loadPop(name,gen):
+def loadPopJson(name,gen):
     f = open("Populations\\"+ name + "_Gen_" + str(gen) + ".json", 'r')
     global loadedPop
     loadedPop = jsonpickle.decode(f.read())
     f.close()
     print("Pop: " + name + ", Gen: " + str(gen) + " loaded")
     return loadedPop
+
+def loadPop(name,gen):
+    f = open("Populations\\"+ name + "_Gen_" + str(gen) + ".json", 'r')
+    global loadedPop
+    loadedPop = pickle.load(f)
+    f.close()
+    print("Pop: " + name + ", Gen: " + str(gen) + " loaded")
+    return loadedPop
+
 
 def initNewPop(name):
     loadedPop = Population(name)
