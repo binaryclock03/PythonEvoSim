@@ -252,7 +252,7 @@ class Population():
                 for p in c.points:
                     p.pos = (clamp(p.pos[0]+random.uniform(-1,1),0,c.scale*1.5),clamp(p.pos[1]+random.uniform(-1,1),0,c.scale*1.5))
                     
-                    p.fritction = clamp(p.friction + random.uniform(-1,1),0,1)
+                    p.fritction = clamp(p.friction + random.uniform(-1,1),0.05,1)
                     
                     p.elasticity = clamp(p.elasticity + random.uniform(-1,1),0,1)
 
