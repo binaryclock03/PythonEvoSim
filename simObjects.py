@@ -197,8 +197,8 @@ class Creature(SimObject):
         
         if self.showStats:
             x = self.findPos()
-            coords = convert_coordinates((x+200, 200), offset)
-            text = self.font.render(str(x), True, (50,50,50))
+            coords = convert_coordinates((x, 200), offset)
+            text = self.font.render(str(x-200), True, (50,50,50))
             textRect = text.get_rect()
             textRect.midleft = coords
             display.blit(text, textRect)
@@ -228,7 +228,7 @@ class Creature(SimObject):
         x = 0
         num = 0
         for joint in self.joints:
-            x += (joint.body.position[0]-self.spawnPos[0])
+            x += (joint.body.position[0])
             num += 1
         return int(x//num)
 

@@ -80,7 +80,7 @@ def playback(simLength, creatureList, FPS = 60):
         #run graphics handler draw
         graphicsHandler.update(clock = str(round(simClock/FPS,2)))
         graphicsHandler.drawAll(sample)
-
+        
         #update display, run clock stuff
         pygame.display.update()
         clock.tick(FPS)
