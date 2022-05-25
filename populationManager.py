@@ -1,4 +1,3 @@
-from multiprocessing import connection
 import jsonpickle
 import pickle
 import random
@@ -240,6 +239,22 @@ class Population():
         for c in self.creatures:
             if self.medianFitness == c.fitness:
                 return c
+    
+    def sortCreatures(self):
+        self.creatures.sort(key=fitnessSortFunc)
+
+    def getPreview(self):
+        self.sortCreatures()
+        sample = []
+        
+        for x in range(0,len(self.creatures),len(self.creatures)//4):
+            sample.append(self.creatures[x])
+        for x in range(len(self.creatures)-10,len(self.creatures)-1):
+            sample.append(self.creatures[x])
+
+        return sample
+
+
 
     
 class CreatureCreator():
@@ -340,3 +355,6 @@ def clamp(num, min_value, max_value):
 
 def sortFunc(e):
     return e[1]
+
+def fitnessSortFunc(e):
+    return e.fitness
