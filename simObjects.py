@@ -1,8 +1,11 @@
+import os
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import time
 import pymunk
 import pygame
 import populationManager as pm
 import camera
+import multiprocessing as mp
 
 def convert_coordinates(point, offset = 0):
     return int(point[0]+offset), int(800-point[1])
@@ -295,7 +298,8 @@ def playback(simLength, creatureList, FPS = 60):
             simRunning = False
             return
 
-def fastsimHelper(simLength, popmanager, TPS):
+def fastsimHelper(batch):
+    simLength, popmanager, TPS = batch
     space = pymunk.Space()
     space.gravity = 0, -981
 
@@ -317,10 +321,12 @@ def fastsimHelper(simLength, popmanager, TPS):
 def fastsim(simLength, creatureList, TPS = 60):
     startTime = time.time()
     fitnessList = []
-    for x, creature in enumerate(creatureList):
-        fitness = fastsimHelper(simLength, creature, TPS)
-        fitnessList.append(fitness)
-        #print("finished creature " + str(x) + " with " + str(fitness))
+    data = []
+    for creature in creatureList:
+        data.append([simLength, creature, TPS])
+    with mp.Pool(mp.cpu_count()) as p:    
+        fitnessbatch = p.map(fastsimHelper, data)
+        fitnessList = fitnessList + fitnessbatch
     endTime = time.time()
-    print ("Elapsed time for generation: " + str(endTime - startTime))
+    print("Elapsed time for generation: " + str(endTime - startTime))
     return fitnessList
