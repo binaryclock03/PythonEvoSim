@@ -5,7 +5,7 @@ import populationManager as pm
 if __name__ == '__main__':
     print("Generating First Population")
     testPop = pm.Population("fastTest")
-    testPop.addRandomCreatures(1000)
+    testPop.addRandomCreatures(10)
     print("Saving First Population")
     testPop.savePop()
 
