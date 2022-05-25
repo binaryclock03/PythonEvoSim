@@ -16,15 +16,16 @@ class Drawable():
 
 class DrawableImage(Drawable):
     def __init__(self, image, position):
+        super().__init__()
         self.position = position
         self.image = image
 
     def draw(self, display, offset):
         coords = convert_coordinates(self.position, offset)
         display.blit(self.image, (coords))
-
 class DrawableText(Drawable):
     def __init__(self, string, position, color = (0,0,0)):
+        super().__init__()
         self.position = position
         font = pygame.font.Font('freesansbold.ttf', 32)
         self.text = font.render(string, True, color)
@@ -35,6 +36,31 @@ class DrawableText(Drawable):
         self.textRect.center = coords
         display.blit(self.text, self.textRect)
 
+class DrawableDynamic(Drawable):
+    def __init__(self):
+        super().__init__()
+
+    def update():
+        pass
+
+class DrawableDynText(DrawableDynamic):
+    def __init__(self, position, color = (0,0,0)):
+        super().__init__()
+        self.position = position
+        self.color = color
+        self.string = "hello world"
+        
+    def draw(self, display, offset):
+        coords = convert_coordinates(self.position, offset)
+        font = pygame.font.Font('freesansbold.ttf', 32)
+        text = font.render(self.string, True, self.color)
+        textRect = text.get_rect()
+        textRect.midleft = coords
+        display.blit(text, textRect)
+    
+    def update(self, kwargs):
+        self.string = kwargs["string"]
+    
 
 class SimObject(Drawable):
     def __init__(self):
@@ -228,7 +254,7 @@ class Sample():
         creature = Creature(popmanager, pos = pos, scale = scale)
         self.creatures.append(creature)
         creature.addToSpace(space)
-        graphicsHandler.addToDraw(creature)
+        graphicsHandler.addToDraw(creature, layer="fg")
 
     def findFitness(self):
         list = []
