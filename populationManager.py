@@ -192,7 +192,9 @@ class Population():
                     l.strength = clamp(l.strength + random.uniform(-(maxstrength-minstrength)/100,(maxstrength-minstrength)/100),minstrength,maxstrength)
         
                 coin2 = random.random()
-                if coin2 < 0.4:
+                coin3 = random.random()
+                
+                if coin3 < 0.2 and coin1 < 0.9:
                     availableConnections = []
                     
                     for x in range(len(c.points)):
