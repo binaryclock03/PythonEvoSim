@@ -105,7 +105,7 @@ class Population():
 
         self.addRandomCreatures(originalLen-len(self.creatures))
 
-        summary = "Generation: " + str(self.genNum) + " Avg: " + str(self.avgFitness) + " Best: " + str(self.topFitness) + " Median: " + str(self.medianFitness)
+        summary = "\nGeneration: " + str(self.genNum) + " Avg: " + str(self.avgFitness) + " Best: " + str(self.topFitness) + " Median: " + str(self.medianFitness)
         print(summary)
 
         if self.genNum == 0:
@@ -170,7 +170,7 @@ class Population():
                     merger = None
                     mergee = None
 
-                    #Finds Points that are close enough, is kinda wierd because to play nice with the link generation
+                    #Finds Points that are close enough, is kinda wierd so it plays nice with the link generation
                     if coin1 > 0.9:
                         for t in range(c.points.index(p)+1,(len(c.points))):
                             distance = sqrt((p.pos[0]-c.points[t].pos[0])**2+(p.pos[1]-c.points[t].pos[1])**2)
@@ -178,7 +178,7 @@ class Population():
                                 newPos = ((p.pos[0]+c.points[t].pos[0])/2,(p.pos[1]+c.points[t].pos[1])/2)
                                 merger = c.points.index(p)
                                 mergee = t
-                    
+                                
                 for l in c.links:
                 
                     l.delta = clamp(l.delta + random.uniform(-0.015,0.015),0.5,2)
@@ -192,21 +192,24 @@ class Population():
                     l.strength = clamp(l.strength + random.uniform(-(maxstrength-minstrength)/100,(maxstrength-minstrength)/100),minstrength,maxstrength)
         
                 coin2 = random.random()
-                if coin2 < 0.4:
+                coin3 = random.random()
+                
+                if coin3 < 0.2 and coin1 < 0.9:
                     availableConnections = []
                     
                     for x in range(len(c.points)):
                             for y in range(x+1,(len(c.points))):
                                 availableConnections.append((x,y))
                                 
-                    for conection in c.links:
-                        if conection in availableConnections:
-                            availableConnections.remove(connection)
+                    for connection in c.links:
+                        if connection.connected in availableConnections:
+                            availableConnections.remove(connection.connected)
 
                     if coin2 < 0.3:
                         c.links.remove(random.choice(c.links))
-                        
-                    c.links.append(Link(random.choice(availableConnections)))
+
+                    if len(availableConnections) > 0:    
+                        c.links.append(Link(random.choice(availableConnections)))
                 
                 elif coin2 < 0.5 and coin2 > 0.4:
                     c.links.remove(random.choice(c.links))
@@ -288,6 +291,11 @@ class CreatureCreator():
         
         for x in tempLinks:
             self.links.append(Link(x))
+        
+    def getLinkByConnection(self,connected):
+        for l in self.links:
+            if l.connected == connected:
+                return l
             
 class Point():
     def __init__(self,pos):
@@ -303,6 +311,8 @@ class Link():
         self.period = random.uniform(10,120)
         self.phase = random.uniform(10,120)
         self.strength = random.uniform(minstrength,maxstrength)
+
+
 
 def loadPopJson(name,gen):
     f = open("Populations\\"+ name + "_Gen_" + str(gen) + ".json", 'r')
