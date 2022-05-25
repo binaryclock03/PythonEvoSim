@@ -158,9 +158,9 @@ class Population():
 
                     l.dutyCycle = clamp(l.dutyCycle + random.uniform(-0.008,0.008),0.1,0.9)
 
-                    l.period = clamp(l.period + random.uniform(-0.06,0.06),10,60)
+                    l.period = clamp(l.period + random.uniform(-0.06,0.06),10,120)
 
-                    l.phase = clamp(l.phase + random.uniform(-0.06,0.06),10,60)
+                    l.phase = clamp(l.phase + random.uniform(-0.06,0.06),10,120)
 
                     l.strength = clamp(l.strength + random.uniform(-(maxstrength-minstrength)/100,(maxstrength-minstrength)/100),minstrength,maxstrength)
         
@@ -234,8 +234,8 @@ class Link():
         self.connected = connected
         self.delta = random.uniform(0.5,2)
         self.dutyCycle = random.uniform(0.1,0.9)
-        self.period = random.uniform(10,60)
-        self.phase = random.uniform(10,60)
+        self.period = random.uniform(10,120)
+        self.phase = random.uniform(10,120)
         self.strength = random.uniform(minstrength,maxstrength)
 
 def loadPop(name,gen):
