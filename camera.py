@@ -6,7 +6,7 @@ class GraphicsHandler():
     def __init__(self, space, display, fps):
         self.clock = 0
         self.offset = 0
-        self.speed = 10
+        self.speed = 15
         self.fps = fps
         self.space = space
         self.display = display
