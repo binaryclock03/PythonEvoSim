@@ -167,9 +167,10 @@ class Creature(SimObject):
         self.scale = scale
         self.spawnPos = pos
         self.showStats = showStats
-        self.font = font = pygame.font.Font('freesansbold.ttf', 20)
         points = popmanager.points
         links = popmanager.links
+        if showStats:
+            self.font = pygame.font.Font('freesansbold.ttf', 20)
         for point in points:
             a, b = point.pos
             self.addJoint(((a*scale)+self.spawnPos[0], (b*scale)+self.spawnPos[1]), 10*scale, point.friction)
