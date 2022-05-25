@@ -24,6 +24,7 @@ class GraphicsHandler():
             self.offset += self.speed
 
     def lockFirst(self):
+        print("toggling lock")
         if self.mode != 1:
             self.mode = 1
         else:
@@ -44,7 +45,14 @@ class GraphicsHandler():
             del self.thingsToDraw[index]
 
     def drawAll(self, sample = None):
-        if self.mode == 1 and not(sample is None):
-            list = sample.findFitness()
+        if self.mode == 1:
+            list = []
+            for item in sample.findFitness():
+                list.append(item[1])
+            if len(list)>1:
+                list = list.sort()
+            list = list[0]
+            self.offset = -list
+
         for drawable in self.thingsToDraw:
             drawable.draw(self.display, self.offset)

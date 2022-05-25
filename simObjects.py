@@ -268,13 +268,13 @@ def playback(simLength, creatureList, FPS = 60):
     #main sim loop
     while True:
         #event handler thing
-        
         pressed = pygame.key.get_pressed()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
             if event.type == pygame.KEYDOWN:
-                if pressed[pygame.K_l]:
+                keydown = pygame.key.get_pressed()
+                if keydown[pygame.K_l]:
                     graphicsHandler.lockFirst()
         if pressed[pygame.K_LEFT]:
             graphicsHandler.panCameraLeft()
@@ -323,7 +323,7 @@ def fastsim(simLength, creatureList, TPS = 60):
     data = []
     for creature in creatureList:
         data.append([simLength, creature, TPS])
-    with mp.Pool(mp.cpu_count()*2) as p:    
+    with mp.Pool(mp.cpu_count()) as p:    
         fitnessbatch = p.map(fastsimHelper, data)
         fitnessList = fitnessList + fitnessbatch
     return fitnessList

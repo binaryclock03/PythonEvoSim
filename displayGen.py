@@ -1,5 +1,5 @@
 import simObjects as so
 import populationManager as pm
 
-testPop = pm.loadPop("LongTest", 3532)
+testPop = pm.loadPop("fastTest", 10)
 so.playback(30, [testPop.getBestCreature()])
