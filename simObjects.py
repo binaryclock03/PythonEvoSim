@@ -245,7 +245,7 @@ def playback(simLength, creatureList, FPS = 60):
         post = BackgroundWall((i*250,0), (i*250,100), 5, color= (100,100,100))
         graphicsHandler.addToDraw(post)
 
-    floor = Wall((-800,10), (8000,10), 100)
+    floor = Wall((-800,10), (80000,10), 100)
     floor.addToSpace(space)
     graphicsHandler.addToDraw(floor)
 
