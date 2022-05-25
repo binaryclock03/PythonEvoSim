@@ -7,10 +7,15 @@ class GraphicsHandler():
         self.fps = fps
         self.space = space
         self.display = display
-        self.thingsToDraw = []
         self.mode = 1
         #0 = free cam
         #1 = locked first
+
+        self.dynamics = []
+
+        self.background = []
+        self.foreground = []
+        self.hud = []
     
     def panCameraRight(self):
         if self.mode == 0:
@@ -26,21 +31,27 @@ class GraphicsHandler():
         else:
             self.mode = 0
 
-    def addToDraw(self, drawable, location = "bot"):
+    def addToDraw(self, drawable, location = "bot", layer = "fg"):
+        dict = {"fg": self.foreground, "bg": self.background, "hd": self.hud}
         if location == "bot":
-            self.thingsToDraw.append(drawable)
+            dict[layer].append(drawable)
         if location == "top":
-            self.thingsToDraw.insert(0, drawable)
+            dict[layer].insert(0, drawable)
 
-    def removeCreatures(self):
+    def addToDynamics(self, drawableDynamic):
+        self.dynamics.append(drawableDynamic)
+
+    def clearLayerOfCreatures(self, layer):
+        dict = {"fg": self.foreground, "bg": self.background, "hd": self.hud}
         thingsToDelete = []
-        for index, drawable in enumerate(self.thingsToDraw):
+        for index, drawable in enumerate(dict[layer]):
             if isinstance(drawable, simObjects.Creature):
                 thingsToDelete.append(index)
         for index in sorted(thingsToDelete, reverse=True):
-            del self.thingsToDraw[index]
+            del dict[layer][index]
 
     def drawAll(self, sample = None):
+        #camera scrolling calculations
         if self.mode == 1:
             list = []
             for item in sample.findFitness():
@@ -48,7 +59,16 @@ class GraphicsHandler():
             if len(list)>1:
                 list.sort(reverse=True)
             list = list[0]
-            self.offset = -list
+            self.offset = -list+200
 
-        for drawable in self.thingsToDraw:
+        #draw layers
+        for drawable in self.background:
             drawable.draw(self.display, self.offset)
+        for drawable in self.foreground:
+            drawable.draw(self.display, self.offset)
+        for drawable in self.hud:
+            drawable.draw(self.display, 0)
+    
+    def update(self, **kwargs):
+        for drawableDynamic in self.dynamics:
+            drawableDynamic.update(kwargs)

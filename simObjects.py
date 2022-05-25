@@ -16,12 +16,52 @@ class Drawable():
 
 class DrawableImage(Drawable):
     def __init__(self, image, position):
+        super().__init__()
         self.position = position
         self.image = image
 
     def draw(self, display, offset):
         coords = convert_coordinates(self.position, offset)
         display.blit(self.image, (coords))
+class DrawableText(Drawable):
+    def __init__(self, string, position, color = (0,0,0)):
+        super().__init__()
+        self.position = position
+        font = pygame.font.Font('freesansbold.ttf', 32)
+        self.text = font.render(string, True, color)
+        self.textRect = self.text.get_rect()
+
+    def draw(self, display, offset):
+        coords = convert_coordinates(self.position, offset)
+        self.textRect.center = coords
+        display.blit(self.text, self.textRect)
+
+class DrawableDynamic(Drawable):
+    def __init__(self):
+        super().__init__()
+
+    def update():
+        pass
+
+class DrawableDynText(DrawableDynamic):
+    def __init__(self, position, key, color = (0,0,0)):
+        super().__init__()
+        self.position = position
+        self.color = color
+        self.string = "hello world"
+        self.key = str(key)
+        
+    def draw(self, display, offset):
+        coords = convert_coordinates(self.position, offset)
+        font = pygame.font.Font('freesansbold.ttf', 32)
+        text = font.render(self.string, True, self.color)
+        textRect = text.get_rect()
+        textRect.midleft = coords
+        display.blit(text, textRect)
+    
+    def update(self, kwargs):
+        self.string = kwargs[self.key]
+    
 
 class SimObject(Drawable):
     def __init__(self):
@@ -62,13 +102,12 @@ class PhysicsObject(SimObject):
         del self
 
 class Joint(PhysicsObject):
-    def __init__(self, position, radius, elasticity, friction, id):
+    def __init__(self, position, radius, friction, id):
         super().__init__()
         self.radius = radius
         self.body = pymunk.Body()
         self.body.position = position
         self.shape = pymunk.Circle(self.body, radius)
-        self.shape.elasticity = elasticity
         self.shape.friction = friction
         self.shape.density = 1
         self.shape.collision_type = 2
@@ -120,24 +159,26 @@ class Limb(PhysicsObject):
         pygame.draw.line(display, color, coord, coord2, thickness)
 
 class Creature(SimObject):
-    def __init__(self, popmanager, pos = (200,200), scale = 1):
+    def __init__(self, popmanager, pos = (200,200), scale = 1, showStats = False):
         super().__init__()
         self.id = popmanager.id
         self.joints = []
         self.limbs = []
         self.scale = scale
         self.spawnPos = pos
+        self.showStats = showStats
+        self.font = font = pygame.font.Font('freesansbold.ttf', 20)
         points = popmanager.points
         links = popmanager.links
         for point in points:
             a, b = point.pos
-            self.addJoint(((a*scale)+self.spawnPos[0], (b*scale)+self.spawnPos[1]), 10*scale, point.elasticity, point.friction)
+            self.addJoint(((a*scale)+self.spawnPos[0], (b*scale)+self.spawnPos[1]), 10*scale, point.friction)
         for link in links:
             a, b = link.connected
             self.addLimb(a, b, link.delta, link.dutyCycle, link.period, link.phase, link.strength)
 
-    def addJoint(self, position, radius, elasticity, friciton):
-        self.joints.append(Joint(position, radius, elasticity, friciton, self.id))
+    def addJoint(self, position, radius, friciton):
+        self.joints.append(Joint(position, radius, friciton, self.id))
 
     def addLimb(self, jointindex1, jointindex2, lengthChangePercent, dutyCycle, peroid, phase, strength):
         self.limbs.append(Limb(self.joints[jointindex1],self.joints[jointindex2], lengthChangePercent, dutyCycle, peroid, phase, strength))
@@ -153,7 +194,15 @@ class Creature(SimObject):
             limb.draw(display, offset)
         for joint in self.joints:
             joint.draw(display, offset)
-    
+        
+        if self.showStats:
+            x = self.findPos()
+            coords = convert_coordinates((x, 200), offset)
+            text = self.font.render(str(x-200), True, (50,50,50))
+            textRect = text.get_rect()
+            textRect.midleft = coords
+            display.blit(text, textRect)
+
     def kill(self, space):
         for limb in self.limbs:
             limb.kill(space)
@@ -173,7 +222,15 @@ class Creature(SimObject):
             x += (xtemp-self.spawnPos[0])
             y += (ytemp-70)
             num += 1
-        return self.id, x/num, y<5
+        return self.id, x//num, y<5
+    
+    def findPos(self):
+        x = 0
+        num = 0
+        for joint in self.joints:
+            x += (joint.body.position[0])
+            num += 1
+        return int(x//num)
 
 class BackgroundWall(Drawable):
     def __init__(self, point1, point2, thickness, color = (0,100,0)):
@@ -197,8 +254,9 @@ class Wall(BackgroundWall, PhysicsObject):
         self.shape.friction = 1
 
 class Sample():
-    def __init__(self):
+    def __init__(self, showStats = False):
         self.creatures = []
+        self.showStats = showStats
 
     def update(self):
         for creature in self.creatures:
@@ -212,10 +270,10 @@ class Sample():
         self.creatures = []
     
     def addCreature(self, popmanager, space, graphicsHandler , pos = (200,200), scale = 1):
-        creature = Creature(popmanager, pos = pos, scale = scale)
+        creature = Creature(popmanager, pos = pos, scale = scale, showStats = self.showStats)
         self.creatures.append(creature)
         creature.addToSpace(space)
-        graphicsHandler.addToDraw(creature)
+        graphicsHandler.addToDraw(creature, layer="fg")
 
     def findFitness(self):
         list = []

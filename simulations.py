@@ -1,4 +1,5 @@
 import os
+from matplotlib.pyplot import draw
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
 import pymunk
@@ -23,21 +24,30 @@ def playback(simLength, creatureList, FPS = 60):
 
     #construct stage
     image = pygame.image.load("Graphics\\Background1.png")
-    for i in range(10):
+    for i in range(20):
         background = so.DrawableImage(image, (i*1600-1600, 800))
-        graphicsHandler.addToDraw(background)
-    for i in range(50):
-        post = so.BackgroundWall((i*250,0), (i*250,100), 5, color= (100,100,100))
-        graphicsHandler.addToDraw(post)
+        graphicsHandler.addToDraw(background, layer = "bg")
+    for i in range(100):
+        x = ((i-5)*250)+200
+        post = so.BackgroundWall((x,0), (x,100), 5, color= (100,100,100))
+        graphicsHandler.addToDraw(post, layer = "bg")
+        number = so.DrawableText(str((i-5)*250), (x,115))
+        graphicsHandler.addToDraw(number, layer="bg")
 
     floor = so.Wall((-800,10), (80000,10), 100)
     floor.addToSpace(space)
-    graphicsHandler.addToDraw(floor)
 
     #generate sample
-    sample = so.Sample()
+    sample = so.Sample(showStats = True)
     for creature in creatureList:
         sample.addCreature(creature, space, graphicsHandler)
+
+    graphicsHandler.addToDraw(floor, layer="fg")
+
+    #make hud
+    secondsCounter = so.DrawableDynText((50,750), "clock")
+    graphicsHandler.addToDraw(secondsCounter, layer="hd")
+    graphicsHandler.addToDynamics(secondsCounter)
 
     #define sim clock and set sim to true
     simClock = 0
@@ -68,8 +78,9 @@ def playback(simLength, creatureList, FPS = 60):
         display.fill((255,255,255))
 
         #run graphics handler draw
+        graphicsHandler.update(clock = str(round(simClock/FPS,2)))
         graphicsHandler.drawAll(sample)
-
+        
         #update display, run clock stuff
         pygame.display.update()
         clock.tick(FPS)
@@ -141,7 +152,7 @@ def fastsimHelper(batch):
     space.gravity = 0, -981
 
     #construct stage
-    floor = so.Wall((-800,10), (8000,10), 100)
+    floor = so.Wall((-800,10), (80000,10), 100)
     floor.addToSpace(space)
 
     #define sim clock and set sim to true
