@@ -193,7 +193,7 @@ class Population():
                 coin2 = random.random()
                 coin3 = random.random()
 
-                if coin3 < 0.1 and coin1 < 0.9:
+                if coin3 < 0.05:
                     availableConnections = []
                     
                     for x in range(len(c.points)):
