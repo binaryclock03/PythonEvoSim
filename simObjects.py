@@ -319,14 +319,11 @@ def fastsimHelper(batch):
             return creature.findFitness()
 
 def fastsim(simLength, creatureList, TPS = 60):
-    startTime = time.time()
     fitnessList = []
     data = []
     for creature in creatureList:
         data.append([simLength, creature, TPS])
-    with mp.Pool(mp.cpu_count()) as p:    
+    with mp.Pool(mp.cpu_count()*2) as p:    
         fitnessbatch = p.map(fastsimHelper, data)
         fitnessList = fitnessList + fitnessbatch
-    endTime = time.time()
-    print("Elapsed time for generation: " + str(endTime - startTime))
     return fitnessList
