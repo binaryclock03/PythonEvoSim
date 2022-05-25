@@ -205,8 +205,9 @@ class Population():
 
                     if coin2 < 0.3:
                         c.links.remove(random.choice(c.links))
-                        
-                    c.links.append(Link(random.choice(availableConnections)))
+
+                    if len(availableConnections) > 0:    
+                        c.links.append(Link(random.choice(availableConnections)))
                 
                 elif coin2 < 0.5 and coin2 > 0.4:
                     c.links.remove(random.choice(c.links))
