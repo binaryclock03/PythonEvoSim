@@ -1,5 +1,6 @@
 from multiprocessing import connection
 import jsonpickle
+import pickle
 import random
 import copy
 import csv
@@ -211,12 +212,19 @@ class Population():
                     c.links.remove(random.choice(c.links))
                     
 
-    def savePop(self):
+    def savePopJson(self):
         f = open("Populations\\"+ self.popName + "_Gen_" + str(self.genNum) + ".json", 'w+')
         f.writelines(jsonpickle.encode(self, indent = 2))
         f.close()
+        print("Saving Json Finished")
+
+    def savePop(self):
+        f = open("Populations\\"+ self.popName + "_Gen_" + str(self.genNum) + ".pickle", 'wb')
+        pickle.dump(self,f)
+        f.close()
         print("Saving Finished")
-    
+
+
     def getCreatures(self):
         return self.creatures
     
@@ -296,13 +304,22 @@ class Link():
         self.phase = random.uniform(10,120)
         self.strength = random.uniform(minstrength,maxstrength)
 
-def loadPop(name,gen):
+def loadPopJson(name,gen):
     f = open("Populations\\"+ name + "_Gen_" + str(gen) + ".json", 'r')
     global loadedPop
     loadedPop = jsonpickle.decode(f.read())
     f.close()
     print("Pop: " + name + ", Gen: " + str(gen) + " loaded")
     return loadedPop
+
+def loadPop(name,gen):
+    f = open("Populations\\"+ name + "_Gen_" + str(gen) + ".json", 'r')
+    global loadedPop
+    loadedPop = pickle.load(f)
+    f.close()
+    print("Pop: " + name + ", Gen: " + str(gen) + " loaded")
+    return loadedPop
+
 
 def initNewPop(name):
     loadedPop = Population(name)
