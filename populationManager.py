@@ -313,7 +313,7 @@ def loadPopJson(name,gen):
     return loadedPop
 
 def loadPop(name,gen):
-    f = open("Populations\\"+ name + "_Gen_" + str(gen) + ".json", 'r')
+    f = open("Populations\\"+ name + "_Gen_" + str(gen) + ".pickle", 'rb')
     global loadedPop
     loadedPop = pickle.load(f)
     f.close()
