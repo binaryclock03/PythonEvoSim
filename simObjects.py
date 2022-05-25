@@ -271,7 +271,8 @@ def playback(simLength, creatureList, FPS = 60):
         pressed = pygame.key.get_pressed()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                return
+                pygame.quit()
+                return False
             if event.type == pygame.KEYDOWN:
                 keydown = pygame.key.get_pressed()
                 if keydown[pygame.K_l]:
@@ -296,7 +297,7 @@ def playback(simLength, creatureList, FPS = 60):
         if simLength != 0 and simClock >= simLength*FPS and simRunning == True:
             pygame.quit()
             simRunning = False
-            return
+            return False
 
 def fastsimHelper(batch):
     simLength, popmanager, TPS = batch
