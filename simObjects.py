@@ -199,10 +199,15 @@ class Creature(SimObject):
         if self.showStats:
             x = self.findPos()
             coords = convert_coordinates((x, 200), offset)
-            text = self.font.render(str(x-200), True, (50,50,50))
-            textRect = text.get_rect()
-            textRect.midleft = coords
-            display.blit(text, textRect)
+            textfit = self.font.render(str(x-200), True, (50,50,50))
+            textfitRect = textfit.get_rect()
+            textfitRect.midleft = coords
+            display.blit(textfit, textfitRect)
+            coords2 = convert_coordinates((x, 220), offset)
+            textfit = self.font.render(str(self.id), True, (50,50,50))
+            textfitRect = textfit.get_rect()
+            textfitRect.midleft = coords2
+            display.blit(textfit, textfitRect)
 
     def kill(self, space):
         for limb in self.limbs:
