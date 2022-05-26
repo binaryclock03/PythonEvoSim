@@ -197,16 +197,18 @@ class Creature(SimObject):
             joint.draw(display, offset)
         
         if self.showStats:
-            x = self.findPos()
+            x, y = self.findPos()
+
             coords = convert_coordinates((x, 200), offset)
-            textfit = self.font.render(str(x-200), True, (50,50,50))
+            textfit = self.font.render(str(x), True, (50,50,50))
             textfitRect = textfit.get_rect()
             textfitRect.midleft = coords
             display.blit(textfit, textfitRect)
-            coords2 = convert_coordinates((x, 220), offset)
+
+            coords = convert_coordinates((x, 220), offset)
             textfit = self.font.render(str(self.id), True, (50,50,50))
             textfitRect = textfit.get_rect()
-            textfitRect.midleft = coords2
+            textfitRect.midleft = coords
             display.blit(textfit, textfitRect)
 
     def kill(self, space):
@@ -226,17 +228,19 @@ class Creature(SimObject):
         for joint in self.joints:
             xtemp, ytemp = joint.body.position
             x += (xtemp-self.spawnPos[0])
-            y += (ytemp-70)
+            y += (ytemp-joint.radius-50)
             num += 1
-        return self.id, x//num, y<5
+        return self.id, x//num, y<0
     
     def findPos(self):
         x = 0
+        y = 0
         num = 0
         for joint in self.joints:
             x += (joint.body.position[0])
+            y += (joint.body.position[1])
             num += 1
-        return int(x//num)
+        return int(x//num), int(y//num)
 
 class BackgroundWall(Drawable):
     def __init__(self, point1, point2, thickness, color = (0,100,0)):
@@ -275,7 +279,7 @@ class Sample():
             creature.kill(space)
         self.creatures = []
     
-    def addCreature(self, popmanager, space, graphicsHandler , pos = (0,50), scale = 1):
+    def addCreature(self, popmanager, space, graphicsHandler , pos = (0,70), scale = 1):
         creature = Creature(popmanager, pos = pos, scale = scale, showStats = self.showStats)
         self.creatures.append(creature)
         creature.addToSpace(space)
