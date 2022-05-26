@@ -10,3 +10,6 @@ minPhase = 10
 maxPhase = 120
 minStrength = 250000
 maxStrength = 150000
+minPoints = 4
+maxPoints = 8
+advancedMutationChance = 0.05

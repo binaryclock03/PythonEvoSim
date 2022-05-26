@@ -9,9 +9,6 @@ from typing import *
 
 loadedPop = None
 
-maxstrength = 200000+50000
-minstrength = 200000-50000
-
 Population = NewType("Population",object)
 CreatureCreator = NewType("CreatureCreator",object)
 Point = NewType("Point",object)
@@ -84,7 +81,7 @@ class Link():
             self.strength = strength
 
 class CreatureCreator():
-    def __init__(self,numPoints:int,scale:int,radius:int,id:int = 0,points:PointList = None, links:LinkList = None, parent:int = None):
+    def __init__(self,numPoints:int,scale:int,radius:int,id:int = 0,points:PointList = None, links:LinkList = None, parent:int = None) -> None:
         if points == None and links == None:
             if numPoints < 3:
                 self.numPoints = random.randrange(3,10)
@@ -183,7 +180,7 @@ class Population():
 
     def addRandomCreatures(self,amount:int,scale:int = 100,radius:int = 10) -> None:
         for i in range(amount):
-            self.creatures.append(CreatureCreator(random.randrange(3,8),scale,radius,self.lastId))
+            self.creatures.append(CreatureCreator(random.randrange(configs.minPoints,configs.maxPoints),scale,radius,self.lastId))
             self.lastId += 1
     
     def savePopJson(self) -> None:
@@ -247,7 +244,6 @@ class Population():
             if connection.connected in availableConnections:
                 availableConnections.remove(connection.connected)
         
-
         if coin > 0.5 and len(availableConnections) > 0:
             #Replace Link
             #print('Replaced Link')
@@ -525,9 +521,9 @@ class Population():
 
                     l.phase = clamp(l.phase + random.uniform(-0.06,0.06),configs.minPhase,configs.maxPhase)
 
-                    l.strength = clamp(l.strength + random.uniform(-(maxstrength-minstrength)/100,(maxstrength-minstrength)/100),configs.minStrength,configs.maxStrength)
+                    l.strength = clamp(l.strength + random.uniform(-(configs.maxStrength-configs.minStrength)/100,(configs.maxStrength-configs.minStrength)/100),configs.minStrength,configs.maxStrength)
 
-                if random.random() < 0.05:
+                if configs.advancedMutationChance < 0.05:
                     if random.random() < 0.5:
                         self.pointMutation(c)
                     else:
