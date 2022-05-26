@@ -6,9 +6,6 @@ import copy
 import csv
 from math import sqrt,floor
 
-from numpy import average
-from sympy import true
-
 loadedPop = None
 
 maxstrength = 200000+50000
