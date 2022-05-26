@@ -1,5 +1,5 @@
-minFrction = 0.05
-maxFrction = 1
+minFriction = 0.05
+maxFriction = 1
 minDelta = 0
 maxDelta = 2
 minDutyCycle = 0.1
