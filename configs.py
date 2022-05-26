@@ -1,0 +1,12 @@
+minFrction = 0.05
+maxFrction = 1
+minDelta = 0
+maxDelta = 2
+minDutyCycle = 0.1
+maxDutyCycle = 0.9
+minPeriod = 10
+maxPeriod = 120
+minPhase = 10
+maxPhase = 120
+minStrength = 250000
+maxStrength = 150000
