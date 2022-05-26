@@ -1,7 +1,7 @@
 import time
-import simObjects as so
-import populationManager as pm
-import simulations as sim
+import bin.simObjects as so
+import bin.populationManager as pm
+import bin.simulations as sim
 
 seeding = True
 
