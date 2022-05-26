@@ -7,6 +7,7 @@ import csv
 from math import sqrt,floor
 
 from numpy import average
+from sympy import true
 
 loadedPop = None
 
@@ -356,7 +357,7 @@ class Population():
                 if l.connected[1] > index:
                     l.connected = (l.connected[0],l.connected[1]- 1)
                 
-    def nextGenertation(self,simResults, bottomPercent = 0.5, topPercent = 0.1,):
+    def nextGenertation(self,simResults, bottomPercent = 0.5, topPercent = 0.1,keepParent = False):
         #Give each creature there fitness result
         for creature in self.creatures:
             for creatureResult in simResults:
@@ -408,8 +409,10 @@ class Population():
         top = int(len(simResults)*(topPercent/bottomPercent))
 
 
-        if top >= len(simResultIds):
+        if top >= len(simResultIds) and not keepParent:
             self.mutateSpecified(simResultIds,2) #If less cretures than 10% the original amount do this
+        elif top >= len(simResultIds) and keepParent:
+            self.mutateSpecified(simResultIds,1,keepParent=True)
         else:
             #Mark top 10% to be mutated
             for c in range(top):
@@ -456,24 +459,39 @@ class Population():
         for i in sorted(fuck,reverse=True):
             del self.creatures[i]
         
-    def mutateSpecified(self,toMutate,offspringPer):
-
-        #Create Copies if needed
+    def mutateSpecified(self,toMutate,offspringPer,keepParent = False):
+        
         tempCreatures = []
         tempToMutate = []
-        for c in self.creatures:
-            if c.id in toMutate:
-                if offspringPer > 1:
-                    #for cc in range(offspringPer-1): #Only works for 1 or 2 
-                    cpy = copy.deepcopy(c)
-                    cpy.parent = c.id
-                    cpy.id = self.lastId
-                    tempToMutate.append(self.lastId)
-                    tempCreatures.append(cpy)
-                    self.lastId += 1
+        
+        #Create Copies if needed
+        if keepParent:
+            for c in self.creatures:
+                if c.id in toMutate:
+                        cpy = copy.deepcopy(c)
+                        cpy.parent = c.id
+                        cpy.id = self.lastId
+                        tempToMutate.append(self.lastId)
+                        tempCreatures.append(cpy)
+                        self.lastId += 1
+            toMutate.clear()
+            self.creatures.extend(tempCreatures)
+            toMutate.extend(tempToMutate)
+
+        else:  
+            for c in self.creatures:
+                if c.id in toMutate:
+                    if offspringPer > 1:
+                        #for cc in range(offspringPer-1): #Only works for 1 or 2 
+                        cpy = copy.deepcopy(c)
+                        cpy.parent = c.id
+                        cpy.id = self.lastId
+                        tempToMutate.append(self.lastId)
+                        tempCreatures.append(cpy)
+                        self.lastId += 1
                         
-        self.creatures.extend(tempCreatures)
-        toMutate.extend(tempToMutate)
+            self.creatures.extend(tempCreatures)
+            toMutate.extend(tempToMutate)
 
         #Preform Basic Mutations
         for c in self.creatures:
