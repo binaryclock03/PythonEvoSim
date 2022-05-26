@@ -7,6 +7,7 @@ import csv
 from math import sqrt,floor
 
 from numpy import average
+from sympy import true
 
 loadedPop = None
 
@@ -42,6 +43,122 @@ def sortFunc(e):
 def fitnessSortFunc(e):
     return e.fitness
 
+class Point():
+    def __init__(self,pos,friction = None):
+        self.pos = pos
+        if friction == None:
+            self.friction = random.random()
+        else:
+            self.friction = friction
+        self.elasticity = random.random()
+
+class Link():
+    def __init__(self,connected, delta = None, dutyCycle = None, period = None, phase = None, strength = None):
+        self.connected = connected
+        if delta == None:
+            self.delta = random.uniform(0.5,2)
+        else:
+            self.delta = delta
+        if dutyCycle == None:
+            self.dutyCycle = random.uniform(0.1,0.9)
+        else:
+            self.dutyCycle = dutyCycle
+        if period == None:
+            self.period = random.uniform(10,120)
+        else:
+            self.period = period
+        if phase == None:
+            self.phase = random.uniform(10,120)
+        else:
+            self.phase = phase
+        if strength == None:
+            self.strength = random.uniform(minstrength,maxstrength)
+        else:
+            self.strength = strength
+
+class CreatureCreator():
+    def __init__(self,numPoints,scale,radius,id = 0,points = None, links = None, parent = None):
+        if points == None and links == None:
+            if numPoints < 3:
+                self.numPoints = random.randrange(3,10)
+            else:
+                self.numPoints = numPoints
+
+            self.scale = scale
+            self.radius = radius 
+            if id == 0:
+                self.id = int(random.random() * 10 ** 16)
+            else:
+                self.id = int(id)
+            
+            self.points = []
+            self.links = []
+            tempLinks = []
+
+            self.fitness = 0
+            self.parent = None
+            #Create List of Points
+            for x in range(numPoints):
+                invalid = True
+                i = 0
+                while invalid:
+                    pos = (random.random()*scale,random.random()*scale)
+                    if len(self.points) > 0:
+                        for y in self.points:
+                            invalid = False
+                            if sqrt(((y.pos[0] - pos[0])**2 + (y.pos[1] - pos[1])**2)) < radius:
+                                invalid = True
+                    else:
+                        invalid = False
+                    i += 1
+                    if i > 1000:
+                        quit("Point Generation Failed")
+                self.points.append(Point(pos))
+            
+            #Generate All Possible Links
+            for x in range(numPoints):
+                for y in range(x+1,(numPoints)):
+                    tempLinks.append((x,y))
+            
+            #Simplification
+            for x in range(numPoints-3):
+                tempLinks.pop(random.randrange(0,len(tempLinks)))
+            
+            for x in tempLinks:
+                self.links.append(Link(x))
+        elif points != None and links != None:
+            self.links = links
+            self.points = points
+            self.scale = scale
+            self.radius = radius
+            self.id = id
+            self.numPoints = numPoints
+            self.fitness = 0
+            self.parent - parent
+        else:
+            quit("Insuficient Information to create custom creature")
+        
+    def getLinkByConnection(self,connected):
+        for link in self.links:
+            if link.connected == connected:
+                return link
+
+    def getLinksOfPoint(self,point):
+        connectedLinks = []
+        for link in self.links:
+            if self.points.index(point) in link.connected:
+                connectedLinks.append(link)
+        return connectedLinks
+    
+    def getConnectedPoints(self,point):
+        connectedPoints = []
+        for l in self.links:
+            if self.points.index(point) in l.connected:
+                if self.points.index(point) == l.connected[0]:
+                    connectedPoints.append(l.connected[1])
+                else:
+                    connectedPoints.append(l.connected[0])
+        return connectedPoints
 class Population():
     def __init__(self,popName,genNum = 0):
         self.popName = popName
@@ -198,13 +315,49 @@ class Population():
                     l.connected = (l.connected[0],l.connected[1]- 1)
 
         elif random.random() > 0.5:
-            #Add New Point
-            pass
+            #Add new Point
+            invalid = True
+            attempts = 0
+            while invalid:
+                pos = (random.random()*creature.scale,random.random()*creature.scale)
+                if len(creature.points) > 0:
+                    for y in creature.points:
+                        invalid = False
+                        if sqrt(((y.pos[0] - pos[0])**2 + (y.pos[1] - pos[1])**2)) < creature.radius:
+                            invalid = True
+                else:
+                    invalid = False
+                attempts += 1
+                if attempts > 1000:
+                    print("New Point could not be added")
+                    break
+            creature.points.append(Point(pos))
+            #Connect New Point
+            linksToMake = random.randrange(1,len(creature.points))
+            possibleConnections = []
+            for x in range(len(creature.points)-1):
+                possibleConnections.append(tuple((x,len(creature.points)-1)))
+            for x in range(linksToMake):
+                newConnection = random.choice(possibleConnections)
+                creature.links.append(Link(newConnection))
+            
         else:
-            #Remove Random Point
-            pass
+            #Choose random point and find connected links
+            pointToRemove = random.choice(creature.points)
+            linksToRemove = creature.getLinksOfPoint(pointToRemove)
+            index = creature.points.index(pointToRemove)
+            #Remove point and its links
+            creature.points.remove(pointToRemove)
+            for link in linksToRemove:
+                creature.links.remove(link)
+            #rebuild creature
+            for l in creature.links:
+                if l.connected[0] > index:
+                    l.connected = (l.connected[0] - 1,l.connected[1])                  
+                if l.connected[1] > index:
+                    l.connected = (l.connected[0],l.connected[1]- 1)
                 
-    def nextGenertation(self,simResults, bottomPercent = 0.5, topPercent = 0.1,):
+    def nextGenertation(self,simResults, bottomPercent = 0.5, topPercent = 0.1,keepParent = False):
         #Give each creature there fitness result
         for creature in self.creatures:
             for creatureResult in simResults:
@@ -256,8 +409,10 @@ class Population():
         top = int(len(simResults)*(topPercent/bottomPercent))
 
 
-        if top >= len(simResultIds):
+        if top >= len(simResultIds) and not keepParent:
             self.mutateSpecified(simResultIds,2) #If less cretures than 10% the original amount do this
+        elif top >= len(simResultIds) and keepParent:
+            self.mutateSpecified(simResultIds,1,keepParent=True)
         else:
             #Mark top 10% to be mutated
             for c in range(top):
@@ -304,24 +459,39 @@ class Population():
         for i in sorted(fuck,reverse=True):
             del self.creatures[i]
         
-    def mutateSpecified(self,toMutate,offspringPer):
-
-        #Create Copies if needed
+    def mutateSpecified(self,toMutate,offspringPer,keepParent = False):
+        
         tempCreatures = []
         tempToMutate = []
-        for c in self.creatures:
-            if c.id in toMutate:
-                if offspringPer > 1:
-                    #for cc in range(offspringPer-1): #Only works for 1 or 2 
-                    cpy = copy.deepcopy(c)
-                    cpy.parent = c.id
-                    cpy.id = self.lastId
-                    tempToMutate.append(self.lastId)
-                    tempCreatures.append(cpy)
-                    self.lastId += 1
+        
+        #Create Copies if needed
+        if keepParent:
+            for c in self.creatures:
+                if c.id in toMutate:
+                        cpy = copy.deepcopy(c)
+                        cpy.parent = c.id
+                        cpy.id = self.lastId
+                        tempToMutate.append(self.lastId)
+                        tempCreatures.append(cpy)
+                        self.lastId += 1
+            toMutate.clear()
+            self.creatures.extend(tempCreatures)
+            toMutate.extend(tempToMutate)
+
+        else:  
+            for c in self.creatures:
+                if c.id in toMutate:
+                    if offspringPer > 1:
+                        #for cc in range(offspringPer-1): #Only works for 1 or 2 
+                        cpy = copy.deepcopy(c)
+                        cpy.parent = c.id
+                        cpy.id = self.lastId
+                        tempToMutate.append(self.lastId)
+                        tempCreatures.append(cpy)
+                        self.lastId += 1
                         
-        self.creatures.extend(tempCreatures)
-        toMutate.extend(tempToMutate)
+            self.creatures.extend(tempCreatures)
+            toMutate.extend(tempToMutate)
 
         #Preform Basic Mutations
         for c in self.creatures:
@@ -355,120 +525,3 @@ class Population():
                         self.pointMutation(c)
                     else:
                         self.linkMutation(c)
-
-class CreatureCreator():
-    def __init__(self,numPoints,scale,radius,id = 0,points = None, links = None, parent = None):
-        if points == None and links == None:
-            if numPoints < 3:
-                self.numPoints = random.randrange(3,10)
-            else:
-                self.numPoints = numPoints
-
-            self.scale = scale
-            self.radius = radius 
-            if id == 0:
-                self.id = int(random.random() * 10 ** 16)
-            else:
-                self.id = int(id)
-            
-            self.points = []
-            self.links = []
-            tempLinks = []
-
-            self.fitness = 0
-            self.parent = None
-            #Create List of Points
-            for x in range(numPoints):
-                invalid = True
-                i = 0
-                while invalid:
-                    pos = (random.random()*scale,random.random()*scale)
-                    if len(self.points) > 0:
-                        for y in self.points:
-                            invalid = False
-                            if sqrt(((y.pos[0] - pos[0])**2 + (y.pos[1] - pos[1])**2)) < radius:
-                                invalid = True
-                    else:
-                        invalid = False
-                    i += 1
-                    if i > 1000:
-                        quit("Point Generation Failed")
-                self.points.append(Point(pos))
-            
-            #Generate All Possible Links
-            for x in range(numPoints):
-                for y in range(x+1,(numPoints)):
-                    tempLinks.append((x,y))
-            
-            #Simplification
-            for x in range(numPoints-3):
-                tempLinks.pop(random.randrange(0,len(tempLinks)))
-            
-            for x in tempLinks:
-                self.links.append(Link(x))
-        elif points != None and links != None:
-            self.links = links
-            self.points = points
-            self.scale = scale
-            self.radius = radius
-            self.id = id
-            self.numPoints = numPoints
-            self.fitness = 0
-            self.parent - parent
-        else:
-            quit("Insuficient Information to create custom creature")
-        
-    def getLinkByConnection(self,connected):
-        for link in self.links:
-            if link.connected == connected:
-                return link
-
-    def getLinksOfPoint(self,point):
-        connectedLinks = []
-        for link in self.links:
-            if self.points.index(point) in link.connected:
-                connectedLinks.append(link)
-        return connectedLinks
-    
-    def getConnectedPoints(self,point):
-        connectedPoints = []
-        for l in self.links:
-            if self.points.index(point) in l.connected:
-                if self.points.index(point) == l.connected[0]:
-                    connectedPoints.append(l.connected[1])
-                else:
-                    connectedPoints.append(l.connected[0])
-        return connectedPoints
-
-class Point():
-    def __init__(self,pos,friction = None):
-        self.pos = pos
-        if friction == None:
-            self.friction = random.random()
-        else:
-            self.friction = friction
-        self.elasticity = random.random()
-
-class Link():
-    def __init__(self,connected, delta = None, dutyCycle = None, period = None, phase = None, strength = None):
-        self.connected = connected
-        if delta == None:
-            self.delta = random.uniform(0.5,2)
-        else:
-            self.delta = delta
-        if dutyCycle == None:
-            self.dutyCycle = random.uniform(0.1,0.9)
-        else:
-            self.dutyCycle = dutyCycle
-        if period == None:
-            self.period = random.uniform(10,120)
-        else:
-            self.period = period
-        if phase == None:
-            self.phase = random.uniform(10,120)
-        else:
-            self.phase = phase
-        if strength == None:
-            self.strength = random.uniform(minstrength,maxstrength)
-        else:
-            self.strength = strength
