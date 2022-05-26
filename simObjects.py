@@ -159,7 +159,7 @@ class Limb(PhysicsObject):
         pygame.draw.line(display, color, coord, coord2, thickness)
 
 class Creature(SimObject):
-    def __init__(self, popmanager, pos = (200,200), scale = 1, showStats = False):
+    def __init__(self, popmanager, pos = (0,50), scale = 1, showStats = False):
         super().__init__()
         self.id = popmanager.id
         self.joints = []
@@ -275,7 +275,7 @@ class Sample():
             creature.kill(space)
         self.creatures = []
     
-    def addCreature(self, popmanager, space, graphicsHandler , pos = (200,200), scale = 1):
+    def addCreature(self, popmanager, space, graphicsHandler , pos = (0,50), scale = 1):
         creature = Creature(popmanager, pos = pos, scale = scale, showStats = self.showStats)
         self.creatures.append(creature)
         creature.addToSpace(space)

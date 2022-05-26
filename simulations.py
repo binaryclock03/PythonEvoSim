@@ -27,14 +27,14 @@ def playback(simLength, creatureList, FPS = 60):
     for i in range(20):
         background = so.DrawableImage(image, (i*1600-1600, 800))
         graphicsHandler.addToDraw(background, layer = "bg")
-    for i in range(100):
-        x = ((i-5)*250)+200
-        post = so.BackgroundWall((x,0), (x,100), 5, color= (100,100,100))
-        graphicsHandler.addToDraw(post, layer = "bg")
-        number = so.DrawableText(str((i-5)*250), (x,115))
-        graphicsHandler.addToDraw(number, layer="bg")
+    # for i in range(100):
+    #     x = ((i-5)*250)+200
+    #     post = so.BackgroundWall((x,0), (x,100), 5, color= (100,100,100))
+    #     graphicsHandler.addToDraw(post, layer = "bg")
+    #     number = so.DrawableText(str((i-5)*250), (x,115))
+    #     graphicsHandler.addToDraw(number, layer="bg")
 
-    floor = so.Wall((-800,10), (80000,10), 100)
+    floor = so.Wall((-800,0), (80000,0), 100)
     floor.addToSpace(space)
 
     #generate sample

@@ -59,7 +59,7 @@ class GraphicsHandler():
             if len(list)>1:
                 list.sort(reverse=True)
             list = list[0]
-            self.offset = -list+200
+            self.offset = -list+400
 
         #draw layers
         for drawable in self.background:
