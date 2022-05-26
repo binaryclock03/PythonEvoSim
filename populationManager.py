@@ -7,6 +7,7 @@ from math import sqrt,floor
 import configs
 from typing import *
 
+
 loadedPop = None
 
 Population = NewType("Population",object)
@@ -17,6 +18,13 @@ PointList = NewType("PointList",list)
 LinkList = NewType("LinkList",list)
 CreatureCreatorList = NewType("CreatureCreatorList",list)
 CreatureIdList = NewType("CreatureIdList",list)
+
+def initNewPop(name:str = None) -> Population:
+    if not name:
+        name = ''
+        for x in range(4):
+            name += chr(random.randint(0,255))
+    return Population(name) 
 
 def loadPopJson(name:str,gen:int) -> Population:
     f = open("Populations\\"+ name + "_Gen_" + str(gen) + ".json", 'r')
@@ -100,7 +108,7 @@ class CreatureCreator():
             tempLinks = []
 
             self.fitness = 0
-            self.parent = None
+            self.parent = 0
             #Create List of Points
             for x in range(numPoints):
                 invalid = True
@@ -231,7 +239,7 @@ class Population():
 
     def linkMutation(self,creature:CreatureCreator) -> None:
         coin = random.random()
-
+    
         availableConnections = []
             
         #Find all possible connections
