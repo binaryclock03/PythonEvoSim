@@ -55,8 +55,8 @@ class Population():
 
         self.lastId = 1
     
-    def addCreatures(self,amount,numPoints,scale,radius):
-        print("stuff") #useless rn
+    def addCreatures(self,creatures):
+        self.creatures.extend(creatures)
 
     def addRandomCreatures(self,amount,scale = 100,radius = 10):
         for i in range(amount):
