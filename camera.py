@@ -1,4 +1,5 @@
 import simObjects
+
 class GraphicsHandler():
     def __init__(self, space, display, fps):
         self.clock = 0

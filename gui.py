@@ -1,8 +1,8 @@
 from tkinter import *
 from tkinter import ttk
-import bin.simObjects as so
-import bin.populationManager as pm
-import bin.simulations as sim
+import simObjects as so
+import populationManager as pm
+import simulations as sim
 
 def runPlayback(*args):
     if not simRunning.get():
