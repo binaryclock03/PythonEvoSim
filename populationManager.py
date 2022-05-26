@@ -29,7 +29,6 @@ def loadPop(name,gen):
     print("Pop: " + name + ", Gen: " + str(gen) + " loaded")
     return loadedPop
 
-
 def initNewPop(name):
     loadedPop = Population(name)
 
@@ -305,7 +304,6 @@ class Population():
         for i in sorted(fuck,reverse=True):
             del self.creatures[i]
         
-
     def mutateSpecified(self,toMutate,offspringPer):
 
         #Create Copies if needed
@@ -316,6 +314,7 @@ class Population():
                 if offspringPer > 1:
                     #for cc in range(offspringPer-1): #Only works for 1 or 2 
                     cpy = copy.deepcopy(c)
+                    cpy.parent = c.id
                     cpy.id = self.lastId
                     tempToMutate.append(self.lastId)
                     tempCreatures.append(cpy)
@@ -327,7 +326,9 @@ class Population():
         #Preform Basic Mutations
         for c in self.creatures:
             if c.id in toMutate:
+                c.parent = c.id
                 c.id = self.lastId
+                
                 self.lastId += 1
                                 
                 for p in c.points:
@@ -356,7 +357,7 @@ class Population():
                         self.linkMutation(c)
 
 class CreatureCreator():
-    def __init__(self,numPoints,scale,radius,id = 0,points = None, links = None):
+    def __init__(self,numPoints,scale,radius,id = 0,points = None, links = None, parent = None):
         if points == None and links == None:
             if numPoints < 3:
                 self.numPoints = random.randrange(3,10)
@@ -375,7 +376,7 @@ class CreatureCreator():
             tempLinks = []
 
             self.fitness = 0
-
+            self.parent = None
             #Create List of Points
             for x in range(numPoints):
                 invalid = True
@@ -413,6 +414,7 @@ class CreatureCreator():
             self.id = id
             self.numPoints = numPoints
             self.fitness = 0
+            self.parent - parent
         else:
             quit("Insuficient Information to create custom creature")
         
