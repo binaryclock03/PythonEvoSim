@@ -69,7 +69,8 @@ def convertFromGenome(genome):
     creature = pm.CreatureCreator(numJoints, 100, 15, id=id, points=points, links=links)
     return creature
 
-def genomeSave(creatures):
+def genomeSave(population):
+    creatures = population.creatures
     creatureGenomeList = []
     for creature in creatures:
         creatureGenomeList.append(convertToGenome(creature))
@@ -80,6 +81,7 @@ def genomeSave(creatures):
     print("Genome Saving Finished")
 
 def genomeLoad():
+    f = open("Populations\\test.pickle", 'wb')
     pass
 
 if __name__ == '__main__':
@@ -92,7 +94,7 @@ if __name__ == '__main__':
     print("Elapsed time for saving generation: " + str(endTime - startTime))
 
     startTime = time.time()
-    genomeSave(testPop.creatures)
+    genomeSave(testPop)
     endTime = time.time()
     print("Elapsed time for saving generation: " + str(endTime - startTime))
     
