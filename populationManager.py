@@ -1,13 +1,10 @@
-from operator import pos
 import jsonpickle
 import pickle
 import random
 import copy
 import csv
 from math import sqrt,floor
-
-from numpy import average
-from sympy import true
+import configs
 
 loadedPop = None
 
@@ -56,23 +53,23 @@ class Link():
     def __init__(self,connected, delta = None, dutyCycle = None, period = None, phase = None, strength = None):
         self.connected = connected
         if delta == None:
-            self.delta = random.uniform(0.5,2)
+            self.delta = random.uniform(configs.minDelta,configs.maxDelta)
         else:
             self.delta = delta
         if dutyCycle == None:
-            self.dutyCycle = random.uniform(0.1,0.9)
+            self.dutyCycle = random.uniform(configs.minDutyCycle,configs.maxDutyCycle)
         else:
             self.dutyCycle = dutyCycle
         if period == None:
-            self.period = random.uniform(10,120)
+            self.period = random.uniform(configs.minPeriod,configs.maxPeriod)
         else:
             self.period = period
         if phase == None:
-            self.phase = random.uniform(10,120)
+            self.phase = random.uniform(configs.minPhase,configs.maxPhase)
         else:
             self.phase = phase
         if strength == None:
-            self.strength = random.uniform(minstrength,maxstrength)
+            self.strength = random.uniform(configs.minStrength,configs.maxStrength)
         else:
             self.strength = strength
 
@@ -510,15 +507,15 @@ class Population():
 
                 for l in c.links:
                 
-                    l.delta = clamp(l.delta + random.uniform(-0.015,0.015),0.5,2)
+                    l.delta = clamp(l.delta + random.uniform(-0.015,0.015),configs.minDelta,configs.maxDelta)
 
-                    l.dutyCycle = clamp(l.dutyCycle + random.uniform(-0.008,0.008),0.1,0.9)
+                    l.dutyCycle = clamp(l.dutyCycle + random.uniform(-0.008,0.008),configs.minDutyCycle,configs.maxDutyCycle)
 
-                    l.period = clamp(l.period + random.uniform(-0.06,0.06),10,120)
+                    l.period = clamp(l.period + random.uniform(-0.06,0.06),configs.minPeriod,configs.maxPeriod)
 
-                    l.phase = clamp(l.phase + random.uniform(-0.06,0.06),10,120)
+                    l.phase = clamp(l.phase + random.uniform(-0.06,0.06),configs.minPhase,configs.maxPhase)
 
-                    l.strength = clamp(l.strength + random.uniform(-(maxstrength-minstrength)/100,(maxstrength-minstrength)/100),minstrength,maxstrength)
+                    l.strength = clamp(l.strength + random.uniform(-(maxstrength-minstrength)/100,(maxstrength-minstrength)/100),configs.minStrength,configs.maxStrength)
 
                 if random.random() < 0.05:
                     if random.random() < 0.5:
