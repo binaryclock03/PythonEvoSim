@@ -356,54 +356,65 @@ class Population():
                         self.linkMutation(c)
 
 class CreatureCreator():
-    def __init__(self,numPoints,scale,radius,id = 0):
-        if numPoints < 3:
-            self.numPoints = random.randrange(3,10)
-        else:
-            self.numPoints = numPoints
+    def __init__(self,numPoints,scale,radius,id = 0,points = None, links = None):
+        if points == None and links == None:
+            if numPoints < 3:
+                self.numPoints = random.randrange(3,10)
+            else:
+                self.numPoints = numPoints
 
-        self.scale = scale
-        self.radius = radius 
-        if id == 0:
-            self.id = int(random.random() * 10 ** 16)
-        else:
-            self.id = int(id)
-        
-        self.points = []
-        self.links = []
-        tempLinks = []
+            self.scale = scale
+            self.radius = radius 
+            if id == 0:
+                self.id = int(random.random() * 10 ** 16)
+            else:
+                self.id = int(id)
+            
+            self.points = []
+            self.links = []
+            tempLinks = []
 
-        self.fitness = 0
+            self.fitness = 0
 
-        #Create List of Points
-        for x in range(numPoints):
-            invalid = True
-            i = 0
-            while invalid:
-                pos = (random.random()*scale,random.random()*scale)
-                if len(self.points) > 0:
-                    for y in self.points:
+            #Create List of Points
+            for x in range(numPoints):
+                invalid = True
+                i = 0
+                while invalid:
+                    pos = (random.random()*scale,random.random()*scale)
+                    if len(self.points) > 0:
+                        for y in self.points:
+                            invalid = False
+                            if sqrt(((y.pos[0] - pos[0])**2 + (y.pos[1] - pos[1])**2)) < radius:
+                                invalid = True
+                    else:
                         invalid = False
-                        if sqrt(((y.pos[0] - pos[0])**2 + (y.pos[1] - pos[1])**2)) < radius:
-                            invalid = True
-                else:
-                    invalid = False
-                i += 1
-                if i > 1000:
-                    quit("Point Generation Failed")
-            self.points.append(Point(pos))
-        
-        #Generate All Possible Links
-        for x in range(numPoints):
-            for y in range(x+1,(numPoints)):
-                tempLinks.append((x,y))
-        
-        #Simplification
-        for x in range(numPoints-3):
-            tempLinks.pop(random.randrange(0,len(tempLinks)))
-        
-        for x in tempLinks:
-            self.links.append(Link(x))
+                    i += 1
+                    if i > 1000:
+                        quit("Point Generation Failed")
+                self.points.append(Point(pos))
+            
+            #Generate All Possible Links
+            for x in range(numPoints):
+                for y in range(x+1,(numPoints)):
+                    tempLinks.append((x,y))
+            
+            #Simplification
+            for x in range(numPoints-3):
+                tempLinks.pop(random.randrange(0,len(tempLinks)))
+            
+            for x in tempLinks:
+                self.links.append(Link(x))
+        elif points != None and links != None:
+            self.links = links
+            self.points = points
+            self.scale = scale
+            self.radius = radius
+            self.id = id
+            self.numPoints = numPoints
+            self.fitness = 0
+        else:
+            quit("Insuficient Information to create custom creature")
         
     def getLinkByConnection(self,connected):
         for link in self.links:
