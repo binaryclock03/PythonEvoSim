@@ -5,6 +5,7 @@ def convertToGenome(creature):
 
     points = creature.points
     links = creature.links
+    id = creature.id
 
     numJoints = len(points)
     numLimbs = len(links)
@@ -19,15 +20,17 @@ def convertToGenome(creature):
         x, y = point.pos
         pointGenome += "OAxp" + str(int(1000*x)) + "yp" + str(int(1000*y)) + "fr" + str(int(1000*point.friction)) + "rd" + str(int(10))
     
-    genome = "njt" + str(numJoints) + "nlb" + str(numLimbs) + "ljt" + pointGenome + "llb" + linkGenome 
+    genome = "cid" + str(id) + "njt" + str(numJoints) + "nlb" + str(numLimbs) + "ljt" + pointGenome + "llb" + linkGenome 
     return genome
 
 def convertFromGenome(genome):
-    _, genome = genome.split("njt")
+    _, genome = genome.split("cid")
+    id, genome = genome.split("njt")
     numJoints, genome = genome.split("nlb")
     numLimbs, genome = genome.split("ljt")
     jointGenome, limbGenome = genome.split("llb")
     
+    links = []
     limbGenomeList = limbGenome.split("O")
     del limbGenomeList[0]
     for linkGenome in limbGenomeList:
@@ -45,7 +48,9 @@ def convertFromGenome(genome):
         phase,strength = linkGenome.split("st")
         phase = int(phase)/1000
         strength = int(strength)/1000
+        links.append(pm.Link((a,b), delta = delta, dutyCycle=dutyCycle, period=period, phase=phase, strength=strength))
     
+    points = []
     jointGenomeList = jointGenome.split("O")
     del jointGenomeList[0]
     for pointGenome in jointGenomeList:
@@ -57,13 +62,22 @@ def convertFromGenome(genome):
         friction,radius = pointGenome.split("rd")
         friction = int(friction)/1000
         radius = int(radius)
-        
-    pass
+        points.append(pm.Point((x,y), friction = friction))
+
+    creature = pm.CreatureCreator(numJoints, 100, 15, id=id, points=points, links=links)
+    return creature
 
 if __name__ == '__main__':
     testPop = pm.Population("genomeTest")
     testPop.addRandomCreatures(1)
+    testPop.savePop()
+
+    newPop = pm.Population("reconTest")
+
+    creatures = []
     for creature in testPop.creatures:
         genome = convertToGenome(creature)
-        #print(genome)
-        convertFromGenome(genome)
+        print(genome)
+        creatures.append(convertFromGenome(genome))
+    newPop.addCreatures(creatures)
+    newPop.savePop()
