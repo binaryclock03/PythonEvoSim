@@ -437,11 +437,11 @@ class Population():
 
         #Makes sure that the data cvs is cleared at generation 0
         if self.genNum == 0:
-             f = open("Populations\\"+ self.popName + "_summary.cvs", 'w+')
+             f = open("Populations\\"+ self.popName + "_summary.csv", 'w+')
              f.close()
 
         #Write fitness list to cvs file
-        f = open("Populations\\"+ self.popName + "_summary.cvs", 'a')
+        f = open("Populations\\"+ self.popName + "_summary.csv", 'a')
         csv.writer(f).writerow(fitnessList)
         f.close()
 
