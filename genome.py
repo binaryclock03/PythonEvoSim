@@ -82,8 +82,8 @@ def genomeSave(population):
     f.close()
     print("Genome Saving Finished")
 
-def genomeLoad():
-    f = open("Populations\\test.pickle", 'rb')
+def genomeLoad(fileName):
+    f = open("Populations\\" + fileName + ".pickle", 'rb')
     creatureGenomeList = pickle.load(f)
     f.close()
 
@@ -116,7 +116,7 @@ if __name__ == '__main__':
     print("Elapsed time for saving generation: " + str(endTime - startTime))
 
     startTime = time.time()
-    testPop2 = genomeLoad()
+    testPop2 = genomeLoad("test")
     endTime = time.time()
     print("Elapsed time for loading generation: " + str(endTime - startTime))
     
