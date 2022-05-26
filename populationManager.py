@@ -13,6 +13,36 @@ loadedPop = None
 maxstrength = 200000+50000
 minstrength = 200000-50000
 
+def loadPopJson(name,gen):
+    f = open("Populations\\"+ name + "_Gen_" + str(gen) + ".json", 'r')
+    global loadedPop
+    loadedPop = jsonpickle.decode(f.read())
+    f.close()
+    print("Pop: " + name + ", Gen: " + str(gen) + " loaded")
+    return loadedPop
+
+def loadPop(name,gen):
+    f = open("Populations\\"+ name + "_Gen_" + str(gen) + ".pickle", 'rb')
+    global loadedPop
+    loadedPop = pickle.load(f)
+    f.close()
+    print("Pop: " + name + ", Gen: " + str(gen) + " loaded")
+    return loadedPop
+
+
+def initNewPop(name):
+    loadedPop = Population(name)
+
+def clamp(num, min_value, max_value):
+        num = max(min(num, max_value), min_value)
+        return num
+
+def sortFunc(e):
+    return e[1]
+
+def fitnessSortFunc(e):
+    return e.fitness
+
 class Population():
     def __init__(self,popName,genNum = 0):
         self.popName = popName
@@ -25,13 +55,59 @@ class Population():
 
         self.lastId = 1
     
-    def addCreatures(self,amount,numPoints,scale,radius):
-        print("stuff") #useless rn
+    def addCreatures(self,creatures):
+        self.creatures.extend(creatures)
 
     def addRandomCreatures(self,amount,scale = 100,radius = 10):
         for i in range(amount):
             self.creatures.append(CreatureCreator(random.randrange(3,8),scale,radius,self.lastId))
             self.lastId += 1
+    
+    def savePopJson(self):
+        f = open("Populations\\"+ self.popName + "_Gen_" + str(self.genNum) + ".json", 'w+')
+        f.writelines(jsonpickle.encode(self, indent = 2))
+        f.close()
+        print("Saving Json Finished")
+
+    def savePop(self):
+        f = open("Populations\\"+ self.popName + "_Gen_" + str(self.genNum) + ".pickle", 'wb')
+        pickle.dump(self,f)
+        f.close()
+        print("Saving Finished")
+
+    def getCreatures(self):
+        return self.creatures
+    
+    def getBestCreature(self):
+        for c in self.creatures:
+            if self.topFitness == c.fitness:
+                return c
+
+    def getMedianCreature(self):
+        for c in self.creatures:
+            if self.medianFitness == c.fitness:
+                return c
+    
+    def sortCreatures(self):
+        self.creatures.sort(key=fitnessSortFunc)
+
+    def getPreview(self):
+        self.sortCreatures()
+        sample = []
+
+        for x in range(0,len(self.creatures),len(self.creatures)//4):
+            sample.append(self.creatures[x])
+        for x in range(len(self.creatures)-1,len(self.creatures)-10,-1):
+            sample.append(self.creatures[x])
+
+        return sample
+    
+    def keepTopPercent(self,topPercent):
+        self.sortCreatures()
+        toKill = []
+        for x in range(int(len(self.creatures)*(1-topPercent))):
+            toKill.append(self.creatures[x].id)
+        self.killSpecified(toKill)
 
     def linkMutation(self,creature):
         coin = random.random()
@@ -129,90 +205,96 @@ class Population():
             #Remove Random Point
             pass
                 
-    def nextGenertation(self,simResults):
+    def nextGenertation(self,simResults, bottomPercent = 0.5, topPercent = 0.1,):
+        #Give each creature there fitness result
+        for creature in self.creatures:
+            for creatureResult in simResults:
+                if creatureResult[0] == creature.id:
+                    creature.fitness = creatureResult[1]
 
-        for c in self.creatures:
-            for cc in simResults:
-                if cc[0] == c.id:
-                    c.fitness = cc[1]
-
+        #Create a list of all fitnesses
         fitnessList = []
-
         for c in simResults:
             fitnessList.append(c[1])            
+
+        #Sort the results in ascending order according to the fitness of each creature
+        simResults.sort(key=sortFunc)
+
+        #Record the highest fitness of the current generation
+        self.topFitness = simResults[-1][1]
+
+        #Calculate and record the average fitness of the current Generation
+        simResultIds = []
+        sum = 0
+        for x in simResults:
+            sum += x[1]
+            simResultIds.append(x[0])
+        self.avgFitness = sum/len(simResults)
+
+        #Calculate and record the median fitness of the current Generation
+        originalLen = len(simResults)
+        bottom = floor(len(simResults)*bottomPercent)
+        self.medianFitness = simResults[bottom][1]
 
         toKill = []
         toMutate = []
 
-        simResults.sort(key=sortFunc)
-
-    
-        self.topFitness = simResults[-1][1]
-
-        sum = 0
-
-        simResultIds = []
-
-        for x in simResults:
-            sum += x[1]
-            simResultIds.append(x[0])
-
-        self.avgFitness = sum/len(simResults)
-
-        originalLen = len(simResults)
-        bottom = floor(len(simResults)/2)
-
-        self.medianFitness = simResults[bottom][1]
-
-    #Start of mess
-
+        #Mark bottom 50% for termination
         for c in range(bottom):
             toKill.append(simResults[c][0])
+            simResultIds.remove(simResults[c][0])
         
+        #Mark 'flats' for termination
         for c in range(len(simResults)):
             if simResults[c][2] and simResults[c][0] not in toKill:
                 toKill.append(simResults[c][0])
+                simResultIds.remove(simResults[c][0])
 
-        for c in toKill:
-            simResultIds.remove(c)
-
+         #Terminate undesierables
         self.killSpecified(toKill)
 
-        top = int(len(simResults)*0.2)
+        #Determine how many creatures are in the top 20% remaining (original top 10%)
+        top = int(len(simResults)*(topPercent/bottomPercent))
+
 
         if top >= len(simResultIds):
-            self.mutateSpecified(simResultIds,2)
+            self.mutateSpecified(simResultIds,2) #If less cretures than 10% the original amount do this
         else:
+            #Mark top 10% to be mutated
             for c in range(top):
                 toMutate.append(simResultIds[c])
-
             for c in toMutate:
                 simResultIds.remove(c)
 
+            #Create 2 mutated offspring for each of the top 10%
             self.mutateSpecified(toMutate,2)
 
-            toMutate = []
+            toMutate.clear()
 
+            #Mark Remainder to be mutated
             for c in simResultIds:
                 toMutate.append(c)
-        
+            #Create 1 mutated offspring for each of rest
             self.mutateSpecified(toMutate,1)
 
-    #end of mess
-
+        #Fill the remaining spots with random creatures
         self.addRandomCreatures(originalLen-len(self.creatures))
 
+        #Summary to be logged at the end of each generation
         summary = "\nGeneration: " + str(self.genNum) + " Avg: " + str(self.avgFitness) + " Best: " + str(self.topFitness) + " Median: " + str(self.medianFitness)
         print(summary)
 
+        #Makes sure that the data cvs is cleared at generation 0
         if self.genNum == 0:
              f = open("Populations\\"+ self.popName + "_summary.cvs", 'w+')
              f.close()
 
+        #Write fitness list to cvs file
         f = open("Populations\\"+ self.popName + "_summary.cvs", 'a')
         csv.writer(f).writerow(fitnessList)
         f.close()
 
+        #Increments generation counter for the next generation
         self.genNum += 1
 
     def killSpecified(self,toKill):
@@ -229,11 +311,10 @@ class Population():
         #Create Copies if needed
         tempCreatures = []
         tempToMutate = []
-
         for c in self.creatures:
             if c.id in toMutate:
                 if offspringPer > 1:
-                    #for cc in range(offspringPer-1):
+                    #for cc in range(offspringPer-1): #Only works for 1 or 2 
                     cpy = copy.deepcopy(c)
                     cpy.id = self.lastId
                     tempToMutate.append(self.lastId)
@@ -252,7 +333,7 @@ class Population():
                 for p in c.points:
                     p.pos = (clamp(p.pos[0]+random.uniform(-1,1),0,c.scale*1.5),clamp(p.pos[1]+random.uniform(-1,1),0,c.scale*1.5))
                     
-                    p.fritction = clamp(p.friction + random.uniform(-1,1),0,1)
+                    p.fritction = clamp(p.friction + random.uniform(-1,1),0.05,1)
                     
                     p.elasticity = clamp(p.elasticity + random.uniform(-1,1),0,1)
 
@@ -274,105 +355,77 @@ class Population():
                     else:
                         self.linkMutation(c)
 
-    def savePopJson(self):
-        f = open("Populations\\"+ self.popName + "_Gen_" + str(self.genNum) + ".json", 'w+')
-        f.writelines(jsonpickle.encode(self, indent = 2))
-        f.close()
-        print("Saving Json Finished")
-
-    def savePop(self):
-        f = open("Populations\\"+ self.popName + "_Gen_" + str(self.genNum) + ".pickle", 'wb')
-        pickle.dump(self,f)
-        f.close()
-        print("Saving Finished")
-
-
-    def getCreatures(self):
-        return self.creatures
-    
-    def getBestCreature(self):
-        for c in self.creatures:
-            if self.topFitness == c.fitness:
-                return c
-
-    def getMedianCreature(self):
-        for c in self.creatures:
-            if self.medianFitness == c.fitness:
-                return c
-    
-    def sortCreatures(self):
-        self.creatures.sort(key=fitnessSortFunc)
-
-    def getPreview(self):
-        self.sortCreatures()
-        sample = []
-
-        for x in range(0,len(self.creatures),len(self.creatures)//4):
-            sample.append(self.creatures[x])
-        for x in range(len(self.creatures)-1,len(self.creatures)-10,-1):
-            sample.append(self.creatures[x])
-
-        return sample
-
 class CreatureCreator():
-    def __init__(self,numPoints,scale,radius,id = 0):
-        if numPoints < 3:
-            self.numPoints = random.randrange(3,10)
-        else:
-            self.numPoints = numPoints
+    def __init__(self,numPoints,scale,radius,id = 0,points = None, links = None):
+        if points == None and links == None:
+            if numPoints < 3:
+                self.numPoints = random.randrange(3,10)
+            else:
+                self.numPoints = numPoints
 
-        self.scale = scale
-        self.radius = radius 
-        if id == 0:
-            self.id = int(random.random() * 10 ** 16)
-        else:
-            self.id = int(id)
-        
-        self.points = []
-        self.links = []
-        tempLinks = []
+            self.scale = scale
+            self.radius = radius 
+            if id == 0:
+                self.id = int(random.random() * 10 ** 16)
+            else:
+                self.id = int(id)
+            
+            self.points = []
+            self.links = []
+            tempLinks = []
 
-        self.fitness = 0
+            self.fitness = 0
 
-        #Create List of Points
-        for x in range(numPoints):
-            invalid = True
-            i = 0
-            while invalid:
-                pos = (random.random()*scale,random.random()*scale)
-                if len(self.points) > 0:
-                    for y in self.points:
+            #Create List of Points
+            for x in range(numPoints):
+                invalid = True
+                i = 0
+                while invalid:
+                    pos = (random.random()*scale,random.random()*scale)
+                    if len(self.points) > 0:
+                        for y in self.points:
+                            invalid = False
+                            if sqrt(((y.pos[0] - pos[0])**2 + (y.pos[1] - pos[1])**2)) < radius:
+                                invalid = True
+                    else:
                         invalid = False
-                        if sqrt(((y.pos[0] - pos[0])**2 + (y.pos[1] - pos[1])**2)) < radius:
-                            invalid = True
-                else:
-                    invalid = False
-                i += 1
-                if i > 1000:
-                    quit("Point Generation Failed")
-            self.points.append(Point(pos))
-        
-        #Generate All Possible Links
-        for x in range(numPoints):
-            for y in range(x+1,(numPoints)):
-                tempLinks.append((x,y))
-        
-        #Simplification
-        for x in range(numPoints-3):
-            tempLinks.pop(random.randrange(0,len(tempLinks)))
-        
-        for x in tempLinks:
-            self.links.append(Link(x))
+                    i += 1
+                    if i > 1000:
+                        quit("Point Generation Failed")
+                self.points.append(Point(pos))
+            
+            #Generate All Possible Links
+            for x in range(numPoints):
+                for y in range(x+1,(numPoints)):
+                    tempLinks.append((x,y))
+            
+            #Simplification
+            for x in range(numPoints-3):
+                tempLinks.pop(random.randrange(0,len(tempLinks)))
+            
+            for x in tempLinks:
+                self.links.append(Link(x))
+        elif points != None and links != None:
+            self.links = links
+            self.points = points
+            self.scale = scale
+            self.radius = radius
+            self.id = id
+            self.numPoints = numPoints
+            self.fitness = 0
+        else:
+            quit("Insuficient Information to create custom creature")
         
     def getLinkByConnection(self,connected):
-        for l in self.links:
-            if l.connected == connected:
-                return l
+        for link in self.links:
+            if link.connected == connected:
+                return link
+
     def getLinksOfPoint(self,point):
         connectedLinks = []
-        for l in self.links:
-            if self.points.index(point) in l.connected:
-                connectedLinks.append(l)
+        for link in self.links:
+            if self.points.index(point) in link.connected:
+                connectedLinks.append(link)
         return connectedLinks
     
     def getConnectedPoints(self,point):
@@ -386,49 +439,34 @@ class CreatureCreator():
         return connectedPoints
 
 class Point():
-    def __init__(self,pos):
+    def __init__(self,pos,friction = None):
         self.pos = pos
-        self.friction = random.random()
+        if friction == None:
+            self.friction = random.random()
+        else:
+            self.friction = friction
         self.elasticity = random.random()
 
-
 class Link():
-    def __init__(self,connected):
+    def __init__(self,connected, delta = None, dutyCycle = None, period = None, phase = None, strength = None):
         self.connected = connected
-        self.delta = random.uniform(0.5,2)
-        self.dutyCycle = random.uniform(0.1,0.9)
-        self.period = random.uniform(10,120)
-        self.phase = random.uniform(10,120)
-        self.strength = random.uniform(minstrength,maxstrength)
-
-
-
-def loadPopJson(name,gen):
-    f = open("Populations\\"+ name + "_Gen_" + str(gen) + ".json", 'r')
-    global loadedPop
-    loadedPop = jsonpickle.decode(f.read())
-    f.close()
-    print("Pop: " + name + ", Gen: " + str(gen) + " loaded")
-    return loadedPop
-
-def loadPop(name,gen):
-    f = open("Populations\\"+ name + "_Gen_" + str(gen) + ".pickle", 'rb')
-    global loadedPop
-    loadedPop = pickle.load(f)
-    f.close()
-    print("Pop: " + name + ", Gen: " + str(gen) + " loaded")
-    return loadedPop
-
-
-def initNewPop(name):
-    loadedPop = Population(name)
-
-def clamp(num, min_value, max_value):
-        num = max(min(num, max_value), min_value)
-        return num
-
-def sortFunc(e):
-    return e[1]
-
-def fitnessSortFunc(e):
-    return e.fitness
+        if delta == None:
+            self.delta = random.uniform(0.5,2)
+        else:
+            self.delta = delta
+        if dutyCycle == None:
+            self.dutyCycle = random.uniform(0.1,0.9)
+        else:
+            self.dutyCycle = dutyCycle
+        if period == None:
+            self.period = random.uniform(10,120)
+        else:
+            self.period = period
+        if phase == None:
+            self.phase = random.uniform(10,120)
+        else:
+            self.phase = phase
+        if strength == None:
+            self.strength = random.uniform(minstrength,maxstrength)
+        else:
+            self.strength = strength
