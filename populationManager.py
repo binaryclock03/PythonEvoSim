@@ -105,8 +105,8 @@ class Population():
     def keepTopPercent(self,topPercent):
         self.sortCreatures()
         toKill = []
-        for creature in range(int(len(self.creatures)*(1-topPercent))):
-            toKill.append(creature.id)
+        for x in range(int(len(self.creatures)*(1-topPercent))):
+            toKill.append(self.creatures[x].id)
         self.killSpecified(toKill)
 
     def linkMutation(self,creature):
@@ -242,13 +242,13 @@ class Population():
         #Mark bottom 50% for termination
         for c in range(bottom):
             toKill.append(simResults[c][0])
-            simResultIds.remove(c)
+            simResultIds.remove(simResults[c][0])
         
         #Mark 'flats' for termination
         for c in range(len(simResults)):
             if simResults[c][2] and simResults[c][0] not in toKill:
                 toKill.append(simResults[c][0])
-                simResultIds.remove(c)
+                simResultIds.remove(simResults[c][0])
 
          #Terminate undesierables
         self.killSpecified(toKill)
