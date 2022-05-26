@@ -131,7 +131,7 @@ class CreatureCreator():
             self.id = id
             self.numPoints = numPoints
             self.fitness = 0
-            self.parent - parent
+            self.parent = parent
         else:
             quit("Insuficient Information to create custom creature")
         
