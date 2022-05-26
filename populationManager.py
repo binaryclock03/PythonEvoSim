@@ -428,17 +428,34 @@ class CreatureCreator():
         return connectedPoints
 
 class Point():
-    def __init__(self,pos):
+    def __init__(self,pos,friction = None):
         self.pos = pos
-        self.friction = random.random()
+        if friction == None:
+            self.friction = random.random()
+        else:
+            self.friction = friction
         self.elasticity = random.random()
 
-
 class Link():
-    def __init__(self,connected):
+    def __init__(self,connected, delta = None, dutyCycle = None, period = None, phase = None, strength = None):
         self.connected = connected
-        self.delta = random.uniform(0.5,2)
-        self.dutyCycle = random.uniform(0.1,0.9)
-        self.period = random.uniform(10,120)
-        self.phase = random.uniform(10,120)
-        self.strength = random.uniform(minstrength,maxstrength)
+        if delta == None:
+            self.delta = random.uniform(0.5,2)
+        else:
+            self.delta = delta
+        if dutyCycle == None:
+            self.dutyCycle = random.uniform(0.1,0.9)
+        else:
+            self.dutyCycle = dutyCycle
+        if period == None:
+            self.period = random.uniform(10,120)
+        else:
+            self.period = period
+        if phase == None:
+            self.phase = random.uniform(10,120)
+        else:
+            self.phase = phase
+        if strength == None:
+            self.strength = random.uniform(minstrength,maxstrength)
+        else:
+            self.strength = strength
