@@ -3,6 +3,7 @@ os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pymunk
 import pygame
 import populationManager as pm
+import configs
 
 def convert_coordinates(point, offset = 0):
     return int(point[0]+offset), int(800-point[1])
@@ -153,7 +154,7 @@ class Limb(PhysicsObject):
             color = (0,0,255)
         else:
             color = (0,0,0)
-        thickness = int(3+8*((self.strength-pm.minstrength)/(pm.maxstrength-pm.minstrength)))
+        thickness = int(3+8*((self.strength-configs.minStrength)/(configs.maxStrength-configs.minStrength)))
         coord = convert_coordinates(self.joint1.body.position, offset)
         coord2 = convert_coordinates(self.joint2.body.position, offset)
         pygame.draw.line(display, color, coord, coord2, thickness)
