@@ -1,3 +1,5 @@
+import pickle
+import time
 import populationManager as pm
 
 def convertToGenome(creature):
@@ -67,17 +69,30 @@ def convertFromGenome(genome):
     creature = pm.CreatureCreator(numJoints, 100, 15, id=id, points=points, links=links)
     return creature
 
+def genomeSave(creatures):
+    creatureGenomeList = []
+    for creature in creatures:
+        creatureGenomeList.append(convertToGenome(creature))
+
+    f = open("Populations\\test.pickle", 'wb')
+    pickle.dump(creatureGenomeList,f)
+    f.close()
+    print("Genome Saving Finished")
+
+def genomeLoad():
+    pass
+
 if __name__ == '__main__':
     testPop = pm.Population("genomeTest")
-    testPop.addRandomCreatures(1)
+    testPop.addRandomCreatures(10000)
+
+    startTime = time.time()
     testPop.savePop()
+    endTime = time.time()
+    print("Elapsed time for saving generation: " + str(endTime - startTime))
 
-    newPop = pm.Population("reconTest")
-
-    creatures = []
-    for creature in testPop.creatures:
-        genome = convertToGenome(creature)
-        print(genome)
-        creatures.append(convertFromGenome(genome))
-    newPop.addCreatures(creatures)
-    newPop.savePop()
+    startTime = time.time()
+    genomeSave(testPop.creatures)
+    endTime = time.time()
+    print("Elapsed time for saving generation: " + str(endTime - startTime))
+    
