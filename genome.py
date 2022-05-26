@@ -8,6 +8,7 @@ def convertToGenome(creature):
     points = creature.points
     links = creature.links
     id = creature.id
+    pid = creature.parent
 
     numJoints = len(points)
     numLimbs = len(links)
@@ -22,11 +23,12 @@ def convertToGenome(creature):
         x, y = point.pos
         pointGenome += "OAxp" + str(int(1000*x)) + "yp" + str(int(1000*y)) + "fr" + str(int(1000*point.friction)) + "rd" + str(int(10))
     
-    genome = "cid" + str(id) + "njt" + str(numJoints) + "nlb" + str(numLimbs) + "ljt" + pointGenome + "llb" + linkGenome 
+    genome = "cid" + str(id) + "pid" + str() + "njt" + str(numJoints) + "nlb" + str(numLimbs) + "ljt" + pointGenome + "llb" + linkGenome 
     return genome
 
 def convertFromGenome(genome):
     _, genome = genome.split("cid")
+    pid, genome = genome.split("pid")
     id, genome = genome.split("njt")
     numJoints, genome = genome.split("nlb")
     numLimbs, genome = genome.split("ljt")
@@ -66,7 +68,7 @@ def convertFromGenome(genome):
         radius = int(radius)
         points.append(pm.Point((x,y), friction = friction))
 
-    creature = pm.CreatureCreator(numJoints, 100, 15, id=id, points=points, links=links)
+    creature = pm.CreatureCreator(numJoints, 100, 15, id=id, points=points, links=links, parent=pid)
     return creature
 
 def genomeSave(population):
@@ -81,8 +83,18 @@ def genomeSave(population):
     print("Genome Saving Finished")
 
 def genomeLoad():
-    f = open("Populations\\test.pickle", 'wb')
-    pass
+    f = open("Populations\\test.pickle", 'rb')
+    creatureGenomeList = pickle.load(f)
+    f.close()
+
+    creatures = []
+    for creatureGenome in creatureGenomeList:
+        creatures.append(convertFromGenome(creatureGenome))
+    
+    population = pm.Population("GenomeLoaded")
+    population.addCreatures(creatures)
+    print("Genome Loading Finished")
+    return population
 
 if __name__ == '__main__':
     testPop = pm.Population("genomeTest")
@@ -94,7 +106,17 @@ if __name__ == '__main__':
     print("Elapsed time for saving generation: " + str(endTime - startTime))
 
     startTime = time.time()
+    pm.loadPop("genomeTest", 0)
+    endTime = time.time()
+    print("Elapsed time for loading generation: " + str(endTime - startTime))
+
+    startTime = time.time()
     genomeSave(testPop)
     endTime = time.time()
     print("Elapsed time for saving generation: " + str(endTime - startTime))
+
+    startTime = time.time()
+    testPop2 = genomeLoad()
+    endTime = time.time()
+    print("Elapsed time for loading generation: " + str(endTime - startTime))
     
