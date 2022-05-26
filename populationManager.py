@@ -101,6 +101,13 @@ class Population():
             sample.append(self.creatures[x])
 
         return sample
+    
+    def keepTopPercent(self,topPercent):
+        self.sortCreatures()
+        toKill = []
+        for creature in range(int(len(self.creatures)*(1-topPercent))):
+            toKill.append(creature.id)
+        self.killSpecified(toKill)
 
     def linkMutation(self,creature):
         coin = random.random()
@@ -198,7 +205,7 @@ class Population():
             #Remove Random Point
             pass
                 
-    def nextGenertation(self,simResults):
+    def nextGenertation(self,simResults, bottomPercent = 0.5, topPercent = 0.1,):
         #Give each creature there fitness result
         for creature in self.creatures:
             for creatureResult in simResults:
@@ -226,7 +233,7 @@ class Population():
 
         #Calculate and record the median fitness of the current Generation
         originalLen = len(simResults)
-        bottom = floor(len(simResults)/2)
+        bottom = floor(len(simResults)*bottomPercent)
         self.medianFitness = simResults[bottom][1]
 
         toKill = []
@@ -247,7 +254,7 @@ class Population():
         self.killSpecified(toKill)
 
         #Determine how many creatures are in the top 20% remaining (original top 10%)
-        top = int(len(simResults)*0.2)
+        top = int(len(simResults)*(topPercent/bottomPercent))
 
 
         if top >= len(simResultIds):
