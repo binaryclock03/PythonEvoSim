@@ -5,13 +5,23 @@ import copy
 import csv
 from math import sqrt,floor
 import configs
+from typing import *
 
 loadedPop = None
 
 maxstrength = 200000+50000
 minstrength = 200000-50000
 
-def loadPopJson(name,gen):
+Population = NewType("Population",object)
+CreatureCreator = NewType("CreatureCreator",object)
+Point = NewType("Point",object)
+Link = NewType("Link",object)
+PointList = NewType("PointList",list)
+LinkList = NewType("LinkList",list)
+CreatureCreatorList = NewType("CreatureCreatorList",list)
+CreatureIdList = NewType("CreatureIdList",list)
+
+def loadPopJson(name:str,gen:int) -> Population:
     f = open("Populations\\"+ name + "_Gen_" + str(gen) + ".json", 'r')
     global loadedPop
     loadedPop = jsonpickle.decode(f.read())
@@ -19,7 +29,7 @@ def loadPopJson(name,gen):
     print("Pop: " + name + ", Gen: " + str(gen) + " loaded")
     return loadedPop
 
-def loadPop(name,gen):
+def loadPop(name:str,gen:int) -> Population:
     f = open("Populations\\"+ name + "_Gen_" + str(gen) + ".pickle", 'rb')
     global loadedPop
     loadedPop = pickle.load(f)
@@ -27,21 +37,21 @@ def loadPop(name,gen):
     print("Pop: " + name + ", Gen: " + str(gen) + " loaded")
     return loadedPop
 
-def initNewPop(name):
+def initNewPop(name:str) -> None:
     loadedPop = Population(name)
 
-def clamp(num, min_value, max_value):
+def clamp(num:float, min_value:float, max_value:float) -> float:
         num = max(min(num, max_value), min_value)
         return num
 
-def sortFunc(e):
+def sortFunc(e:int) -> int:
     return e[1]
 
-def fitnessSortFunc(e):
+def fitnessSortFunc(e:int) -> int:
     return e.fitness
 
 class Point():
-    def __init__(self,pos,friction = None):
+    def __init__(self,pos:tuple,friction:float = None):
         self.pos = pos
         if friction == None:
             self.friction = random.random()
@@ -50,7 +60,7 @@ class Point():
         self.elasticity = random.random()
 
 class Link():
-    def __init__(self,connected, delta = None, dutyCycle = None, period = None, phase = None, strength = None):
+    def __init__(self,connected:tuple, delta:float = None, dutyCycle:float = None, period:float = None, phase:float = None, strength:int = None):
         self.connected = connected
         if delta == None:
             self.delta = random.uniform(configs.minDelta,configs.maxDelta)
@@ -74,7 +84,7 @@ class Link():
             self.strength = strength
 
 class CreatureCreator():
-    def __init__(self,numPoints,scale,radius,id = 0,points = None, links = None, parent = None):
+    def __init__(self,numPoints:int,scale:int,radius:int,id:int = 0,points:PointList = None, links:LinkList = None, parent:int = None):
         if points == None and links == None:
             if numPoints < 3:
                 self.numPoints = random.randrange(3,10)
@@ -135,19 +145,19 @@ class CreatureCreator():
         else:
             quit("Insuficient Information to create custom creature")
         
-    def getLinkByConnection(self,connected):
+    def getLinkByConnection(self,connected:tuple) -> Link:
         for link in self.links:
             if link.connected == connected:
                 return link
 
-    def getLinksOfPoint(self,point):
+    def getLinksOfPoint(self,point:Point) -> LinkList:
         connectedLinks = []
         for link in self.links:
             if self.points.index(point) in link.connected:
                 connectedLinks.append(link)
         return connectedLinks
     
-    def getConnectedPoints(self,point):
+    def getConnectedPoints(self,point:Point) -> PointList:
         connectedPoints = []
         for l in self.links:
             if self.points.index(point) in l.connected:
@@ -157,7 +167,7 @@ class CreatureCreator():
                     connectedPoints.append(l.connected[0])
         return connectedPoints
 class Population():
-    def __init__(self,popName,genNum = 0):
+    def __init__(self,popName:str,genNum:int = 0) -> None:
         self.popName = popName
         self.genNum = genNum
 
@@ -168,43 +178,43 @@ class Population():
 
         self.lastId = 1
     
-    def addCreatures(self,creatures):
+    def addCreatures(self,creatures:CreatureCreatorList) -> None:
         self.creatures.extend(creatures)
 
-    def addRandomCreatures(self,amount,scale = 100,radius = 10):
+    def addRandomCreatures(self,amount:int,scale:int = 100,radius:int = 10) -> None:
         for i in range(amount):
             self.creatures.append(CreatureCreator(random.randrange(3,8),scale,radius,self.lastId))
             self.lastId += 1
     
-    def savePopJson(self):
+    def savePopJson(self) -> None:
         f = open("Populations\\"+ self.popName + "_Gen_" + str(self.genNum) + ".json", 'w+')
         f.writelines(jsonpickle.encode(self, indent = 2))
         f.close()
         print("Saving Json Finished")
 
-    def savePop(self):
+    def savePop(self) -> None:
         f = open("Populations\\"+ self.popName + "_Gen_" + str(self.genNum) + ".pickle", 'wb')
         pickle.dump(self,f)
         f.close()
         print("Saving Finished")
 
-    def getCreatures(self):
+    def getCreatures(self) -> CreatureCreatorList:
         return self.creatures
     
-    def getBestCreature(self):
+    def getBestCreature(self) -> CreatureCreator:
         for c in self.creatures:
             if self.topFitness == c.fitness:
                 return c
 
-    def getMedianCreature(self):
+    def getMedianCreature(self) -> CreatureCreator:
         for c in self.creatures:
             if self.medianFitness == c.fitness:
                 return c
     
-    def sortCreatures(self):
+    def sortCreatures(self) -> None:
         self.creatures.sort(key=fitnessSortFunc)
 
-    def getPreview(self):
+    def getPreview(self) -> None:
         self.sortCreatures()
         sample = []
 
@@ -215,14 +225,14 @@ class Population():
 
         return sample
     
-    def keepTopPercent(self,topPercent):
+    def keepTopPercent(self,topPercent:float) -> None:
         self.sortCreatures()
         toKill = []
         for x in range(int(len(self.creatures)*(1-topPercent))):
             toKill.append(self.creatures[x].id)
         self.killSpecified(toKill)
 
-    def linkMutation(self,creature):
+    def linkMutation(self,creature:CreatureCreator) -> None:
         coin = random.random()
 
         availableConnections = []
@@ -252,7 +262,7 @@ class Population():
             #print('Removed Link')
             creature.links.remove(random.choice(creature.links))
 
-    def pointMutation(self,creature):
+    def pointMutation(self,creature:CreatureCreator) -> None:
 
         possibleMergingPairs = []
         
@@ -292,7 +302,7 @@ class Population():
             mergeeLinks = creature.getLinksOfPoint(mergee)
             mergeeIndex = creature.points.index(mergee)
 
-            # for l in range(len(mergeeLinks)):
+            # for l in range(len(mergeeLinks)): #broken
             #     mergerLinks[l].delta = (mergerLinks[l].delta + mergeeLinks[l].delta)/2
             #     mergerLinks[l].dutyCycle = (mergerLinks[l].dutyCycle + mergeeLinks[l].dutyCycle)/2
             #     mergerLinks[l].period = (mergerLinks[l].period + mergeeLinks[l].period)/2
@@ -354,7 +364,7 @@ class Population():
                 if l.connected[1] > index:
                     l.connected = (l.connected[0],l.connected[1]- 1)
                 
-    def nextGenertation(self,simResults, bottomPercent = 0.5, topPercent = 0.1,keepParent = False):
+    def nextGenertation(self,simResults:list, bottomPercent:float = 0.5, topPercent:float = 0.1,keepParent:bool = False) -> None:
         #Give each creature there fitness result
         for creature in self.creatures:
             for creatureResult in simResults:
@@ -448,7 +458,7 @@ class Population():
         #Increments generation counter for the next generation
         self.genNum += 1
 
-    def killSpecified(self,toKill):
+    def killSpecified(self,toKill:CreatureIdList) -> None:
         fuck = []
         for i,c in enumerate(self.creatures):
             if c.id in toKill:
@@ -456,7 +466,7 @@ class Population():
         for i in sorted(fuck,reverse=True):
             del self.creatures[i]
         
-    def mutateSpecified(self,toMutate,offspringPer,keepParent = False):
+    def mutateSpecified(self,toMutate:CreatureIdList,offspringPer:int,keepParent:bool = False) -> None:
         
         tempCreatures = []
         tempToMutate = []
