@@ -100,6 +100,7 @@ def showCreatures(simLength, creatureList, FPS = 60):
     display = pygame.display.set_mode((800,800))
     pygame.display.set_caption("Python Evolution Simulator")
     graphicsHandler = camera.GraphicsHandler(space, display, FPS)
+    graphicsHandler.mode = 0
     space.gravity = 0, 0
 
     #generate sample
@@ -108,8 +109,8 @@ def showCreatures(simLength, creatureList, FPS = 60):
     buffer = 150 * scale
     numPerRow = 10
     for i, creature in enumerate(creatureList):
-        x =      ((800-(buffer))/numPerRow)*(i%numPerRow) + buffer
-        y = 800-(((800-(buffer))/numPerRow)*(i//numPerRow) + buffer)
+        x =      ((800-(buffer))/numPerRow)*(i//numPerRow) + buffer
+        y = 800-(((800-(buffer))/numPerRow)*(i%numPerRow) + buffer)
         sample.addCreature(creature, space, graphicsHandler, pos = (x, y), scale = scale)
 
     #define sim clock and set sim to true
@@ -128,7 +129,10 @@ def showCreatures(simLength, creatureList, FPS = 60):
             if event.type == pygame.QUIT:
                 pygame.quit()
                 return False
-
+        if pressed[pygame.K_LEFT]:
+            graphicsHandler.panCameraLeft()
+        if pressed[pygame.K_RIGHT]:
+            graphicsHandler.panCameraRight()
         #draw white background
         display.fill((50,100,50))
 
@@ -138,7 +142,7 @@ def showCreatures(simLength, creatureList, FPS = 60):
         #update display, run clock stuff
         pygame.display.update()
         clock.tick(FPS)
-        #sample.update()
+        sample.update()
         space.step(1/FPS)
         simClock += 1
         if simLength != 0 and simClock >= simLength*FPS and simRunning == True:
