@@ -22,9 +22,14 @@ CreatureIdList = NewType("CreatureIdList",list)
 
 def initNewPop(name:str = None) -> Population:
     if not name:
-        name = ''
-        for x in range(4):
-            name += chr(random.randint(0,255))
+        valid = False
+        while not valid:
+            name = ''
+            for x in range(4):
+                name += chr(random.randint(65,90))
+            popPath = 'Populations\\' + name + '\\' + name + "_Gen_" + str(0) + '.pickle'
+            if not os.path.exists(popPath):
+                valid = True
     return Population(name) 
  
 def loadPopJson(name:str,gen:int) -> Population:
@@ -213,7 +218,7 @@ class Population():
                 popPath = 'Populations\\' + self.popName + '\\' + self.popName + "_Gen_" + str(self.genNum) + '.pickle'
                 for x in range(len(files)-1):
                     tempPop = loadPop(self.popName,x)
-                    tempPop.name = name
+                    tempPop.popName = name
                     tempPop.savePopTest(name)
                 summaryPath = 'Populations\\' + self.popName + '\\' + self.popName + '_summary.csv'  
                 self.popName = name
@@ -490,11 +495,11 @@ class Population():
 
         #Makes sure that the data cvs is cleared at generation 0
         if self.genNum == 0:
-             f = open("Populations\\"+ self.popName + "_summary.csv", 'w+')
+             f = open("Populations\\"+ self.popName + '\\' + self.popName + "_summary.csv", 'w+')
              f.close()
 
         #Write fitness list to cvs file
-        f = open("Populations\\"+ self.popName + "_summary.csv", 'a')
+        f = open("Populations\\"+ self.popName + '\\' + self.popName + "_summary.csv", 'w+')
         csv.writer(f).writerow(fitnessList)
         f.close()
 
