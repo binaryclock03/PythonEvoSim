@@ -32,9 +32,8 @@ class Gui():
         self.pop_dropdown.grid(column=1, row=3, sticky=(W,E))
 
         self.genNumber = StringVar()
-        self.genNumber.set(self.gens[0])
-        self.gen_dropdown = ttk.OptionMenu(self.mainframe, self.genNumber, *self.gens)
-        self.gen_dropdown.grid(column=2, row=3, sticky=(W,E))
+        self.gen_entry = ttk.Entry(self.mainframe, width=8, textvariable=self.genNumber)
+        self.gen_entry.grid(column=2, row=3, sticky=(W,E))
 
         ttk.Button(self.mainframe, text="Playback", command=self.runPlayback).grid(column=1, row=5, sticky=W)
         ttk.Button(self.mainframe, text="Show Creatures", command=self.showCreatures).grid(column=2, row=5, sticky=W)
@@ -44,7 +43,6 @@ class Gui():
             child.grid_configure(padx=5, pady=5)
 
         self.pop_dropdown.bind("<Enter>", self.updatePopDropdown)
-        self.gen_dropdown.bind("<Enter>", self.updateGenDropdown)
 
     def runPlayback(self,*args):
         if not self.simRunning.get():
@@ -83,20 +81,6 @@ class Gui():
         for string in self.dirs:
             menu.add_command(label=string,
                              command=lambda value=string: self.popName.set(value))
-
-    def updateGenDropdown(self, *args):
-        self.gens = []
-        for gen in os.listdir("Populations\\"+self.popName.get()):
-            try:
-                gen = gen.split("_")[2].split(".")[0]
-            except:
-                pass
-            self.gens.append(gen)
-        menu = self.gen_dropdown["menu"]
-        menu.delete(0, "end")
-        for string in self.gens:
-            menu.add_command(label=string,
-                             command=lambda value=string: self.genNumber.set(value))
 
 if __name__ == "__main__":
     root = Tk()
