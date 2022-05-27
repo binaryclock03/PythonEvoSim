@@ -499,7 +499,7 @@ class Population():
              f.close()
 
         #Write fitness list to cvs file
-        f = open("Populations\\"+ self.popName + '\\' + self.popName + "_summary.csv", 'w+')
+        f = open("Populations\\"+ self.popName + '\\' + self.popName + "_summary.csv", 'r')
         csv.writer(f).writerow(fitnessList)
         f.close()
 
