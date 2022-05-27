@@ -2,11 +2,12 @@ from collections import defaultdict
 import math
 import pickle
 import random
-from statistics import median
+import time
 
 from numpy import average
 import populationManager as pm
 import simulations as sim
+import multiprocessing as mp
 
 def convertToGenome(creature):
     points = creature.points
@@ -119,20 +120,20 @@ def compareGenomes(genomeList):
         variationPerSpecies[key] = (average(values),numCreatures)
     
     return variationPerSpecies
-
     
-
-
-
 if __name__ == '__main__':
-    testPop = pm.loadPopOld("LUCE",1005)
+    #testPop = pm.loadPopOld("seedingTest",0)
 
-    # testPop = pm.Population("ree")
-    # testPop.addRandomCreatures(10000)
+    testPop = pm.Population("ree")
+    testPop.addRandomCreatures(100000)
 
+    start = time.time()
+    
     creatures = testPop.creatures
     genomes = []
     for creature in creatures:
         genomes.append(convertToGenome(creature))
-
     print(compareGenomes(genomes))
+
+    end = time.time()
+    print(end-start)
