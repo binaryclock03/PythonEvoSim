@@ -6,6 +6,7 @@ import csv
 from math import sqrt,floor
 import configs
 from typing import *
+import os
 
 
 loadedPop = None
@@ -25,7 +26,7 @@ def initNewPop(name:str = None) -> Population:
         for x in range(4):
             name += chr(random.randint(0,255))
     return Population(name) 
-
+ 
 def loadPopJson(name:str,gen:int) -> Population:
     f = open("Populations\\"+ name + "_Gen_" + str(gen) + ".json", 'r')
     global loadedPop
@@ -42,8 +43,13 @@ def loadPop(name:str,gen:int) -> Population:
     print("Pop: " + name + ", Gen: " + str(gen) + " loaded")
     return loadedPop
 
-def initNewPop(name:str) -> None:
-    loadedPop = Population(name)
+def loadPopTest(name:str,gen:int) -> Population:
+    popPath = 'Populations\\' + name + '\\' + name + "_Gen_" + str(gen) + '.pickle'
+    f = open(popPath,'rb')
+    newPop = pickle.load(f)
+    f.close()
+    print("Pop: " + name + ", Gen: " + str(gen) + " loaded")
+    return newPop
 
 def clamp(num:float, min_value:float, max_value:float) -> float:
         num = max(min(num, max_value), min_value)
@@ -139,16 +145,16 @@ class CreatureCreator():
             for x in tempLinks:
                 self.links.append(Link(x))
         elif points != None and links != None:
-            self.links = links
-            self.points = points
+            self.numPoints = numPoints
             self.scale = scale
             self.radius = radius
             self.id = id
-            self.numPoints = numPoints
+            self.points = points
+            self.links = links
             self.fitness = 0
             self.parent = parent
         else:
-            quit("Insuficient Information to create custom creature")
+            quit("Insufficient Information to create custom creature")
         
     def getLinkByConnection(self,connected:tuple) -> Link:
         for link in self.links:
@@ -183,6 +189,39 @@ class Population():
 
         self.lastId = 1
     
+    def savePopTest(self,name:str = None) -> None:
+        nameToUse = None
+        if name:
+            nameToUse = name
+        else:
+            nameToUse = self.popName
+            
+        popPath = 'Populations\\' + nameToUse + '\\' 
+        if not os.path.isdir(popPath):
+            os.mkdir(popPath)
+        popPath = 'Populations\\' + nameToUse + '\\' + nameToUse + "_Gen_" + str(self.genNum) + '.pickle'
+        f = open(popPath,'wb')
+        pickle.dump(self,f)
+        f.close()
+        print("Saving Finished")
+
+    def renamePop(self,name:str) -> None:
+        popPath = 'Populations\\' + self.popName + '\\'
+        if os.path.isdir(popPath):
+            files = os.listdir(popPath)
+            if files:
+                popPath = 'Populations\\' + self.popName + '\\' + self.popName + "_Gen_" + str(self.genNum) + '.pickle'
+                for x in range(len(files)-1):
+                    tempPop = loadPopTest(self.popName,x)
+                    tempPop.name = name
+                    tempPop.savePopTest(name)
+                summaryPath = 'Populations\\' + self.popName + '\\' + self.popName + '_summary.csv'  
+                self.popName = name
+                summaryDestination = 'Populations\\' + self.popName + '\\' + self.popName + '_summary.csv'
+                os.rename(summaryPath,summaryDestination)
+                
+                
+                            
     def addCreatures(self,creatures:CreatureCreatorList) -> None:
         self.creatures.extend(creatures)
 
@@ -300,7 +339,7 @@ class Population():
             merger.friction = (merger.friction + mergee.friction)/2
             merger.elasticity = (merger.elasticity + mergee.elasticity)/2
 
-            #Averge the properties of links that will be merged into its counter part connected to merger
+            #Average the properties of links that will be merged into its counter part connected to merger
             commonPoints = list(set(creature.getConnectedPoints(merger)).intersection(set(creature.getConnectedPoints(mergee))))
             mergerLinks = creature.getLinksOfPoint(merger)
             mergeeLinks = creature.getLinksOfPoint(mergee)
@@ -368,7 +407,7 @@ class Population():
                 if l.connected[1] > index:
                     l.connected = (l.connected[0],l.connected[1]- 1)
                 
-    def nextGenertation(self,simResults:list, bottomPercent:float = 0.5, topPercent:float = 0.1,keepParent:bool = False) -> None:
+    def nextGeneration(self,simResults:list, bottomPercent:float = 0.5, topPercent:float = 0.1,keepParent:bool = False) -> None:
         #Give each creature there fitness result
         for creature in self.creatures:
             for creatureResult in simResults:
@@ -413,7 +452,7 @@ class Population():
                 toKill.append(simResults[c][0])
                 simResultIds.remove(simResults[c][0])
 
-         #Terminate undesierables
+         #Terminate undesirables
         self.killSpecified(toKill)
 
         #Determine how many creatures are in the top 20% remaining (original top 10%)
@@ -421,7 +460,7 @@ class Population():
 
 
         if top >= len(simResultIds) and not keepParent:
-            self.mutateSpecified(simResultIds,2) #If less cretures than 10% the original amount do this
+            self.mutateSpecified(simResultIds,2) #If less creatures than 10% the original amount do this
         elif top >= len(simResultIds) and keepParent:
             self.mutateSpecified(simResultIds,1,keepParent=True)
         else:
