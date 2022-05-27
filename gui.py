@@ -18,10 +18,6 @@ class Gui():
         self.simRunning.set(False)
 
         self.dirs = os.listdir("Populations")
-        self.gens = []
-        for gen in os.listdir("Populations\\"+self.dirs[0]):
-            gen = gen.split("_")[2].split(".")[0]
-            self.gens.append(gen)
 
         ttk.Label(self.mainframe, text="Population Name").grid(column=1, row=2, sticky=(W, E))
         ttk.Label(self.mainframe, text="Gen Number").grid(column=2, row=2, sticky=(W, E))
