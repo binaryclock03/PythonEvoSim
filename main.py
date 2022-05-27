@@ -8,7 +8,7 @@ seeding = True
 if __name__ == '__main__':
     print("Generating First Population")
     if seeding:
-        testPop = pm.Population("seedingTest")
+        testPop = pm.initNewPop()
         testPop.addRandomCreatures(10000)
         print("Saving First Population")
         testPop.savePop()
@@ -16,7 +16,7 @@ if __name__ == '__main__':
         print("Seeding")
         for x in range(5):
             startTime = time.time()
-            testPop.nextGenertation(sim.fastsim(10, creatureList=testPop.creatures, TPS = 60))
+            testPop.nextGeneration(sim.fastsim(10, creatureList=testPop.creatures, TPS = 60))
             endTime = time.time()
             print("Elapsed time for simulating generation: " + str(endTime - startTime))
 
@@ -27,10 +27,10 @@ if __name__ == '__main__':
 
         testPop.keepTopPercent(0.1)
 
-        print("Begining generations")
+        print("Beginning generations")
         for x in range(1000):
             startTime = time.time()
-            testPop.nextGenertation(sim.fastsim(10, creatureList=testPop.creatures, TPS = 60),bottomPercent=0.5,topPercent=0.5,keepParent=True)
+            testPop.nextGeneration(sim.fastsim(10, creatureList=testPop.creatures, TPS = 60),bottomPercent=0.5,topPercent=0.5,keepParent=True)
             endTime = time.time()
             print("Elapsed time for simulating generation: " + str(endTime - startTime))
 
@@ -45,10 +45,10 @@ if __name__ == '__main__':
         print("Saving First Population")
         testPop.savePop()
     
-        print("Begining generations")
+        print("Beginning generations")
         for x in range(1000):
             startTime = time.time()
-            testPop.nextGenertation(sim.fastsim(10, creatureList=testPop.creatures, TPS = 60))
+            testPop.nextGeneration(sim.fastsim(10, creatureList=testPop.creatures, TPS = 60))
             endTime = time.time()
             print("Elapsed time for simulating generation: " + str(endTime - startTime))
 
