@@ -30,6 +30,7 @@ def initNewPop(name:str = None) -> Population:
             popPath = 'Populations\\' + name + '\\' + name + "_Gen_" + str(0) + '.pickle'
             if not os.path.exists(popPath):
                 valid = True
+    print("Pop name: " + name)
     return Population(name) 
  
 def loadPopJson(name:str,gen:int) -> Population:
