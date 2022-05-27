@@ -125,7 +125,7 @@ if __name__ == '__main__':
     #testPop = pm.loadPopOld("seedingTest",0)
 
     testPop = pm.Population("ree")
-    testPop.addRandomCreatures(100000)
+    testPop.addRandomCreatures(100)
 
     start = time.time()
     
