@@ -89,7 +89,6 @@ class Gui():
         for gen in os.listdir("Populations\\"+self.popName.get()):
             gen = gen.split("_")[2].split(".")[0]
             self.gens.append(gen)
-        print(self.gens)
         menu = self.gen_dropdown["menu"]
         menu.delete(0, "end")
         for string in self.gens:
