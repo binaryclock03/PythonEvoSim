@@ -1,20 +1,10 @@
-"""
-=================
-Multiple subplots
-=================
-
-Simple demo with multiple subplots.
-
-For more options, see :doc:`/gallery/subplots_axes_and_figures/subplots_demo`.
-
-.. redirect-from:: /gallery/subplots_axes_and_figures/subplot_demo
-"""
-
 from statistics import median
 import numpy as np
 import matplotlib.pyplot as plt
 import csv
 import populationManager as pm
+from matplotlib.widgets import Slider, Button
+import os
 
 pop = pm.loadPop("öHÓÛ",0)
 
@@ -49,16 +39,40 @@ for row in data:
 generations = len(medians)
 generationsList = range(generations)
 
-fig, (ax1, ax2) = plt.subplots(2, 1)
-fig.suptitle('Fitnesses Per Generation')
+fig, (ax1, ax2) = plt.subplots(2, 1,figsize=(10, 8))
+#fig.subtitle('Fitnesses Per Generation')
 
-ax1.plot(generationsList, bests)
-ax1.plot(generationsList, averages)
-ax1.plot(generationsList, medians)
+plt.subplots_adjust(bottom=0.2)
+
+slider = plt.axes([0.2, 0.1, 0.65, 0.03])
+slider = Slider(
+    ax=slider,
+    label='Generation',
+    valmin=0,
+    valmax=generations,
+    valinit=0,
+    valstep = generationsList
+)
+ax1.grid(True)
+fit = ax1.plot(generationsList, bests,generationsList, averages,generationsList, medians)
 ax1.set_ylabel('Fitness')
 
-#ax2.plot(x2, y2, '.-')
-#ax2.set_xlabel('time (s)')
-#ax2.set_ylabel('Undamped')
+histo = ax2.hist(data[0],100)
+ax2.set_xlabel('Fitness')
+ax2.set_ylabel('Creatures')
+
+def update(val):
+    ax2.clear()
+    histo = ax2.hist(data[val],100)
+    fig.canvas.draw_idle()
+    
+def updateFit():
+    pass
+
+
+# register the update function with each slider
+slider.on_changed(update)
+
 
 plt.show()
+

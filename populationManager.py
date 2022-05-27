@@ -30,6 +30,7 @@ def initNewPop(name:str = None) -> Population:
             popPath = 'Populations\\' + name + '\\' + name + "_Gen_" + str(0) + '.pickle'
             if not os.path.exists(popPath):
                 valid = True
+    print("Pop name: " + name)
     return Population(name) 
  
 def loadPopJson(name:str,gen:int) -> Population:
@@ -499,7 +500,7 @@ class Population():
              f.close()
 
         #Write fitness list to cvs file
-        f = open("Populations\\"+ self.popName + '\\' + self.popName + "_summary.csv", 'r')
+        f = open("Populations\\"+ self.popName + '\\' + self.popName + "_summary.csv", 'a')
         csv.writer(f).writerow(fitnessList)
         f.close()
 
