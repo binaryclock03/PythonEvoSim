@@ -218,7 +218,7 @@ class Population():
                 popPath = 'Populations\\' + self.popName + '\\' + self.popName + "_Gen_" + str(self.genNum) + '.pickle'
                 for x in range(len(files)-1):
                     tempPop = loadPop(self.popName,x)
-                    tempPop.name = name
+                    tempPop.popName = name
                     tempPop.savePopTest(name)
                 summaryPath = 'Populations\\' + self.popName + '\\' + self.popName + '_summary.csv'  
                 self.popName = name
