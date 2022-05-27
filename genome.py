@@ -1,84 +1,86 @@
+from collections import defaultdict
+import math
 import pickle
+import random
 import time
+
+from numpy import average
 import populationManager as pm
+import simulations as sim
+import multiprocessing as mp
 
 def convertToGenome(creature):
-    id = creature.id
-
     points = creature.points
     links = creature.links
-    id = creature.id
-    pid = creature.parent
 
-    numJoints = len(points)
-    numLimbs = len(links)
+    genome = b''
 
-    linkGenome = ""
-    for link in links:
-        a, b = link.connected
-        linkGenome += "OAla" + str(a) + "lb" + str(b) + "Bde" + str(int(1000*link.delta)) + "dc" + str(int(1000*link.dutyCycle)) + "pe" + str(int(1000*link.period)) + "pa" + str(int(1000*link.phase)) + "st" + str(int(1000*link.strength))
+    #header
+    genome += int(creature.id).to_bytes(4, 'little')
+    genome += int(creature.parent).to_bytes(4, 'little')
+    genome += int(len(points)).to_bytes(1, 'little')
+    genome += int(len(links)).to_bytes(2, 'little')
+    genome += int(creature.fitness).to_bytes(3, 'little')
+    genome += int(creature.scale).to_bytes(3, 'little')
     
-    pointGenome = ""
     for point in points:
-        x, y = point.pos
-        pointGenome += "OAxp" + str(int(1000*x)) + "yp" + str(int(1000*y)) + "fr" + str(int(1000*point.friction)) + "rd" + str(int(10))
-    
-    genome = "cid" + str(id) + "pid" + str() + "njt" + str(numJoints) + "nlb" + str(numLimbs) + "ljt" + pointGenome + "llb" + linkGenome 
+        genome += int(point.pos[0]/creature.scale*10000).to_bytes(2,'little')
+        genome += int(point.pos[1]/creature.scale*10000).to_bytes(2,'little')
+        genome += int(point.friction*10000).to_bytes(2,'little')
+        #genome += int(point.radius).to_bytes(2,'little')
+        genome += int(10).to_bytes(2,'little')
+
+    for link in links:
+        genome += int(link.connected[0]).to_bytes(1,'little')
+        genome += int(link.connected[1]).to_bytes(1,'little')
+        genome += int(link.delta*10000).to_bytes(2,'little')
+        genome += int(link.dutyCycle*10000).to_bytes(2,'little')
+        genome += int(link.period).to_bytes(2,'little')
+        genome += int(link.phase).to_bytes(2,'little')
+        genome += int(link.strength/1000).to_bytes(2,'little')
+
     return genome
 
-def convertFromGenome(genome):
-    _, genome = genome.split("cid")
-    pid, genome = genome.split("pid")
-    id, genome = genome.split("njt")
-    numJoints, genome = genome.split("nlb")
-    numLimbs, genome = genome.split("ljt")
-    jointGenome, limbGenome = genome.split("llb")
-    
-    links = []
-    limbGenomeList = limbGenome.split("O")
-    del limbGenomeList[0]
-    for linkGenome in limbGenomeList:
-        _,linkGenome = linkGenome.split("Ala")
-        a,linkGenome = linkGenome.split("lb")
-        a = int(a)
-        b,linkGenome = linkGenome.split("Bde")
-        b = int(b)
-        delta,linkGenome = linkGenome.split("dc")
-        delta = int(delta)/1000
-        dutyCycle,linkGenome = linkGenome.split("pe")
-        dutyCycle = int(dutyCycle)/1000
-        period,linkGenome = linkGenome.split("pa")
-        period = int(period)/1000
-        phase,strength = linkGenome.split("st")
-        phase = int(phase)/1000
-        strength = int(strength)/1000
-        links.append(pm.Link((a,b), delta = delta, dutyCycle=dutyCycle, period=period, phase=phase, strength=strength))
-    
-    points = []
-    jointGenomeList = jointGenome.split("O")
-    del jointGenomeList[0]
-    for pointGenome in jointGenomeList:
-        _,pointGenome = pointGenome.split("Axp")
-        x,pointGenome = pointGenome.split("yp")
-        x = int(x)/1000
-        y,pointGenome = pointGenome.split("fr")
-        y = int(y)/1000
-        friction,radius = pointGenome.split("rd")
-        friction = int(friction)/1000
-        radius = int(radius)
-        points.append(pm.Point((x,y), friction = friction))
+def speciesFromGenome(genome):
+    pointsLen = int.from_bytes(genome[8:9], 'little')
+    return pointsLen
 
-    creature = pm.CreatureCreator(numJoints, 100, 15, id=id, points=points, links=links, parent=pid)
-    return creature
+def convertFromGenome(genome):
+    id = int.from_bytes(genome[0:4], 'little')
+    pid = int.from_bytes(genome[4:8], 'little')
+    pointsLen = int.from_bytes(genome[8:9], 'little')
+    linksLen = int.from_bytes(genome[9:11], 'little')
+    fitness = int.from_bytes(genome[11:14], 'little')
+    scale = int.from_bytes(genome[14:17], 'little')
+
+    hdln = 17
+    pointsList = []
+    for i in range(pointsLen):
+        cur = hdln + (i*8)
+        x = int.from_bytes(genome[cur:cur+2], 'little')/10000*scale
+        y = int.from_bytes(genome[cur+2:cur+4], 'little')/10000*scale
+        friction = int.from_bytes(genome[cur+4:cur+6], 'little')/10000
+        radius = int.from_bytes(genome[cur+6:cur+8], 'little')
+        pointsList.append(pm.Point((x,y), friction))
+
+    linksList = []
+    for i in range(linksLen):
+        cur = hdln + (pointsLen*8) + (i*12)
+        connectedA = int.from_bytes(genome[cur:cur+1], 'little')
+        connectedB = int.from_bytes(genome[cur+1:cur+2], 'little')
+        delta = int.from_bytes(genome[cur+2:cur+4], 'little')/10000
+        dutyCycle = int.from_bytes(genome[cur+4:cur+6], 'little')/10000
+        period = int.from_bytes(genome[cur+6:cur+8], 'little')
+        phase = int.from_bytes(genome[cur+8:cur+10], 'little')
+        strength = int.from_bytes(genome[cur+10:cur+12], 'little')*1000
+        linksList.append(pm.Link((connectedA, connectedB), delta, dutyCycle, period, phase, strength))
+    
+    return pm.CreatureCreator(pointsLen, scale, 10, id = id, points = pointsList, links = linksList, parent = pid)
 
 def genomeSave(population):
-    creatures = population.creatures
-    creatureGenomeList = []
-    for creature in creatures:
-        creatureGenomeList.append(convertToGenome(creature))
-
-    f = open("Populations\\test.pickle", 'wb')
-    pickle.dump(creatureGenomeList,f)
+    f = open("Populations\\test.bin", 'wb')
+    for creature in population.creatures:
+        f.write(convertToGenome(creature))
     f.close()
     print("Genome Saving Finished")
 
@@ -96,27 +98,42 @@ def genomeLoad(fileName):
     print("Genome Loading Finished")
     return population
 
-if __name__ == '__main__':
-    testPop = pm.Population("genomeTest")
-    testPop.addRandomCreatures(10000)
-
-    startTime = time.time()
-    testPop.savePop()
-    endTime = time.time()
-    print("Elapsed time for saving generation: " + str(endTime - startTime))
-
-    startTime = time.time()
-    pm.loadPop("genomeTest", 0)
-    endTime = time.time()
-    print("Elapsed time for loading generation: " + str(endTime - startTime))
-
-    startTime = time.time()
-    genomeSave(testPop)
-    endTime = time.time()
-    print("Elapsed time for saving generation: " + str(endTime - startTime))
-
-    startTime = time.time()
-    testPop2 = genomeLoad("test")
-    endTime = time.time()
-    print("Elapsed time for loading generation: " + str(endTime - startTime))
+def compareGenomes(genomeList):
+    d = defaultdict(list)
+    variationPerSpecies = {}
+    for genome in genomeList:
+        species = speciesFromGenome(genome)
+        d[species].append(hex(int.from_bytes(genome[17:], 'little')))
     
+    for key in d:
+        length = len(d[key][0])
+        numCreatures = len(d[key])
+        values = [0]*length
+        for index in range(length):
+            frequency = defaultdict(int)
+            for genome in d[key]:
+                gene = genome[index]
+                frequency[gene] += 1
+            for gene in frequency:
+                prob = frequency[gene]/len(d[key])
+                values[index] += prob*math.log2(1/prob)
+        variationPerSpecies[key] = (average(values),numCreatures)
+    
+    return variationPerSpecies
+    
+if __name__ == '__main__':
+    #testPop = pm.loadPopOld("seedingTest",0)
+
+    testPop = pm.Population("ree")
+    testPop.addRandomCreatures(100000)
+
+    start = time.time()
+    
+    creatures = testPop.creatures
+    genomes = []
+    for creature in creatures:
+        genomes.append(convertToGenome(creature))
+    print(compareGenomes(genomes))
+
+    end = time.time()
+    print(end-start)
