@@ -87,7 +87,10 @@ class Gui():
     def updateGenDropdown(self, *args):
         self.gens = []
         for gen in os.listdir("Populations\\"+self.popName.get()):
-            gen = gen.split("_")[2].split(".")[0]
+            try:
+                gen = gen.split("_")[2].split(".")[0]
+            except:
+                pass
             self.gens.append(gen)
         menu = self.gen_dropdown["menu"]
         menu.delete(0, "end")
