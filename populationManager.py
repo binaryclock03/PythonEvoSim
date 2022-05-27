@@ -35,7 +35,7 @@ def loadPopJson(name:str,gen:int) -> Population:
     print("Pop: " + name + ", Gen: " + str(gen) + " loaded")
     return loadedPop
 
-def loadPop(name:str,gen:int) -> Population:
+def loadPopOld(name:str,gen:int) -> Population:
     f = open("Populations\\"+ name + "_Gen_" + str(gen) + ".pickle", 'rb')
     global loadedPop
     loadedPop = pickle.load(f)
@@ -43,7 +43,7 @@ def loadPop(name:str,gen:int) -> Population:
     print("Pop: " + name + ", Gen: " + str(gen) + " loaded")
     return loadedPop
 
-def loadPopTest(name:str,gen:int) -> Population:
+def loadPop(name:str,gen:int) -> Population:
     popPath = 'Populations\\' + name + '\\' + name + "_Gen_" + str(gen) + '.pickle'
     f = open(popPath,'rb')
     newPop = pickle.load(f)
@@ -189,7 +189,7 @@ class Population():
 
         self.lastId = 1
     
-    def savePopTest(self,name:str = None) -> None:
+    def savePop(self,name:str = None) -> None:
         nameToUse = None
         if name:
             nameToUse = name
@@ -212,7 +212,7 @@ class Population():
             if files:
                 popPath = 'Populations\\' + self.popName + '\\' + self.popName + "_Gen_" + str(self.genNum) + '.pickle'
                 for x in range(len(files)-1):
-                    tempPop = loadPopTest(self.popName,x)
+                    tempPop = loadPop(self.popName,x)
                     tempPop.name = name
                     tempPop.savePopTest(name)
                 summaryPath = 'Populations\\' + self.popName + '\\' + self.popName + '_summary.csv'  
@@ -236,7 +236,7 @@ class Population():
         f.close()
         print("Saving Json Finished")
 
-    def savePop(self) -> None:
+    def savePopOld(self) -> None:
         f = open("Populations\\"+ self.popName + "_Gen_" + str(self.genNum) + ".pickle", 'wb')
         pickle.dump(self,f)
         f.close()
